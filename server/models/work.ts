@@ -5,6 +5,6 @@ const workSchema = new mongoose.Schema({
   price: Number
 });
 
-const Work = mongoose.model('Cat', workSchema);
+const Work = mongoose.model('Work', workSchema);
 
 export default Work;
