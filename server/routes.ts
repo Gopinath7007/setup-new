@@ -1,6 +1,7 @@
 import * as express from 'express';
 
 import CatCtrl from './controllers/cat';
+import WorkCtrl from './controllers/work';
 import UserCtrl from './controllers/user';
 
 export default function setRoutes(app) {
@@ -17,6 +18,14 @@ export default function setRoutes(app) {
   router.route('/cat/:id').get(catCtrl.get);
   router.route('/cat/:id').put(catCtrl.update);
   router.route('/cat/:id').delete(catCtrl.delete);
+
+  // Works
+  router.route('/works').get(WorkCtrl.getAll);
+  router.route('/works/count').get(WorkCtrl.count);
+  router.route('/work').post(WorkCtrl.insert);
+  router.route('/work/:id').get(WorkCtrl.get);
+  router.route('/work/:id').put(WorkCtrl.update);
+  router.route('/work/:id').delete(WorkCtrl.delete);
 
   // Users
   router.route('/login').post(userCtrl.login);

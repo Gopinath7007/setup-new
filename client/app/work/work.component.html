@@ -39,7 +39,7 @@
             <form class="form-inline" #form="ngForm" (ngSubmit)="editWork(work)">
               <input class="form-control mr-2" type="text" name="name"
                      [(ngModel)]="work.name" placeholder="Name" required>
-              <input class="form-control mr-2" type="number" name="age"
+              <input class="form-control mr-2" type="number" name="price"
                      [(ngModel)]="work.price" placeholder="Price" min="0" required>
               <button class="btn btn-sm btn-primary mr-2" type="submit" [disabled]="!form.form.valid">
                 <i class="fa fa-floppy-o"></i> Save
@@ -62,9 +62,7 @@
       <input class="form-control mr-2" type="text" name="name"
              formControlName="name" placeholder="Name">
       <input class="form-control mr-2" type="number" name="age"
-             formControlName="age" placeholder="Age" min="0">
-      <input class="form-control mr-2" type="number" name="weight"
-             formControlName="weight" placeholder="Weight" step="any" min="0">
+             formControlName="price" placeholder="Price" min="0">
       <button class="btn btn-primary" type="submit" [disabled]="!addWorkForm.valid">
         <i class="fa fa-plus"></i> Add
       </button>

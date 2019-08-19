@@ -6,6 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './shared/shared.module';
 // Services
 import { CatService } from './services/cat.service';
+import { WorkService } from './services/work.service';
 import { UserService } from './services/user.service';
 import { AuthService } from './services/auth.service';
 import { AuthGuardLogin } from './services/auth-guard-login.service';
@@ -54,7 +55,8 @@ export function tokenGetter() {
     AuthGuardLogin,
     AuthGuardAdmin,
     CatService,
-    UserService
+    UserService,
+    WorkService
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]
