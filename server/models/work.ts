@@ -8,3 +8,4 @@ const workSchema = new mongoose.Schema({
 const Work = mongoose.model('Work', workSchema);
 
 export default Work;
+

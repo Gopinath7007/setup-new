@@ -10,11 +10,11 @@ export class WorkService {
   constructor(private http: HttpClient) { }
 
   getWorks(): Observable<Work[]> {
-    return this.http.get<Work[]>('/api/work');
+    return this.http.get<Work[]>('/api/works');
   }
 
   countWorks(): Observable<number> {
-    return this.http.get<number>('/api/work/count');
+    return this.http.get<number>('/api/works/count');
   }
 
   addWork(work: Work): Observable<Work> {

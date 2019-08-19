@@ -10,6 +10,7 @@ export default function setRoutes(app) {
 
   const catCtrl = new CatCtrl();
   const userCtrl = new UserCtrl();
+  const workCtrl = new WorkCtrl();
 
   // Cats
   router.route('/cats').get(catCtrl.getAll);
@@ -20,12 +21,12 @@ export default function setRoutes(app) {
   router.route('/cat/:id').delete(catCtrl.delete);
 
   // Works
-  router.route('/works').get(WorkCtrl.getAll);
-  router.route('/works/count').get(WorkCtrl.count);
-  router.route('/work').post(WorkCtrl.insert);
-  router.route('/work/:id').get(WorkCtrl.get);
-  router.route('/work/:id').put(WorkCtrl.update);
-  router.route('/work/:id').delete(WorkCtrl.delete);
+  router.route('/works').get(workCtrl.getAll);
+  router.route('/works/count').get(workCtrl.count);
+  router.route('/work').post(workCtrl.insert);
+  router.route('/work/:id').get(workCtrl.get);
+  router.route('/work/:id').put(workCtrl.update);
+  router.route('/work/:id').delete(workCtrl.delete);
 
   // Users
   router.route('/login').post(userCtrl.login);
