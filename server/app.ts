@@ -8,11 +8,13 @@ import setRoutes from './routes';
 
 const app = express();
 dotenv.config();
+
 app.set('port', (process.env.PORT || 3000));
 
 app.use('/', express.static(path.join(__dirname, '../public')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
 
 let mongodbURI;
 if (process.env.NODE_ENV === 'test') {
@@ -36,9 +38,8 @@ mongoose.connect(mongodbURI,  { useNewUrlParser: true })
 
     if (!module.parent) {
       app.listen(app.get('port'), () => console.log(`Angular Full Stack listening on port ${app.get('port')}`));
-
     }
-    app.timeout = 1000;
+
   })
   .catch(err => console.error(err));
 

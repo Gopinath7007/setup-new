@@ -2,6 +2,21 @@
 
 <app-toast [message]="toast.message"></app-toast>
 
+
+<div class="card" *ngIf="!isEditing">
+  <h4 class="card-header">Add new work</h4>
+  <div class="card-body">
+    <form class="form-inline" [formGroup]="addWorkForm" (ngSubmit)="addWork()">
+      <input class="form-control mr-2" type="text" name="name"
+             formControlName="name" placeholder="Name">
+      <input class="form-control mr-2" type="number" name="age"
+             formControlName="price" placeholder="Price" min="0">
+      <button class="btn btn-primary" type="submit" [disabled]="!addWorkForm.valid">
+        <i class="fa fa-plus"></i> Add
+      </button>
+    </form>
+  </div>
+</div>
 <div class="card mb-3" *ngIf="!isLoading">
   <h4 class="card-header">Current Works ({{works.length}})</h4>
   <div class="card-body">
@@ -52,20 +67,5 @@
         </tr>
       </tbody>
     </table>
-  </div>
-</div>
-
-<div class="card" *ngIf="!isEditing">
-  <h4 class="card-header">Add new work</h4>
-  <div class="card-body">
-    <form class="form-inline" [formGroup]="addWorkForm" (ngSubmit)="addWork()">
-      <input class="form-control mr-2" type="text" name="name"
-             formControlName="name" placeholder="Name">
-      <input class="form-control mr-2" type="number" name="age"
-             formControlName="price" placeholder="Price" min="0">
-      <button class="btn btn-primary" type="submit" [disabled]="!addWorkForm.valid">
-        <i class="fa fa-plus"></i> Add
-      </button>
-    </form>
   </div>
 </div>

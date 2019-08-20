@@ -28,6 +28,16 @@ export default function setRoutes(app) {
   router.route('/work/:id').put(workCtrl.update);
   router.route('/work/:id').delete(workCtrl.delete);
 
+
+  // Billing
+  router.route('/bills').get(workCtrl.getAll);
+  router.route('/bills/count').get(workCtrl.count);
+  router.route('/bill').post(workCtrl.insert);
+  router.route('/bill/:id').get(workCtrl.get);
+  router.route('/bill/:id').put(workCtrl.update);
+  router.route('/bill/:id').delete(workCtrl.delete);
+
+
   // Users
   router.route('/login').post(userCtrl.login);
   router.route('/users').get(userCtrl.getAll);

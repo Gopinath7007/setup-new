@@ -11,7 +11,6 @@ abstract class BaseCtrl {
       return res.status(400).json({ error: err.message });
     }
   }
-
   // Count all
   count = async (req, res) => {
     try {
