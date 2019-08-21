@@ -1,8 +1,8 @@
-import Cat from '../models/cat';
+import Bill from '../models/bill';
 import BaseCtrl from './base';
 
-export default class CatCtrl extends BaseCtrl {
+export default class BillCtrl extends BaseCtrl {
 
-  model = Cat;
+  model = Bill;
   
 }

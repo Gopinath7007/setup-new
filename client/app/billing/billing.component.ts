@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { BillService } from '../services/bill.service';
+import { WorkService } from '../services/work.service';
 import { ToastComponent } from '../shared/toast/toast.component';
+import { Bill } from '../shared/models/bill.model';
 import { Work } from '../shared/models/work.model';
 
 @Component({
@@ -12,78 +14,91 @@ import { Work } from '../shared/models/work.model';
 })
 export class BillingComponent implements OnInit {
 
-  work = new Work();
-  works: Work[] = [];
+  bill = new Bill();
+  bills: Bill[] = [];
   isLoading = true;
   isEditing = false;
 
-  addWorkForm: FormGroup;
-  name = new FormControl('', Validators.required);
-  price = new FormControl('', Validators.required);
+  addBillForm = new FormGroup({
+      amount: new FormControl('', Validators.required),
+      works: new FormControl('')    
+  });
 
+  works = [];
+  selectedWorks = [];
   constructor(
-    private workService: BillService,
+    private billService: BillService,
+    private workService: WorkService,
     private formBuilder: FormBuilder,
     public toast: ToastComponent
   ) { }
 
   ngOnInit() {
-    this.getWorks();
-    this.addWorkForm = this.formBuilder.group({
-      name: this.name,
-      price: this.price
-    });
+    this.getBills();
+    this.getWorks();  
+    // this.addBillForm = this.formBuilder.group({
+    //   amount: this.amount,
+    //   works: this.works
+    // });
   }
 
   getWorks() {
-    this.workService.getWorks().subscribe(
+    this.workService.getWorks().subscribe( 
       data => this.works = data,
+      error => this.isLoading = false
+    )
+  }
+
+  getBills() {
+    this.billService.getBills().subscribe(
+      data => this.bills = data,
       error => console.log(error),
       () => this.isLoading = false
     );
   }
 
-  addWork() {
-    this.workService.addWork(this.addWorkForm.value).subscribe(
+  addBill() {
+    console.log(this.addBillForm.value);
+    this.billService.addBill(this.addBillForm.value).subscribe(
       res => {
-        this.works.push(res);
-        this.addWorkForm.reset();
+        this.bills.push(res);
+        this.addBillForm.reset();
         this.toast.setMessage('item added successfully.', 'success');
       },
       error => console.log(error)
     );
   }
 
-  enableEditing(work: Work) {
+  enableEditing(bill: Bill) {
     this.isEditing = true;
-    this.work = work;
+    this.bill = bill;
   }
 
   cancelEditing() {
     this.isEditing = false;
-    this.work = new Work();
+    this.bill = new Bill();
     this.toast.setMessage('item editing cancelled.', 'warning');
     // reload the works to reset the editing
-    this.getWorks();
+    this.getBills();
   }
 
-  editWork(work: Work) {
-    this.workService.editWork(work).subscribe(
+  editBill(bill: Bill) {
+    this.billService.editBill(bill).subscribe(
       () => {
         this.isEditing = false;
-        this.work = work;
+        this.bill = bill;
         this.toast.setMessage('item edited successfully.', 'success');
       },
       error => console.log(error)
     );
   }
 
-  deleteWork(work: Work) {
+  deleteBill(bill: Bill) {
     if (window.confirm('Are you sure you want to permanently delete this item?')) {
-      this.workService.deleteWork(work).subscribe(
+      this.billService.deleteBill(bill).subscribe(
         () => {
-          const pos = this.works.map(elem => elem._id).indexOf(work._id);
-          this.works.splice(pos, 1);
+          const pos = this.bills.map(elem => elem._id).indexOf(bill._id);
+          this.bills.splice(pos, 1);
           this.toast.setMessage('item deleted successfully.', 'success');
         },
         error => console.log(error)
@@ -91,4 +106,8 @@ export class BillingComponent implements OnInit {
     }
   }
 
+  addWork(work) {
+    console.log(work)
+      this.selectedWorks.push(work);
+  }
 }

@@ -3,6 +3,7 @@ import * as express from 'express';
 import CatCtrl from './controllers/cat';
 import WorkCtrl from './controllers/work';
 import UserCtrl from './controllers/user';
+import BillCtrl from './controllers/bill';
 
 export default function setRoutes(app) {
 
@@ -11,7 +12,8 @@ export default function setRoutes(app) {
   const catCtrl = new CatCtrl();
   const userCtrl = new UserCtrl();
   const workCtrl = new WorkCtrl();
-
+  const billCtrl = new BillCtrl();
+   
   // Cats
   router.route('/cats').get(catCtrl.getAll);
   router.route('/cats/count').get(catCtrl.count);
@@ -30,12 +32,12 @@ export default function setRoutes(app) {
 
 
   // Billing
-  router.route('/bills').get(workCtrl.getAll);
-  router.route('/bills/count').get(workCtrl.count);
-  router.route('/bill').post(workCtrl.insert);
-  router.route('/bill/:id').get(workCtrl.get);
-  router.route('/bill/:id').put(workCtrl.update);
-  router.route('/bill/:id').delete(workCtrl.delete);
+  router.route('/bills').get(billCtrl.getAll);
+  router.route('/bills/count').get(billCtrl.count);
+  router.route('/bill').post(billCtrl.insert);
+  router.route('/bill/:id').get(billCtrl.get);
+  router.route('/bill/:id').put(billCtrl.update);
+  router.route('/bill/:id').delete(billCtrl.delete);
 
 
   // Users

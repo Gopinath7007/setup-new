@@ -10,26 +10,26 @@ export class BillService {
   constructor(private http: HttpClient) { }
 
   getBills(): Observable<Bill[]> {
-    return this.http.get<Bill[]>('/api/works');
+    return this.http.get<Bill[]>('/api/bills');
   }
 
   countBills(): Observable<number> {
-    return this.http.get<number>('/api/works/count');
+    return this.http.get<number>('/api/bills/count');
   }
 
   addBill(bill: Bill): Observable<Bill> {
-    return this.http.post<Bill>('/api/bill', Bill);
+    return this.http.post<Bill>('/api/bill', bill);
   }
 
-  getWork(bill: Bill): Observable<Bill> {
+  getBill(bill: Bill): Observable<Bill> {
     return this.http.get<Bill>(`/api/bill/${bill._id}`);
   }
 
-  editWork(bill: Bill): Observable<any> {
+  editBill(bill: Bill): Observable<any> {
     return this.http.put(`/api/bill/${bill._id}`, bill, { responseType: 'text' });
   }
 
-  deleteWork(bill: Bill): Observable<any> {
+  deleteBill(bill: Bill): Observable<any> {
     return this.http.delete(`/api/bill/${bill._id}`, { responseType: 'text' });
   }
 
