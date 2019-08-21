@@ -2,37 +2,76 @@
 
 <app-toast [message]="toast.message"></app-toast>
 
-
-<div class="card" *ngIf="!isEditing">
+<div class="row">
+<div class="card col-lg-6" *ngIf="!isEditing">
   <h4 class="card-header">Add new bill {{selectedWorks.length}}</h4>
   <div class="card-body">
     <form class="form-inline" [formGroup]="addBillForm" (ngSubmit)="addBill()">
-      <input class="form-control mr-2" type="text" name="amount"
-             formControlName="amount" placeholder="Amount">
-      <input class="form-control mr-2" type="number" name="works"
-             formControlName="works" placeholder="Works" min="0">
-      <div *ngFor="let work of works" style="display: block;">
-      	{{work.name}}
-      </div>       
-      <select>
-      	<option *ngFor="let work of works" 
-		    [value]="work.name" 
-		    [attr.selected]="work.name == 'adams'"
-		    (change)="addWork($event)">
-		  {{work.name}}
-		</option>
+      <div>
+        <input class="form-control mr-2" type="text" name="amount"
+               formControlName="amount" placeholder="Amount">
+        <input class="form-control mr-2" type="number" name="works"
+               formControlName="works" placeholder="Works" min="0">      
+        <button class="btn btn-primary" type="submit" [disabled]="!addBillForm.valid">
+          <i class="fa fa-plus"></i> Add
+        </button>
+      </div>
+      <div cslass="card mb-3 col-lg-12" >
+        <h4 class="card-header">Current Bills ({{bills.length}})</h4>
+        <div class="card-body">
+          <table class="table table-bordered">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Price</th>
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody *ngIf="bills.length === 0">
+              <tr>
+                <td colspan="4">There are no bills in the DB. Add a new bill below.</td>
+              </tr>  
+            </tbody>
+            <tbody *ngIf="!isEditing">
+              <tr *ngFor="let work of addBillForm.value.works">
+                <td>{{work.name}}</td>
+                <td>{{work.price}}</td>
 
-      </select>
-      <select (change)="addWork($event.target.value)">
-    		<option *ngFor="let i of works">{{i.name}}</option>
-	</select>
-      <button class="btn btn-primary" type="submit" [disabled]="!addBillForm.valid">
-        <i class="fa fa-plus"></i> Add
-      </button>
+                <td>
+                  <button class="btn btn-sm btn-primary" (click)="addWork(work)">
+                    <i class="fa fa-pencil"></i> Add
+                  </button> 
+                  <button class="btn btn-sm btn-danger ml-1" (click)="deleteBill(bill)">
+                    <i class="fa fa-trash"></i> Delete
+                  </button>
+                </td>
+              </tr>  
+            </tbody>
+            <tbody *ngIf="isEditing">
+              <tr>
+                <td colspan="4">
+                  <form class="form-inline" #form="ngForm" (ngSubmit)="editBill(bill)">
+                    <input class="form-control mr-2" type="text" name="name"
+                           [(ngModel)]="bill.amount" placeholder="Name" required>
+                    <input class="form-control mr-2" type="number" name="price"
+                           [(ngModel)]="bill.works.length" placeholder="Price" min="0" required>
+                    <button class="btn btn-sm btn-primary mr-2" type="submit" [disabled]="!form.form.valid">
+                      <i class="fa fa-floppy-o"></i> Save
+                    </button>
+                    <button class="btn btn-sm btn-warning" (click)="cancelEditing()">
+                      <i class="fa fa-times"></i> Cancel
+                    </button>
+                  </form>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </form>
   </div>
 </div>
-<div class="card mb-3" *ngIf="!isLoading">
+<div class="card mb-3 col-lg-6" *ngIf="!isLoading">
   <h4 class="card-header">Current Bills ({{bills.length}})</h4>
   <div class="card-body">
     <table class="table table-bordered">
@@ -49,13 +88,13 @@
         </tr>  
       </tbody>
       <tbody *ngIf="!isEditing">
-        <tr *ngFor="let bill of bills">
-          <td>{{bill.amount}}</td>
-          <td>{{bill.works.length}}</td>
+        <tr *ngFor="let work of works">
+          <td>{{work.name}}</td>
+          <td>{{work.price}}</td>
 
           <td>
-            <button class="btn btn-sm btn-primary" (click)="enableEditing(bill)">
-              <i class="fa fa-pencil"></i> Edit
+            <button class="btn btn-sm btn-primary" (click)="addWork(work)">
+              <i class="fa fa-pencil"></i> Add
             </button> 
             <button class="btn btn-sm btn-danger ml-1" (click)="deleteBill(bill)">
               <i class="fa fa-trash"></i> Delete
@@ -83,4 +122,5 @@
       </tbody>
     </table>
   </div>
+</div>
 </div>
