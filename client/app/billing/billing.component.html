@@ -47,14 +47,14 @@
                 </td>
               </tr>  
             </tbody>
-            <tbody *ngIf="isEditing">
+           <!--  <tbody *ngIf="isEditing">
               <tr>
                 <td colspan="4">
                   <form class="form-inline" #form="ngForm" (ngSubmit)="editBill(bill)">
                     <input class="form-control mr-2" type="text" name="name"
-                           [(ngModel)]="bill.amount" placeholder="Name" required>
+                           [(ngModel)]="work.amount" placeholder="Name" required>
                     <input class="form-control mr-2" type="number" name="price"
-                           [(ngModel)]="bill.works.length" placeholder="Price" min="0" required>
+                           [(ngModel)]="wor.works.length" placeholder="Price" min="0" required>
                     <button class="btn btn-sm btn-primary mr-2" type="submit" [disabled]="!form.form.valid">
                       <i class="fa fa-floppy-o"></i> Save
                     </button>
@@ -64,7 +64,7 @@
                   </form>
                 </td>
               </tr>
-            </tbody>
+            </tbody> -->
           </table>
         </div>
       </div>
@@ -102,7 +102,7 @@
           </td>
         </tr>  
       </tbody>
-      <tbody *ngIf="isEditing">
+<!--       <tbody *ngIf="isEditing">
         <tr>
           <td colspan="4">
             <form class="form-inline" #form="ngForm" (ngSubmit)="editBill(bill)">
@@ -119,7 +119,7 @@
             </form>
           </td>
         </tr>
-      </tbody>
+      </tbody> -->
     </table>
   </div>
 </div>
