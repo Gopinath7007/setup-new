@@ -107,6 +107,7 @@ export class BillingComponent implements OnInit {
   }
 
   addWork(work) {
+    
     console.log(work)
       delete work._id; 
       this.selectedWorks.push(work);
