@@ -2,7 +2,7 @@ import * as mongoose from 'mongoose';
 
 const billSchema = new mongoose.Schema({
   amount: Number,
-  works: [[]]
+  works: []
 });
 
 const Bill = mongoose.model('Bill', billSchema);
