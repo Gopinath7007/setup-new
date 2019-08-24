@@ -14,13 +14,17 @@ import { LoginComponent } from './login/login.component';
 import { LogoutComponent } from './logout/logout.component';
 import { AccountComponent } from './account/account.component';
 import { AdminComponent } from './admin/admin.component';
+import { VehicleComponent } from './vehicle/vehicle.component';
+import { SparesComponent } from './spares/spares.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 
 const routes: Routes = [
   { path: '', component: AboutComponent },
   { path: 'cats', component: CatsComponent },
   { path: 'works', component: WorkComponent },
+  { path: 'vehicle', component: VehicleComponent },
   { path: 'billing', component: BillingComponent },
+  { path: 'spares', component: SparesComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   { path: 'logout', component: LogoutComponent },

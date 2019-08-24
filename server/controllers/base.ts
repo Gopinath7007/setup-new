@@ -62,6 +62,26 @@ abstract class BaseCtrl {
       return res.status(400).json({ error: err.message });
     }
   }
+
+  // getDistinct = async (req, res) => {
+  //   console.log(req)
+  //   try {
+  //     await this.model.distinct('vehicleNumber');
+  //     res.sendStatus(200);
+  //   } catch (err) {
+  //     return res.status(400).json({ error: err.message });
+  //   }
+  // }
+  getDistinct = async (req, res) => {
+    console.log(req.body);
+    try {
+      const docs = await this.model.distinct(req.body.key);
+      const allData = await this.model.find({ [req.body.key]: docs })
+      res.status(200).json(allData);
+    } catch (err) {
+      return res.status(400).json({ error: err.message });
+    }
+  }
 }
 
 export default BaseCtrl;

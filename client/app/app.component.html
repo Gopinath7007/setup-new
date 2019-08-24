@@ -19,10 +19,21 @@
           </a>
         </li>
         <li class="nav-item">
+          <a routerLink="/vehicle" class="nav-link" routerLinkActive="active">
+            <i class="fa fa-list"></i> Vehicle
+          </a>
+        </li>
+         <li class="nav-item">
+          <a routerLink="/spares" class="nav-link" routerLinkActive="active">
+            <i class="fa fa-list"></i> Spares
+          </a>
+        </li>
+        <li class="nav-item">
           <a routerLink="/works" class="nav-link" routerLinkActive="active">
             <i class="fa fa-list"></i> Works
           </a>
         </li>
+
         <li class="nav-item">
           <a routerLink="/login" class="nav-link" routerLinkActive="active" *ngIf="!auth.loggedIn">
             <i class="fa fa-sign-in"></i> Login

@@ -4,34 +4,39 @@
 
 <div class="row margin-empty">
 <div class="card col-lg-8 padding-empty" *ngIf="!isEditing">
-  <h4 class="card-header">Add new bill {{selectedWorks.length}}</h4>
+  <h4 class="">Add new bill </h4>
   <div class="card-body">
     <form class="form-inline bill-form" [formGroup]="addBillForm" (ngSubmit)="addBill()">
       <div class="row" style="width: 100%">
         <div class="col-lg-6 padding-empty">
-          <div class="form-field-container">
-          <label class="form-label">Total Amount</label>  
-          <input class="form-control mr-2" type="text" name="amount"
-                 formControlName="amount" placeholder="Amount">
-           </div>
-           <div class="form-field-container">       
+          <div class="form-field-container">       
             <label class="form-label">Vehicle Number</label>
   <!--         <input class="form-control mr-2" type="number" name="works"
                  formControlName="works" placeholder="Works" min="0"> -->
           <input class="form-control mr-2" type="text" name="vehicleNumber"
                  formControlName="vehicleNumber" placeholder="Enter Vehicle Number" min="0">
-          </div>
+          </div>           
           <div class="form-field-container">
             <label class="form-label">Customer Name</label>
-          <input class="form-control mr-2" type="customerName" name="customerName"
+          <input class="form-control mr-2" type="text" name="customerName"
                  formControlName="customerName" placeholder="Customer Name" min="0">                                    
           </div>
+          <div class="form-field-container">
+            <label class="form-label">Phone Number</label>
+          <input class="form-control mr-2" type="text" name="phoneNumber"
+                 formControlName="phoneNumber" placeholder="Enter Phone Number" min="0">                                    
+          </div>
+          <div class="form-field-container">
+          <label class="form-label">Total Amount</label>  
+          <input class="form-control mr-2" type="text" name="amount"
+                 formControlName="amount" placeholder="Amount">
+           </div>
           <button class="btn btn-primary top-space-10" type="submit" [disabled]="!addBillForm.valid">
             <i class="fa fa-plus"></i> Add
           </button>
         </div>
-        <div class="card mb-3 col-lg-6 padding-empty" >
-          <h5 class="">Added Works <span style="float: right">Total ({{getTotal(addBillForm.value.works)}})</span></h5>
+        <div class=" col-lg-6 padding-empty" >
+          <h5 class="">Added Works <span class="total-amount" >Total ({{getTotal(addBillForm.value.works)}})</span></h5>
           <div class="">
             <div>
 
@@ -80,7 +85,7 @@
               </tbody>
               <tbody *ngIf="!isEditing">
                 
-                <tr *ngFor="let work of addBillForm.value.works">
+                <tr *ngFor="let work of addBillForm.value.works; let i = index">
                   <td>{{work.name}}</td>
                   <td>{{work.price}}</td>
 
@@ -88,7 +93,7 @@
 <!--                       <span (click)="addWork(work)">
                       <i class="fa fa-pencil" ></i>
                     </span> -->
-                    <span  (click)="deleteBill(bill)">
+                    <span  (click)="removeWork(i)">
                       <i class="fa fa-trash"></i> 
                     </span>
                   </td>
@@ -120,7 +125,7 @@
   </div>
 </div>
 <div class="card mb-3 col-lg-4 padding-empty" *ngIf="!isLoading">
-  <h4 class="card-header">Current Works ({{works.length}})</h4>
+  <h4 class="">Current Works ({{works.length}})</h4>
   <div class="card-body">
     <table class="work-table">
       <thead class="thead-light">

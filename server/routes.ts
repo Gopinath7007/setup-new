@@ -4,6 +4,7 @@ import CatCtrl from './controllers/cat';
 import WorkCtrl from './controllers/work';
 import UserCtrl from './controllers/user';
 import BillCtrl from './controllers/bill';
+import SpareCtrl from './controllers/spare';
 
 export default function setRoutes(app) {
 
@@ -13,6 +14,7 @@ export default function setRoutes(app) {
   const userCtrl = new UserCtrl();
   const workCtrl = new WorkCtrl();
   const billCtrl = new BillCtrl();
+  const spareCtrl = new SpareCtrl();
    
   // Cats
   router.route('/cats').get(catCtrl.getAll);
@@ -36,8 +38,18 @@ export default function setRoutes(app) {
   router.route('/bills/count').get(billCtrl.count);
   router.route('/bill').post(billCtrl.insert);
   router.route('/bill/:id').get(billCtrl.get);
-  router.route('/bill/:id').put(billCtrl.update);
+  router.route('get/bill/:id').put(billCtrl.update);
   router.route('/bill/:id').delete(billCtrl.delete);
+  router.route('/distinct').post(billCtrl.getDistinct);
+
+
+  // spares
+  router.route('/spares').get(spareCtrl.getAll);
+  router.route('/spares/count').get(spareCtrl.count);
+  router.route('/spare').post(spareCtrl.insert);
+  router.route('/spare/:id').get(spareCtrl.get);
+  router.route('/spare/:id').put(spareCtrl.update);
+  router.route('/spare/:id').delete(spareCtrl.delete);
 
 
   // Users

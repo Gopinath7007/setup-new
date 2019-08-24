@@ -13,6 +13,14 @@ export class BillService {
     return this.http.get<Bill[]>('/api/bills');
   }
 
+  // getDistinct(key): Observable<Bill[]> {
+  //   return this.http.get<Bill[]>('/api/distinct/key='+key);
+  // }
+  getDistinct(key): Observable<any> {
+    console.log(key)
+    return this.http.post(`/api/distinct`, key);
+  }
+
   countBills(): Observable<number> {
     return this.http.get<number>('/api/bills/count');
   }

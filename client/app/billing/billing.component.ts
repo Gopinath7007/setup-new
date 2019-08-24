@@ -23,7 +23,8 @@ export class BillingComponent implements OnInit {
       amount: new FormControl('', Validators.required),
       works: new FormControl([]),    
       customerName: new FormControl(''),    
-      vehicleNumber: new FormControl('')    
+      vehicleNumber: new FormControl(''),    
+      phoneNumber: new FormControl('')    
   });
   addWorkForm = new FormGroup({
       name: new FormControl('', Validators.required),
@@ -144,9 +145,11 @@ export class BillingComponent implements OnInit {
 
   }
 
-  // removeWork(index) {
-
-  // }  
+  removeWork(index) {
+    this.selectedWorks.splice(index,1);
+    this.addBillForm.patchValue({ works: this.selectedWorks });
+    this.addBillForm.patchValue({ amount: this.getTotal(this.addBillForm.value.works) });      
+  }  
   getTotal(items) {
       let total = 0;
       items.map(item => total = item.price + total);

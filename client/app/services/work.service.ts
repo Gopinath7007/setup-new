@@ -22,7 +22,7 @@ export class WorkService {
   }
 
   getWork(work: Work): Observable<Work> {
-    return this.http.get<Work>(`/api/work/${work._id}`);
+    return this.http.get<Work>(`/api/spare/${work._id}`);
   }
 
   editWork(work: Work): Observable<any> {

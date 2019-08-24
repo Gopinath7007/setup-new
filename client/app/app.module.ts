@@ -9,6 +9,7 @@ import { CatService } from './services/cat.service';
 import { WorkService } from './services/work.service';
 import { UserService } from './services/user.service';
 import { BillService } from './services/bill.service';
+import { SpareService } from './services/spare.service';
 import { AuthService } from './services/auth.service';
 import { AuthGuardLogin } from './services/auth-guard-login.service';
 import { AuthGuardAdmin } from './services/auth-guard-admin.service';
@@ -24,6 +25,8 @@ import { AdminComponent } from './admin/admin.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { WorkComponent } from './work/work.component';
 import { BillingComponent } from './billing/billing.component';
+import { VehicleComponent } from './vehicle/vehicle.component';
+import { SparesComponent } from './spares/spares.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -41,7 +44,9 @@ export function tokenGetter() {
     AdminComponent,
     NotFoundComponent,
     WorkComponent,
-    BillingComponent
+    BillingComponent,
+    VehicleComponent,
+    SparesComponent
   ],
   imports: [
     AppRoutingModule,
@@ -60,7 +65,8 @@ export function tokenGetter() {
     CatService,
     UserService,
     WorkService,
-    BillService
+    BillService,
+    SpareService
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]
