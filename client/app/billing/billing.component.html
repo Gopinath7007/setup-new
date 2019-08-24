@@ -33,6 +33,38 @@
         <div class="card mb-3 col-lg-6 padding-empty" >
           <h5 class="">Added Works <span style="float: right">Total ({{getTotal(addBillForm.value.works)}})</span></h5>
           <div class="">
+            <div>
+
+                  <form [formGroup]="addWorkForm" (ngSubmit)="addNewWork()">
+                    <div>
+                      <td>
+
+                        <input 
+                            type="text"
+                            placeholder="Enter Work"
+                            formControlName="name" 
+                        />
+                      </td>
+                      <td>
+
+                        <input 
+                            type="number"
+                            placeholder="Enter Price"
+                            formControlName="price" 
+                        />
+                      </td>
+                      <td>
+                      <button class="btn btn-sm btn-primary" type="submit" >
+                          <!-- <i class="fa fa-pencil"></i> --> Add
+                        </button> 
+            <!--             <button class="btn btn-sm btn-danger ml-1" (click)="deleteBill(bill)">
+                          <i class="fa fa-trash"></i> Delete
+                        </button> -->
+                      </td>
+                    </div>
+                </form>
+                <div class="error-text" *ngIf="!addWorkForm.valid && addWorkForm.controls.name.touched && addWorkForm.controls.price.touched "> Please enter work, and price </div>
+            </div>
             <table class="work-table">
               <thead class="thead-light">
                 <tr>
@@ -47,6 +79,7 @@
                 </tr>  
               </tbody>
               <tbody *ngIf="!isEditing">
+                
                 <tr *ngFor="let work of addBillForm.value.works">
                   <td>{{work.name}}</td>
                   <td>{{work.price}}</td>
@@ -89,7 +122,7 @@
 <div class="card mb-3 col-lg-4 padding-empty" *ngIf="!isLoading">
   <h4 class="card-header">Current Works ({{works.length}})</h4>
   <div class="card-body">
-    <table class="table table-bordered">
+    <table class="work-table">
       <thead class="thead-light">
         <tr>
           <th scope="col">Name</th>
@@ -116,6 +149,7 @@
             </button> -->
           </td>
         </tr>  
+
       </tbody>
 <!--       <tbody *ngIf="isEditing">
         <tr>

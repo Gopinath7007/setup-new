@@ -25,6 +25,10 @@ export class BillingComponent implements OnInit {
       customerName: new FormControl(''),    
       vehicleNumber: new FormControl('')    
   });
+  addWorkForm = new FormGroup({
+      name: new FormControl('', Validators.required),
+      price: new FormControl('', Validators.required)
+  });
 
   works = [];
   selectedWorks = [];
@@ -120,7 +124,29 @@ export class BillingComponent implements OnInit {
       this.addBillForm.patchValue({ amount: this.getTotal(this.addBillForm.value.works) });
 
   }
+  addNewWork() {
+      // delete work._id;
+      if(this.addWorkForm.valid) {
+              this.workService.addWork(this.addWorkForm.value).subscribe(
+                res => {
+                  this.works.push(res);
+                  this.addWorkForm.reset();
+                  this.toast.setMessage('item added successfully.', 'success');
+                },
+                error => console.log(error)
+              );
+          this.selectedWorks.push(this.addWorkForm.value);
+          this.addBillForm.patchValue({ works: this.selectedWorks });
+          this.addBillForm.patchValue({ amount: this.getTotal(this.addBillForm.value.works) });
 
+          this.addWorkForm.reset();            
+      } 
+
+  }
+
+  // removeWork(index) {
+
+  // }  
   getTotal(items) {
       let total = 0;
       items.map(item => total = item.price + total);

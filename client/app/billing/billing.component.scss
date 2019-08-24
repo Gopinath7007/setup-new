@@ -16,7 +16,7 @@
 	width: 100%;		
 }
 .work-table th , td, h5 {
-	padding: 15px 5px;
+	padding: 5px 5px;
 }
 
 .bill-form input {
@@ -29,4 +29,8 @@
 
 .margin-empty {
 	margin: 0px;
+}
+.error-text {
+	color: red;
+	text-align: left;
 }
