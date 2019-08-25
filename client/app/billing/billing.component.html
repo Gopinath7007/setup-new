@@ -3,7 +3,7 @@
 <app-toast [message]="toast.message"></app-toast>
 
 <div class="row margin-empty">
-<div class="card col-lg-8 padding-empty" *ngIf="!isEditing">
+<div class="card col-lg-6 padding-empty" *ngIf="!isEditing">
   <h4 class="">Add new bill </h4>
   <div class="card-body">
     <form class="form-inline bill-form" [formGroup]="addBillForm" (ngSubmit)="addBill()">
@@ -118,15 +118,96 @@
                 </tr>
               </tbody> -->
             </table>
+
+
+               <table class="work-table">
+<!--               <thead class="thead-light">
+                <tr>
+                  <th >Name</th>
+                  <th >Price</th>
+                  <th >Actions</th>
+                </tr>
+              </thead>
+              <tbody *ngIf="bills.length === 0">
+                <tr>
+                  <td colspan="4">There are no spares added. Add a new spare.</td>
+                </tr>  
+              </tbody> -->
+              <!-- <tbody *ngIf="!isEditing"> -->
+                
+                <div >
+                  
+
+                    <div class="added-spare" *ngFor="let spare of addBillForm.value.spares; let i = index">
+                      {{spare.name}}({{spare.price}} -/ Rs)    
+                      <i class="fa fa-trash black" (click)="removeSpare(i)"></i> 
+                    </div>
+                  
+                </div>  
+              <!-- </tbody> -->
+             <!--  <tbody *ngIf="isEditing">
+                <tr>
+                  <td colspan="4">
+                    <form class="form-inline" #form="ngForm" (ngSubmit)="editBill(bill)">
+                      <input class="form-control mr-2" type="text" name="name"
+                             [(ngModel)]="work.amount" placeholder="Name" required>
+                      <input class="form-control mr-2" type="number" name="price"
+                             [(ngModel)]="wor.works.length" placeholder="Price" min="0" required>
+                      <button class="btn btn-sm btn-primary mr-2" type="submit" [disabled]="!form.form.valid">
+                        <i class="fa fa-floppy-o"></i> Save
+                      </button>
+                      <button class="btn btn-sm btn-warning" (click)="cancelEditing()">
+                        <i class="fa fa-times"></i> Cancel
+                      </button>
+                    </form>
+                  </td>
+                </tr>
+              </tbody> -->
+            </table>
           </div>
         </div>
       </div>
     </form>
   </div>
 </div>
-<div class="card mb-3 col-lg-4 padding-empty" *ngIf="!isLoading">
-  <h4 class="">Current Works ({{works.length}})</h4>
-  <div class="card-body">
+<div class="card mb-3 col-lg-6 padding-empty" *ngIf="!isLoading">
+  <div class="row">
+  
+  <div class="card-body col-lg-6">
+    <h4 class="">Current Spares ({{spares.length}})</h4>
+    <table class="work-table">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="bills.length === 0">
+        <tr>
+          <td colspan="4">There are no spares in the DB. Add a new spare below.</td>
+        </tr>  
+      </tbody>
+      <tbody *ngIf="!isEditing">
+        <tr *ngFor="let spare of spares">
+          <td>{{spare.name}}({{spare.availableItems}})</td>
+          <!-- <td>{{work.price}}</td> -->
+
+          <td>
+            <button class="btn btn-sm btn-primary" (click)="addSpare(spare)">
+              <i class="fa fa-pencil"></i> Add
+            </button> 
+<!--             <button class="btn btn-sm btn-danger ml-1" (click)="deleteBill(bill)">
+              <i class="fa fa-trash"></i> Delete
+            </button> -->
+          </td>
+        </tr>  
+
+      </tbody>
+
+    </table>
+  </div>
+  <div class="card-body col-lg-6">
+    <h4 class="">Current Works ({{works.length}})</h4>
     <table class="work-table">
       <thead class="thead-light">
         <tr>
@@ -156,25 +237,9 @@
         </tr>  
 
       </tbody>
-<!--       <tbody *ngIf="isEditing">
-        <tr>
-          <td colspan="4">
-            <form class="form-inline" #form="ngForm" (ngSubmit)="editBill(bill)">
-              <input class="form-control mr-2" type="text" name="name"
-                     [(ngModel)]="bill.amount" placeholder="Name" required>
-              <input class="form-control mr-2" type="number" name="price"
-                     [(ngModel)]="bill.works.length" placeholder="Price" min="0" required>
-              <button class="btn btn-sm btn-primary mr-2" type="submit" [disabled]="!form.form.valid">
-                <i class="fa fa-floppy-o"></i> Save
-              </button>
-              <button class="btn btn-sm btn-warning" (click)="cancelEditing()">
-                <i class="fa fa-times"></i> Cancel
-              </button>
-            </form>
-          </td>
-        </tr>
-      </tbody> -->
+
     </table>
   </div>
+</div>
 </div>
 </div>

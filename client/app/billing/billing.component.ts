@@ -3,9 +3,12 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 
 import { BillService } from '../services/bill.service';
 import { WorkService } from '../services/work.service';
+import { SpareService } from '../services/spare.service';
+
 import { ToastComponent } from '../shared/toast/toast.component';
 import { Bill } from '../shared/models/bill.model';
 import { Work } from '../shared/models/work.model';
+import { Spare } from '../shared/models/spare.model';
 
 @Component({
   selector: 'app-billing',
@@ -22,6 +25,7 @@ export class BillingComponent implements OnInit {
   addBillForm = new FormGroup({
       amount: new FormControl('', Validators.required),
       works: new FormControl([]),    
+      spares: new FormControl([]),    
       customerName: new FormControl(''),    
       vehicleNumber: new FormControl(''),    
       phoneNumber: new FormControl('')    
@@ -30,12 +34,17 @@ export class BillingComponent implements OnInit {
       name: new FormControl('', Validators.required),
       price: new FormControl('', Validators.required)
   });
+  spare = new Spare();
+  spares: Spare[] = [];
 
   works = [];
   selectedWorks = [];
+  selectedSpares = [];
+
   constructor(
     private billService: BillService,
     private workService: WorkService,
+    private spareService: SpareService,
     private formBuilder: FormBuilder,
     public toast: ToastComponent
   ) { }
@@ -43,6 +52,7 @@ export class BillingComponent implements OnInit {
   ngOnInit() {
     this.getBills();
     this.getWorks();  
+    this.getSpares();  
     // this.addBillForm = this.formBuilder.group({
     //   amount: this.amount,
     //   works: this.works
@@ -52,6 +62,14 @@ export class BillingComponent implements OnInit {
   getWorks() {
     this.workService.getWorks().subscribe( 
       data => this.works = data,
+      error => this.isLoading = false
+    )
+  }
+
+  getSpares() {
+    this.spareService.getSpares().subscribe( 
+      data => this.spares = data,
+      // data => console.log(data),
       error => this.isLoading = false
     )
   }
@@ -124,6 +142,16 @@ export class BillingComponent implements OnInit {
       this.addBillForm.patchValue({ works: this.selectedWorks });
       this.addBillForm.patchValue({ amount: this.getTotal(this.addBillForm.value.works) });
 
+  }  
+
+  addSpare(spare) {
+    
+    console.log(spare)
+      delete spare._id; 
+      this.selectedSpares.push(spare);
+      this.addBillForm.patchValue({ spares: this.selectedSpares });
+      this.addBillForm.patchValue({ amount: this.getTotal(this.addBillForm.value.spares) });
+
   }
   addNewWork() {
       // delete work._id;
@@ -149,6 +177,12 @@ export class BillingComponent implements OnInit {
     this.selectedWorks.splice(index,1);
     this.addBillForm.patchValue({ works: this.selectedWorks });
     this.addBillForm.patchValue({ amount: this.getTotal(this.addBillForm.value.works) });      
+  } 
+
+  removeSpare(index) {
+    this.selectedSpares.splice(index,1);
+    this.addBillForm.patchValue({ spares: this.selectedSpares });
+    this.addBillForm.patchValue({ amount: this.getTotal(this.addBillForm.value.spares) });      
   }  
   getTotal(items) {
       let total = 0;
