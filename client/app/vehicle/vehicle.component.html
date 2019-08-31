@@ -6,43 +6,43 @@
 <div class="card" *ngIf="!isEditing">
   <h4 class="card-header">Add new vehicle</h4>
   <div class="card-body">
-    <form class="form-inline" [formGroup]="addWorkForm" (ngSubmit)="addWork()">
-      <input class="form-control mr-2" type="text" name="name"
-             formControlName="name" placeholder="Name">
-      <input class="form-control mr-2" type="number" name="age"
-             formControlName="price" placeholder="Price" min="0">
-      <button class="btn btn-primary" type="submit" [disabled]="!addWorkForm.valid">
+    <form class="form-inline" [formGroup]="addVehicleForm" (ngSubmit)="addVehicle()">
+      <input class="form-control mr-2" type="text" name="vehicleNumber"
+             formControlName="vehicleNumber" placeholder="vehicle Number">
+      <input class="form-control mr-2" type="number" name="customerId"
+             formControlName="customerId" placeholder="Phone" min="0">
+      <button class="btn btn-primary" type="submit" [disabled]="!addVehicleForm.valid">
         <i class="fa fa-plus"></i> Add
       </button>
     </form>
   </div>
 </div>
 <div class="card mb-3" *ngIf="!isLoading">
-  <h4 class="card-header">Current Vehicle ({{works.length}})</h4>
+  <h4 class="card-header">Current Vehicle ({{vehicles.length}})</h4>
   <div class="card-body">
     <table class="table table-bordered">
       <thead class="thead-light">
         <tr>
-          <th scope="col">Name</th>
-          <th scope="col">Price</th>
+          <th scope="col">Vehicle Number</th>
+          <th scope="col">Customer Phone</th>
           <th scope="col">Actions</th>
         </tr>
       </thead>
-      <tbody *ngIf="works.length === 0">
+      <tbody *ngIf="vehicles.length === 0">
         <tr>
           <td colspan="4">There are no vehicles in the DB. Add a new vehicle below.</td>
         </tr>  
       </tbody>
       <tbody *ngIf="!isEditing">
-        <tr *ngFor="let work of works">
-          <td>{{work.name}}</td>
-          <td>{{work.price}}</td>
+        <tr *ngFor="let vehicle of vehicles">
+          <td>{{vehicle.vehicleNumber}}</td>
+          <td>{{vehicle.customerId}}</td>
 
           <td>
-            <button class="btn btn-sm btn-primary" (click)="enableEditing(work)">
+            <button class="btn btn-sm btn-primary" (click)="enableEditing(vehicle)">
               <i class="fa fa-pencil"></i> Edit
             </button> 
-            <button class="btn btn-sm btn-danger ml-1" (click)="deleteWork(work)">
+            <button class="btn btn-sm btn-danger ml-1" (click)="deleteVehicle(vehicle)">
               <i class="fa fa-trash"></i> Delete
             </button>
           </td>
@@ -51,11 +51,11 @@
       <tbody *ngIf="isEditing">
         <tr>
           <td colspan="4">
-            <form class="form-inline" #form="ngForm" (ngSubmit)="editWork(work)">
+            <form class="form-inline" #form="ngForm" (ngSubmit)="editVehicle(vehicle)">
               <input class="form-control mr-2" type="text" name="name"
-                     [(ngModel)]="work.name" placeholder="Name" required>
+                     [(ngModel)]="vehicle.vehicleNumber" placeholder="Vehicle Number" required>
               <input class="form-control mr-2" type="number" name="price"
-                     [(ngModel)]="work.price" placeholder="Price" min="0" required>
+                     [(ngModel)]="vehicle.customerId" placeholder="Phone" min="0" required>
               <button class="btn btn-sm btn-primary mr-2" type="submit" [disabled]="!form.form.valid">
                 <i class="fa fa-floppy-o"></i> Save
               </button>

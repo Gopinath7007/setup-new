@@ -1,4 +1,4 @@
-import Vehicle from '../models/work';
+import Vehicle from '../models/vehicle';
 import BaseCtrl from './base';
 
 export default class VehicleCtrl extends BaseCtrl {

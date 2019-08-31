@@ -5,6 +5,8 @@ import WorkCtrl from './controllers/work';
 import UserCtrl from './controllers/user';
 import BillCtrl from './controllers/bill';
 import SpareCtrl from './controllers/spare';
+import CustomerCtrl from './controllers/customer';
+import VehicleCtrl from './controllers/vehicle';
 
 export default function setRoutes(app) {
 
@@ -15,6 +17,8 @@ export default function setRoutes(app) {
   const workCtrl = new WorkCtrl();
   const billCtrl = new BillCtrl();
   const spareCtrl = new SpareCtrl();
+  const customerCtrl = new CustomerCtrl();
+  const vehicleCtrl = new VehicleCtrl();
    
   // Cats
   router.route('/cats').get(catCtrl.getAll);
@@ -36,11 +40,14 @@ export default function setRoutes(app) {
   // Billing
   router.route('/bills').get(billCtrl.getAll);
   router.route('/bills/count').get(billCtrl.count);
-  router.route('/bill').post(billCtrl.insert);
+  router.route('/bill').post(billCtrl.insertBill);
   router.route('/bill/:id').get(billCtrl.get);
   router.route('get/bill/:id').put(billCtrl.update);
   router.route('/bill/:id').delete(billCtrl.delete);
   router.route('/distinct').post(billCtrl.getDistinct);
+
+  // Customer
+  router.route('/customer').post(customerCtrl.insert);
 
 
   // spares
@@ -50,6 +57,14 @@ export default function setRoutes(app) {
   router.route('/spare/:id').get(spareCtrl.get);
   router.route('/spare/:id').put(spareCtrl.update);
   router.route('/spare/:id').delete(spareCtrl.delete);
+
+  // vehicles
+  router.route('/vehicles').get(vehicleCtrl.getAll);
+  router.route('/vehicles/count').get(vehicleCtrl.count);
+  router.route('/vehicle').post(vehicleCtrl.insert);
+  router.route('/vehicle/:id').get(vehicleCtrl.get);
+  router.route('/vehicle/:id').put(vehicleCtrl.update);
+  router.route('/vehicle/:id').delete(vehicleCtrl.delete);
 
 
   // Users

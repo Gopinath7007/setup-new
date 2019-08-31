@@ -5,6 +5,6 @@ const customerSchema = new mongoose.Schema({
   phone: String,
 });
 
-const Customer = mongoose.model('Bill', customerSchema);
+const Customer = mongoose.model('Customer', customerSchema);
 
 export default Customer;

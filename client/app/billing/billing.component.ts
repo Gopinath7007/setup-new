@@ -186,7 +186,7 @@ export class BillingComponent implements OnInit {
   }  
   getTotal(items) {
       let total = 0;
-      items.map(item => total = item.price + total);
+      // items.map(item => total = item.price + total);
       return total;
   }
 }

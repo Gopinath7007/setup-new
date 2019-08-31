@@ -11,6 +11,8 @@ import { UserService } from './services/user.service';
 import { BillService } from './services/bill.service';
 import { SpareService } from './services/spare.service';
 import { AuthService } from './services/auth.service';
+import { VehicleService } from './services/vehicle.service';
+
 import { AuthGuardLogin } from './services/auth-guard-login.service';
 import { AuthGuardAdmin } from './services/auth-guard-admin.service';
 // Components
@@ -66,7 +68,8 @@ export function tokenGetter() {
     UserService,
     WorkService,
     BillService,
-    SpareService
+    SpareService,
+    VehicleService
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]

@@ -3,8 +3,10 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 
 import { WorkService } from '../services/work.service';
 import { BillService } from '../services/bill.service';
+import { VehicleService } from '../services/vehicle.service';
 import { ToastComponent } from '../shared/toast/toast.component';
 import { Work } from '../shared/models/work.model';
+import { Vehicle } from '../shared/models/vehicle.model';
 
 @Component({
   selector: 'app-vehicle',
@@ -13,91 +15,90 @@ import { Work } from '../shared/models/work.model';
 })
 export class VehicleComponent implements OnInit {
 
-  work = new Work();
-  works: Work[] = [];
+  vehicle = new Vehicle();
+  vehicles: Vehicle[] = [];
   isLoading = true;
   isEditing = false;
 
-  addWorkForm: FormGroup;
-  name = new FormControl('', Validators.required);
-  price = new FormControl('', Validators.required);
+  addVehicleForm: FormGroup;
+  vehicleNumber = new FormControl('', Validators.required);
+  customerId = new FormControl('', Validators.required);
 
   constructor(
-    private workService: WorkService,
+    private vehicleService: VehicleService,
     private billService: BillService,
     private formBuilder: FormBuilder,
     public toast: ToastComponent
   ) { }
 
   ngOnInit() {
-    this.getWorks();
     this.getVehicles();
-    this.addWorkForm = this.formBuilder.group({
-      name: this.name,
-      price: this.price
+    // this.getVehicles();
+    this.addVehicleForm = this.formBuilder.group({
+      vehicleNumber: this.vehicleNumber,
+      customerId: this.customerId
     });
   }
 
-  getWorks() {
-    this.workService.getWorks().subscribe(
-      data => this.works = data,
-      error => console.log(error),
-      () => this.isLoading = false
-    );
-  }
-
   getVehicles() {
-    let data = {
-      key: 'vehicleNumber' 
-    }
-    this.billService.getDistinct(data).subscribe(
-      data => console.log(data),
+    this.vehicleService.getVehicles().subscribe(
+      data => this.vehicles = data,
       error => console.log(error),
       () => this.isLoading = false
     );
   }
 
-  addWork() {
-    this.workService.addWork(this.addWorkForm.value).subscribe(
+  // getVehicles() {
+  //   let data = {
+  //     key: 'vehicleNumber' 
+  //   }
+  //   this.billService.getDistinct(data).subscribe(
+  //     data => console.log(data),
+  //     error => console.log(error),
+  //     () => this.isLoading = false
+  //   );
+  // }
+
+  addVehicle() {
+    this.vehicleService.addVehicle(this.addVehicleForm.value).subscribe(
       res => {
-        this.works.push(res);
-        this.addWorkForm.reset();
+        this.vehicles.push(res);
+        this.addVehicleForm.reset();
         this.toast.setMessage('item added successfully.', 'success');
       },
       error => console.log(error)
     );
   }
 
-  enableEditing(work: Work) {
+  enableEditing(vehicle: Vehicle) {
     this.isEditing = true;
-    this.work = work;
+    this.vehicle = vehicle;
   }
 
   cancelEditing() {
     this.isEditing = false;
-    this.work = new Work();
+    this.vehicle = new Vehicle();
     this.toast.setMessage('item editing cancelled.', 'warning');
     // reload the works to reset the editing
-    this.getWorks();
+    this.getVehicles();
   }
 
-  editWork(work: Work) {
-    this.workService.editWork(work).subscribe(
+  editVehicle(vehicle: Vehicle) {
+    this.vehicleService.editVehicle(vehicle).subscribe(
       () => {
         this.isEditing = false;
-        this.work = work;
+        this.vehicle = vehicle;
         this.toast.setMessage('item edited successfully.', 'success');
       },
       error => console.log(error)
     );
   }
-
-  deleteWork(work: Work) {
+  deleteVehicle(vehicle: Vehicle) {
     if (window.confirm('Are you sure you want to permanently delete this item?')) {
-      this.workService.deleteWork(work).subscribe(
+      this.vehicleService.deleteVehicle(vehicle).subscribe(
         () => {
-          const pos = this.works.map(elem => elem._id).indexOf(work._id);
-          this.works.splice(pos, 1);
+          const pos = this.vehicles.map(elem => elem._id).indexOf(vehicle._id);
+          this.vehicles.splice(pos, 1);
           this.toast.setMessage('item deleted successfully.', 'success');
         },
         error => console.log(error)
