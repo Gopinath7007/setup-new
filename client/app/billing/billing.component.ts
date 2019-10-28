@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { BillService } from '../services/bill.service';
@@ -20,11 +20,7 @@ import * as jsPDF from 'jspdf';
 })
 export class BillingComponent implements OnInit {
   
-     private contentPlaceholder: ElementRef;
-
- @ViewChild('contentPlaceholder') set content(content: ElementRef) {
-    this.contentPlaceholder = content;
- }
+  // @ViewChild('content') content: ElementRef;
 
   bill = new Bill();
   bills: Bill[] = [];
