@@ -17,7 +17,7 @@ export class SparesComponent implements OnInit {
   spares: Spare[] = [];
   isLoading = true;
   isEditing = false;
-
+  isAdd = false;  
   addSpareForm: FormGroup;
   name = new FormControl('');
   price = new FormControl('');
