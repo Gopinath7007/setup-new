@@ -2,6 +2,7 @@ import * as express from 'express';
 
 import CatCtrl from './controllers/cat';
 import WorkCtrl from './controllers/work';
+import ChannelCtrl from './controllers/channel';
 import UserCtrl from './controllers/user';
 import BillCtrl from './controllers/bill';
 import SpareCtrl from './controllers/spare';
@@ -15,6 +16,7 @@ export default function setRoutes(app) {
   const catCtrl = new CatCtrl();
   const userCtrl = new UserCtrl();
   const workCtrl = new WorkCtrl();
+  const channelCtrl = new ChannelCtrl();
   const billCtrl = new BillCtrl();
   const spareCtrl = new SpareCtrl();
   const customerCtrl = new CustomerCtrl();
@@ -35,6 +37,14 @@ export default function setRoutes(app) {
   router.route('/work/:id').get(workCtrl.get);
   router.route('/work/:id').put(workCtrl.update);
   router.route('/work/:id').delete(workCtrl.delete);
+
+  // Channels
+  router.route('/channels').get(channelCtrl.getAll);
+  router.route('/channels/count').get(channelCtrl.count);
+  router.route('/channel').post(channelCtrl.insert);
+  router.route('/channel/:id').get(channelCtrl.get);
+  router.route('/channel/:id').put(channelCtrl.update);
+  router.route('/channel/:id').delete(channelCtrl.delete);
 
 
   // Billing

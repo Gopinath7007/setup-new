@@ -3,7 +3,7 @@
 <app-toast [message]="toast.message"></app-toast>
 
 
-<div class="card" *ngIf="!isEditing">
+<div class="card" *ngIf="isAdd">
   <h4 class="card-header">Add new spare</h4>
   <div class="card-body">
     <form class="form-inline" [formGroup]="addSpareForm" (ngSubmit)="addSpare()">
@@ -28,15 +28,19 @@
   </div>
 </div>
 <div class="card mb-3" *ngIf="!isLoading">
-  <h4 class="card-header">Current Spares ({{spares.length}})</h4>
-  <div class="card-body">
-    <table class="table table-bordered">
+  <h4 class="card-header">Total Spares <span class="text-success">({{spares.length}}) </span>
+   <i *ngIf="!isAdd" class="fa fa-plus-circle text-success px-5" (click)="isAdd=true"></i>
+   <i *ngIf="isAdd" class="fa fa-minus-circle text-danger px-5" (click)="isAdd=false"></i> </h4>
+
+   <div class="card-body">
+    <table class="table table-bordered srink-table">
       <thead class="thead-light">
         <tr>
           <th scope="col">Name</th>
           <th scope="col">Price</th>
           <th scope="col">Availability</th>
           <th scope="col">Brand</th>
+          <th scope="col">Availability</th>
           <th scope="col">Type</th>
 
           <th scope="col">Actions</th>
@@ -51,8 +55,17 @@
         <tr *ngFor="let spare of spares; let i = index">
           <td>{{spare.name}}</td>
           <td>{{spare.price}}</td>
-          <td>{{spare.availableItems}}</td>
+          <td>
+              <div 
+                class="shortage" *ngIf="spare.availableItems < 10"
+              >
+                            </div>
+              <div class="available" *ngIf="spare.availableItems >= 10">
+               
+              </div>
+          </td>
           <td>{{spare.brand}}</td>
+          <td class="text-center"><span class="plus text-success" (click)="updateItem(spare, 1)">+</span><span class="count-text">{{spare.availableItems}}</span><span class="minus" (click)="updateItem(spare, -1)">-</span></td>
           <td>{{spare.type}}</td>
 
           <td>

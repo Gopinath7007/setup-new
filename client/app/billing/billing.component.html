@@ -1,10 +1,18 @@
 <app-loading [condition]="isLoading"></app-loading>
 
 <app-toast [message]="toast.message"></app-toast>
-
-<div class="row margin-empty">
+<div class="row p-2">
+    <div class="col-md-3 p-2" (click)="isBilling= true">
+        <h4 class="pl-3">Add New Bill ( {{this.addBillForm.value.amount}})</h4>
+    </div>
+    <div class="col-md-3 p-2" (click)="isBilling= false">
+        <h4 class="pl-3"> Bills </h4>
+    </div>
+</div>
+<div class="row margin-empty w-100 mx-auto" *ngIf="isBilling">
+</div> 
+<div class="row margin-empty w-100 mx-auto" *ngIf="isBilling">
 <div class="card col-lg-6 padding-empty" *ngIf="!isEditing">
-  <h4 class="">Add new bill </h4>
   <div class="card-body">
     <form class="form-inline bill-form" [formGroup]="addBillForm" (ngSubmit)="addBill()">
       <div class="row" style="width: 100%">
@@ -25,6 +33,11 @@
             <label class="form-label">Phone Number</label>
           <input class="form-control mr-2" type="text" name="phoneNumber"
                  formControlName="phoneNumber" placeholder="Enter Phone Number" min="0">                                    
+          </div>
+          <div class="form-field-container">
+            <label class="form-label">GST Number</label>
+          <input class="form-control mr-2" type="text" name="phoneNumber"
+                 formControlName="gstn" placeholder="Enter GST Number" min="0">                                    
           </div>
           <div class="form-field-container">
           <label class="form-label">Total Amount</label>  
@@ -90,79 +103,27 @@
                   <td>{{work.price}}</td>
 
                   <td>
-<!--                       <span (click)="addWork(work)">
-                      <i class="fa fa-pencil" ></i>
-                    </span> -->
                     <span  (click)="removeWork(i)">
                       <i class="fa fa-trash"></i> 
                     </span>
                   </td>
                 </tr>  
               </tbody>
-             <!--  <tbody *ngIf="isEditing">
-                <tr>
-                  <td colspan="4">
-                    <form class="form-inline" #form="ngForm" (ngSubmit)="editBill(bill)">
-                      <input class="form-control mr-2" type="text" name="name"
-                             [(ngModel)]="work.amount" placeholder="Name" required>
-                      <input class="form-control mr-2" type="number" name="price"
-                             [(ngModel)]="wor.works.length" placeholder="Price" min="0" required>
-                      <button class="btn btn-sm btn-primary mr-2" type="submit" [disabled]="!form.form.valid">
-                        <i class="fa fa-floppy-o"></i> Save
-                      </button>
-                      <button class="btn btn-sm btn-warning" (click)="cancelEditing()">
-                        <i class="fa fa-times"></i> Cancel
-                      </button>
-                    </form>
-                  </td>
-                </tr>
-              </tbody> -->
+
             </table>
 
 
                <table class="work-table">
-<!--               <thead class="thead-light">
-                <tr>
-                  <th >Name</th>
-                  <th >Price</th>
-                  <th >Actions</th>
-                </tr>
-              </thead>
-              <tbody *ngIf="bills.length === 0">
-                <tr>
-                  <td colspan="4">There are no spares added. Add a new spare.</td>
-                </tr>  
-              </tbody> -->
-              <!-- <tbody *ngIf="!isEditing"> -->
-                
-                <div >
+
+                <div class="p-1">
                   
 
                     <div class="added-spare" *ngFor="let spare of addBillForm.value.spares; let i = index">
                       {{spare.name}}({{spare.price}} -/ Rs)    
-                      <i class="fa fa-trash black" (click)="removeSpare(i)"></i> 
+                      <i class="fa fa-trash del-icon" (click)="removeSpare(i)"></i> 
                     </div>
                   
                 </div>  
-              <!-- </tbody> -->
-             <!--  <tbody *ngIf="isEditing">
-                <tr>
-                  <td colspan="4">
-                    <form class="form-inline" #form="ngForm" (ngSubmit)="editBill(bill)">
-                      <input class="form-control mr-2" type="text" name="name"
-                             [(ngModel)]="work.amount" placeholder="Name" required>
-                      <input class="form-control mr-2" type="number" name="price"
-                             [(ngModel)]="wor.works.length" placeholder="Price" min="0" required>
-                      <button class="btn btn-sm btn-primary mr-2" type="submit" [disabled]="!form.form.valid">
-                        <i class="fa fa-floppy-o"></i> Save
-                      </button>
-                      <button class="btn btn-sm btn-warning" (click)="cancelEditing()">
-                        <i class="fa fa-times"></i> Cancel
-                      </button>
-                    </form>
-                  </td>
-                </tr>
-              </tbody> -->
             </table>
           </div>
         </div>
@@ -194,7 +155,7 @@
 
           <td>
             <button class="btn btn-sm btn-primary" (click)="addSpare(spare)">
-              <i class="fa fa-pencil"></i> Add
+              <i class="fa fa-plus"></i> Add
             </button> 
 <!--             <button class="btn btn-sm btn-danger ml-1" (click)="deleteBill(bill)">
               <i class="fa fa-trash"></i> Delete
@@ -228,11 +189,9 @@
 
           <td>
             <button class="btn btn-sm btn-primary" (click)="addWork(work)">
-              <i class="fa fa-pencil"></i> Add
+              <i class="fa fa-plus"></i> Add
             </button> 
-<!--             <button class="btn btn-sm btn-danger ml-1" (click)="deleteBill(bill)">
-              <i class="fa fa-trash"></i> Delete
-            </button> -->
+
           </td>
         </tr>  
 
@@ -242,4 +201,109 @@
   </div>
 </div>
 </div>
+<!-- PDF AREA -->
+<div class="w-100 hidden-invoice" >
+    <div class="container my-5 px-5 py-5" id="foo">
+   <div class="row">
+      <div class="col-4 contact-details">
+         <h5>Sri Ram Auto Carriage</h5>
+         <!-- <h6><em>Address of issuer</h6> -->
+         <p class="ml-1">Malumichampatti, Opp to Petrol Bunk</p>
+      </div> 
+
+   <div class="invoice-details col-4 offset-3 text-right">
+ 
+         <h6>Invoice No. #1</h6>
+         <h6>Issued at: 01/02/20 20</h6>
+
+   </div>
+   </div>
+
+   <div class="container-fluid invoice-letter mt-1 hidden">
+      <div class="row">
+         <div class="col-3 text-white pl-5 py-2 letter-title">
+            <h5>Summary & Notes</h5>
+         </div>
+         <div class="col-9 text-white pr-5 py-2 letter-content">
+            <p>Next Servie Date is afte 3 months. </p>
+         </div>
+      </div>
+   </div>
+     <div> 
+      <div class="p-1"> <h5> Total Service and Spares {{this.addBillForm.value.spares.length + this.addBillForm.value.works.length }} </h5></div>    
+      <table class="invoice table table-hover">
+            <thead class="thead">
+              <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Category</th>
+                <th scope="col">Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let spare of this.addBillForm.value.spares">
+                <th scope="row">{{spare.name}}</th>
+                <td class="item">Spares</td>
+                <td>{{spare.price}}</td>
+              </tr>
+              <tr *ngFor="let work of this.addBillForm.value.works">
+                <th scope="row">{{work.name}}</th>
+                <td class="item">Service/Work</td>
+                <td>{{work.price}}</td>
+              </tr>
+
+              <tr>
+            </tbody>
+          </table>
+         </div>   
+      <div>    
+   <div class="row table mt-5">
+   </div>
+
+<div class="row">
+   <!-- invoiced to details -->
+   <div class=" offset-2 col-4">
+      <div class="to text-right">
+            <h5 class="effect-color pt-4">Invoiced to:</h5>
+            <p>{{this.addBillForm.value.customerName}},</p>                
+            <h4 class="theme-color"><strong>{{this.addBillForm.value.companyName}}</strong></h4>
+            <h6>Vehicle Number</h6>
+            <p>{{this.addBillForm.value.vehicleNumber}},</p>
+            <h6>Phone Number</h6>
+            <p>{{this.addBillForm.value.phoneNumber}}</p>
+            <h5>Due date: 02/02/20 20</h5>
+          </div>
+   </div>
+   <!-- Invoice assets and total -->
+        <div class="col-6 pr-5">
+          <table class="table table-borderless text-right">
+            <tbody>
+              <tr>
+                <th scope="row">Subtotal</th>
+                <td>75 <span class="currency">&#8377;</span></td>
+              </tr>
+              <tr>
+                <th scope="row">Taxes*</th>
+                <td>11,25 <span class="currency">&#8377;</span></td>
+              </tr>
+              <tr>
+                <th scope="row">Discounts</th>
+                <td>7,5 <span class="currency">&#8377;</span></td>
+              </tr>
+              <tr>
+                <th scope="row">Shipping</th>
+                <td><span class="currency">&#8377;</span> 10,25</td>
+              </tr>
+               <tr class="last-row">
+                  <th scope="row"><h4>Total</h4></th>
+                  <td><h4><span class="currency">{{this.addBillForm.value.amount}}</span></h4></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+   </div>
+   <p class="text-center mt-3"><em>* Taxes will be calculated in &#8377; using the default % value for your region</em></p>
+</div>
+</div>
+<button (click)="makePdf()"></button>>
+<!-- PDF AREA -->
 </div>

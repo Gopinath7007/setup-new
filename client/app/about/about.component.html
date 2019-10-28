@@ -1,6 +1,56 @@
 <div class="card">
-  <h4 class="card-header">About</h4>
-  <div class="card-body">
-    This is the app for angular full stack learning app.
+  <!-- <h4 class="card-header">About</h4> -->
+  <div class="card-body pt-3 dash-count">
+  	<div class="row py-5">
+  		<div class="col-md-3 mt-3">
+        <a routerLink="/billing">
+          <div class="shadow py-1">
+      			<div class="text-center">
+      				<h3>Bills <i class="fa fa-money text-dark"></i></h3>
+      			</div>
+      			<div  class="text-center result-count">
+      				<h2>{{bills.length}}</h2>
+      			</div>
+          </div>
+        </a>  			
+  		</div>
+      <div class="col-md-3 mt-3">
+       <a routerLink="/spares">
+          <div class="shadow py-1">
+            <div class="text-center">
+              <h3>Spares <i class="fa fa-wrench text-dark"></i></h3>
+            </div>
+            <div  class="text-center result-count">
+              <h2>{{spares.length}}</h2>
+            </div>        
+          </div>
+        </a>
+      </div>  		
+      <div class="col-md-3 mt-3">
+       <a routerLink="/works">
+        <div class="shadow py-1">
+            <div class="text-center">
+              <h3>Works <i class="fa fa-cogs text-dark"></i></h3>
+            </div>
+            <div  class="text-center result-count">
+              <h2>{{works.length}}</h2>
+            </div>
+          </div>
+          </a>        
+      </div>
+      <div class="col-md-3 mt-3">
+         <a routerLink="/vehicles">
+          <div class="shadow py-1">
+            <div class="text-center">
+              <h3>Vehicles <i class="fa fa-truck text-dark"></i></h3>
+            </div>
+            <div  class="text-center result-count">
+              <h2>{{vehicles.length}}</h2>
+            </div>
+          </div>
+        </a>        
+      </div>
+  		
+  	</div>	
   </div>
 </div>

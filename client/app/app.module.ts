@@ -7,6 +7,7 @@ import { SharedModule } from './shared/shared.module';
 // Services
 import { CatService } from './services/cat.service';
 import { WorkService } from './services/work.service';
+import { ChannelService } from './services/channel.service';
 import { UserService } from './services/user.service';
 import { BillService } from './services/bill.service';
 import { SpareService } from './services/spare.service';
@@ -29,6 +30,7 @@ import { WorkComponent } from './work/work.component';
 import { BillingComponent } from './billing/billing.component';
 import { VehicleComponent } from './vehicle/vehicle.component';
 import { SparesComponent } from './spares/spares.component';
+import { ChannnelsComponent } from './channnels/channnels.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -48,7 +50,8 @@ export function tokenGetter() {
     WorkComponent,
     BillingComponent,
     VehicleComponent,
-    SparesComponent
+    SparesComponent,
+    ChannnelsComponent
   ],
   imports: [
     AppRoutingModule,
@@ -67,6 +70,7 @@ export function tokenGetter() {
     CatService,
     UserService,
     WorkService,
+    ChannelService,
     BillService,
     SpareService,
     VehicleService

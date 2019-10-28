@@ -7,6 +7,7 @@ import { AuthGuardAdmin } from './services/auth-guard-admin.service';
 // Components
 import { CatsComponent } from './cats/cats.component';
 import { WorkComponent } from './work/work.component';
+import { ChannnelsComponent } from './channnels/channnels.component';
 import { BillingComponent } from './billing/billing.component';
 import { AboutComponent } from './about/about.component';
 import { RegisterComponent } from './register/register.component';
@@ -22,7 +23,8 @@ const routes: Routes = [
   { path: '', component: AboutComponent },
   { path: 'cats', component: CatsComponent },
   { path: 'works', component: WorkComponent },
-  { path: 'vehicle', component: VehicleComponent },
+  { path: 'channels', component: ChannnelsComponent },
+  { path: 'vehicles', component: VehicleComponent },
   { path: 'billing', component: BillingComponent },
   { path: 'spares', component: SparesComponent },
   { path: 'register', component: RegisterComponent },

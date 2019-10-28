@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { BillService } from '../services/bill.service';
@@ -10,25 +10,32 @@ import { Bill } from '../shared/models/bill.model';
 import { Work } from '../shared/models/work.model';
 import { Spare } from '../shared/models/spare.model';
 
+import * as jsPDF from 'jspdf';  
+// import * as html2canvas from 'html2canvas';
+
 @Component({
   selector: 'app-billing',
   templateUrl: './billing.component.html',
   styleUrls: ['./billing.component.scss']
 })
 export class BillingComponent implements OnInit {
+  
+  @ViewChild('content') content: ElementRef;
 
   bill = new Bill();
   bills: Bill[] = [];
   isLoading = true;
   isEditing = false;
-
+  isBilling = true;  
+  total = 0;    
   addBillForm = new FormGroup({
       amount: new FormControl('', Validators.required),
       works: new FormControl([]),    
       spares: new FormControl([]),    
       customerName: new FormControl(''),    
       vehicleNumber: new FormControl(''),    
-      phoneNumber: new FormControl('')    
+      phoneNumber: new FormControl(''),    
+      gstn: new FormControl('')    
   });
   addWorkForm = new FormGroup({
       name: new FormControl('', Validators.required),
@@ -65,7 +72,18 @@ export class BillingComponent implements OnInit {
       error => this.isLoading = false
     )
   }
+  makePdf() {
+  let doc = new jsPDF();
+    //doc.addHTML(this.content.nativeElement, function() {
+     //  doc.save("obrz.pdf");
+    //});
+  const elementToPrint = document.getElementById('foo'); 
+  const pdf = new jsPDF('p', 'pt', 'a4');
+  pdf.addHTML(elementToPrint, () => {
+      pdf.save('web.pdf');
+  }); 
 
+  }  
   getSpares() {
     this.spareService.getSpares().subscribe( 
       data => this.spares = data,
@@ -76,13 +94,17 @@ export class BillingComponent implements OnInit {
 
   getBills() {
     this.billService.getBills().subscribe(
-      data => this.bills = data,
+      data => { 
+          this.bills = data;
+          console.log(this.bills);
+      },
       error => console.log(error),
       () => this.isLoading = false
     );
   }
 
   addBill() {
+    this.makePdf();  
     console.log(this.addBillForm.value);
     this.addBillForm.controls['works'].setValue(this.selectedWorks);
     // this.addBillForm.controls['dept'].setValue(selected.id);
@@ -90,7 +112,7 @@ export class BillingComponent implements OnInit {
     this.billService.addBill(this.addBillForm.value).subscribe(
       res => {
         this.bills.push(res);
-        this.addBillForm.reset();
+        //this.addBillForm.reset();
         this.toast.setMessage('item added successfully.', 'success');
       },
       error => console.log(error)
@@ -136,22 +158,46 @@ export class BillingComponent implements OnInit {
 
   addWork(work) {
     
-    console.log(work)
-      delete work._id; 
-      this.selectedWorks.push(work);
-      this.addBillForm.patchValue({ works: this.selectedWorks });
-      this.addBillForm.patchValue({ amount: this.getTotal(this.addBillForm.value.works) });
+
+      //delete work._id; 
+      const isPresent = this.addBillForm.value.works.filter(item => item._id === work._id).length;    
+      if(isPresent < 1) {
+         this.selectedWorks.push(work);
+         this.addBillForm.patchValue({ works: this.selectedWorks });
+         this.addBillForm.patchValue({ amount: this.getTotal(this.addBillForm.value.works) });
+         console.log(this.addBillForm.value.works);
+         this.setBillAmount();  
+      } else {
+        this.toast.setMessage(work.name +' already added in the bill.', 'warning');
+      }
+       
 
   }  
+
+  setBillAmount() {
+      var total = 0;
+      this.addBillForm.value.works.map( workItem => total = total + workItem.price);      
+      this.addBillForm.value.spares.map( spareItem => total = total + spareItem.price);
+      this.total = total;  
+      this.addBillForm.value.amount = total;
+      this.addBillForm.controls['amount'].setValue(total);
+  }
 
   addSpare(spare) {
     
     console.log(spare)
-      delete spare._id; 
-      this.selectedSpares.push(spare);
-      this.addBillForm.patchValue({ spares: this.selectedSpares });
-      this.addBillForm.patchValue({ amount: this.getTotal(this.addBillForm.value.spares) });
+      // delete spare._id;
 
+      const isPresent = this.addBillForm.value.spares.filter(item => item._id === spare._id).length;    
+      if(isPresent < 1) {  
+
+        this.selectedSpares.push(spare);
+        this.addBillForm.patchValue({ spares: this.selectedSpares });
+        this.addBillForm.patchValue({ amount: this.getTotal(this.addBillForm.value.spares) });
+        this.setBillAmount()  
+        } else {
+          this.toast.setMessage(spare.name + ' already added in bill.', 'warning');
+        }
   }
   addNewWork() {
       // delete work._id;
@@ -169,6 +215,7 @@ export class BillingComponent implements OnInit {
           this.addBillForm.patchValue({ amount: this.getTotal(this.addBillForm.value.works) });
 
           this.addWorkForm.reset();            
+          this.setBillAmount();
       } 
 
   }
@@ -176,13 +223,15 @@ export class BillingComponent implements OnInit {
   removeWork(index) {
     this.selectedWorks.splice(index,1);
     this.addBillForm.patchValue({ works: this.selectedWorks });
-    this.addBillForm.patchValue({ amount: this.getTotal(this.addBillForm.value.works) });      
+    this.addBillForm.patchValue({ amount: this.getTotal(this.addBillForm.value.works) });
+    this.setBillAmount()      
   } 
 
   removeSpare(index) {
     this.selectedSpares.splice(index,1);
     this.addBillForm.patchValue({ spares: this.selectedSpares });
-    this.addBillForm.patchValue({ amount: this.getTotal(this.addBillForm.value.spares) });      
+    this.addBillForm.patchValue({ amount: this.getTotal(this.addBillForm.value.spares) });
+    this.setBillAmount()      
   }  
   getTotal(items) {
       let total = 0;

@@ -55,6 +55,7 @@ export class SparesComponent implements OnInit {
       res => {
         this.spares.push(res);
         this.addSpareForm.reset();
+        console.log(this.spares);
         this.toast.setMessage('item added successfully.', 'success');
       },
       error => console.log(error)
@@ -73,7 +74,7 @@ export class SparesComponent implements OnInit {
     // reload the works to reset the editing
     this.getSpares();
   }
-
+  
   editSpare(spare: Spare) {
     this.spareService.editSpare(spare).subscribe(
       () => {
@@ -83,6 +84,11 @@ export class SparesComponent implements OnInit {
       },
       error => console.log(error)
     );
+  }
+
+  updateItem(item, value) {
+    item.availableItems += value;
+    this.editSpare(item);   
   }
 
   deleteSpare(spare: Spare) {
