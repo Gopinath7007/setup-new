@@ -20,7 +20,11 @@ import * as jsPDF from 'jspdf';
 })
 export class BillingComponent implements OnInit {
   
-  @ViewChild('content') content: ElementRef;
+     private contentPlaceholder: ElementRef;
+
+ @ViewChild('contentPlaceholder') set content(content: ElementRef) {
+    this.contentPlaceholder = content;
+ }
 
   bill = new Bill();
   bills: Bill[] = [];
