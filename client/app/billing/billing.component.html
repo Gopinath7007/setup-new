@@ -9,7 +9,69 @@
         <h4 class="pl-3"> Bills </h4>
     </div>
 </div>
-<div class="row margin-empty w-100 mx-auto" *ngIf="isBilling">
+<div class="row margin-empty w-100 mx-auto" *ngIf="!isBilling">
+     <div class="card-body">
+    <table class="table table-bordered srink-table">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col">Customer Name</th>
+          <th scope="col">Total Amount</th>
+          <th scope="col">Phone</th>
+          <th scope="col">Status</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="spares.length === 0">
+        <tr>
+          <td colspan="4">There are no spares in the DB. Add a new spares below.</td>
+        </tr>  
+      </tbody>
+      <tbody *ngIf="!isEditing">
+        <tr *ngFor="let bill of bills; let i = index">
+          <td>{{bill.customerName}}</td>
+          <td>{{bill.amount}}</td>
+          
+          <td>{{bill.phoneNumber}}</td>
+          <td>
+          <span class="green">Paid</span>
+          </td>
+  
+          <td>
+            <button class="btn btn-sm btn-primary" (click)="enableEditing(spare)">
+              <i class="fa fa-pencil"></i> Edit
+            </button> 
+            <button class="btn btn-sm btn-danger ml-1" (click)="deleteSpare(spare)">
+              <i class="fa fa-trash"></i> Delete
+            </button>
+          </td>
+        </tr>  
+      </tbody>
+      <tbody *ngIf="isEditing">
+        <tr>
+          <td colspan="4">
+            <form class="form-inline" #form="ngForm" (ngSubmit)="editSpare(spare)">
+              <input class="form-control mr-2" type="text" name="name"
+                     [(ngModel)]="spare.name" placeholder="Name" required>
+              <input class="form-control mr-2" type="number" name="price"
+                     [(ngModel)]="spare.price" placeholder="Price" min="0" required>
+              <input class="form-control mr-2" type="text" name="availableItems"
+                     [(ngModel)]="spare.availableItems" placeholder="Availability" min="0" required>       
+              <input class="form-control mr-2" type="text" name="brand"
+                     [(ngModel)]="spare.brand" placeholder="Price" min="0" required>       
+              <input class="form-control mr-2" type="text" name="type"
+                     [(ngModel)]="spare.type" placeholder="Type" min="0" required>                
+              <button class="btn btn-sm btn-primary mr-2" type="submit" [disabled]="!form.form.valid">
+                <i class="fa fa-floppy-o"></i> Save
+              </button>
+              <button class="btn btn-sm btn-warning" (click)="cancelEditing()">
+                <i class="fa fa-times"></i> Cancel
+              </button>
+            </form>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div> 
 <div class="row margin-empty w-100 mx-auto" *ngIf="isBilling">
 <div class="card col-lg-6 padding-empty" *ngIf="!isEditing">
