@@ -115,6 +115,7 @@ export class BillingComponent implements OnInit {
     this.addBillForm.controls['works'].setValue(this.selectedWorks);
     // this.addBillForm.controls['dept'].setValue(selected.id);
 
+
     this.billService.addBill(newBill).subscribe(
       res => {
       console.log(res);
