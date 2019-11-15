@@ -52,7 +52,7 @@ export default function setRoutes(app) {
   router.route('/bills/count').get(billCtrl.count);
   router.route('/bill').post(billCtrl.insertBill);
   router.route('/bill/:id').get(billCtrl.get);
-  router.route('get/bill/:id').put(billCtrl.update);
+  router.route('/bill/:id').put(billCtrl.update);
   router.route('/bill/:id').delete(billCtrl.delete);
   router.route('/distinct').post(billCtrl.getDistinct);
 

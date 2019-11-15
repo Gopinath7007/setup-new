@@ -116,6 +116,12 @@ select {
     font-weight: 600;
 }
 
+.green {
+	color: green;
+}
+.red {
+	color: red;
+}
 @keyframes short
  {
    from {
@@ -125,3 +131,4 @@ select {
    	 opacity: 1;
    }
 }
+

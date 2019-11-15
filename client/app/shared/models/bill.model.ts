@@ -3,4 +3,5 @@ export class Bill {
   _id?: string;
   total?: string;
   works?: Object[];
+  gstNumber: string;
 }

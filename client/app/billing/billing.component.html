@@ -2,7 +2,7 @@
 
 <app-toast [message]="toast.message"></app-toast>
 <div class="row p-2">
-    <div class="col-md-3 p-2" (click)="isBilling= true">
+    <div class="col-md-3 p-2" (click)="isBilling= true;isEditing=false">
         <h4 class="pl-3">Add New Bill ( {{this.addBillForm.value.amount}})</h4>
     </div>
     <div class="col-md-3 p-2" (click)="isBilling= false">
@@ -17,6 +17,7 @@
           <th scope="col">Customer Name</th>
           <th scope="col">Total Amount</th>
           <th scope="col">Phone</th>
+          <th scope="col">GST Number</th>
           <th scope="col">Status</th>
           <th scope="col">Actions</th>
         </tr>
@@ -32,15 +33,26 @@
           <td>{{bill.amount}}</td>
           
           <td>{{bill.phoneNumber}}</td>
+          <td>{{bill.gstNumber}}</td>
           <td>
-          <span class="green">Paid</span>
+          <span 
+              *ngIf="bill.status === 'paid'" 
+              class="green"
+          >   
+              {{bill.status}}
+          </span>          
+          <span 
+              *ngIf="bill.status === 'pending'" 
+              class="red">
+                  {{bill.status}}
+          </span>
           </td>
   
           <td>
-            <button class="btn btn-sm btn-primary" (click)="enableEditing(spare)">
+            <button class="btn btn-sm btn-primary" (click)="enableEditing(bill)">
               <i class="fa fa-pencil"></i> Edit
             </button> 
-            <button class="btn btn-sm btn-danger ml-1" (click)="deleteSpare(spare)">
+            <button class="btn btn-sm btn-danger ml-1" (click)="deleteBill(bill)">
               <i class="fa fa-trash"></i> Delete
             </button>
           </td>
@@ -49,17 +61,17 @@
       <tbody *ngIf="isEditing">
         <tr>
           <td colspan="4">
-            <form class="form-inline" #form="ngForm" (ngSubmit)="editSpare(spare)">
+            <form class="form-inline" #form="ngForm" (ngSubmit)="editBill(bill)">
               <input class="form-control mr-2" type="text" name="name"
-                     [(ngModel)]="spare.name" placeholder="Name" required>
+                     [(ngModel)]="bill.customerName" placeholder="Customer Name" required>
               <input class="form-control mr-2" type="number" name="price"
-                     [(ngModel)]="spare.price" placeholder="Price" min="0" required>
-              <input class="form-control mr-2" type="text" name="availableItems"
-                     [(ngModel)]="spare.availableItems" placeholder="Availability" min="0" required>       
-              <input class="form-control mr-2" type="text" name="brand"
-                     [(ngModel)]="spare.brand" placeholder="Price" min="0" required>       
-              <input class="form-control mr-2" type="text" name="type"
-                     [(ngModel)]="spare.type" placeholder="Type" min="0" required>                
+                     [(ngModel)]="bill.vehicleNumber" placeholder="Vehicle Number" min="0" required>
+              <input class="form-control mr-2" type="text" name="vehicleNumber"
+                     [(ngModel)]="bill.phoneNumber" placeholder="Phone Number" min="0" required>       
+              <input class="form-control mr-2" type="text" name="phone"
+                     [(ngModel)]="bill.gstNumber" placeholder="GST Number" min="0" required>       
+              <input class="form-control mr-2" type="text" name="status"
+                     [(ngModel)]="bill.status" placeholder="status" min="0" required>                
               <button class="btn btn-sm btn-primary mr-2" type="submit" [disabled]="!form.form.valid">
                 <i class="fa fa-floppy-o"></i> Save
               </button>
@@ -99,15 +111,32 @@
           <div class="form-field-container">
             <label class="form-label">GST Number</label>
           <input class="form-control mr-2" type="text" name="phoneNumber"
-                 formControlName="gstn" placeholder="Enter GST Number" min="0">                                    
+                 formControlName="gstNumber" placeholder="Enter GST Number" min="0">                                    
           </div>
           <div class="form-field-container">
           <label class="form-label">Total Amount</label>  
           <input class="form-control mr-2" type="text" name="amount"
                  formControlName="amount" placeholder="Amount">
            </div>
-          <button class="btn btn-primary top-space-10" type="submit" [disabled]="!addBillForm.valid">
+           <div class="form-field-container">
+          <label class="form-label">Status</label>  
+            <select  class="form-control w-75 m-0" formControlName="status"  name="status" required>
+                <option value="">
+                    Select Payment
+                </option>     
+                <option value="paid">
+                    Paid
+                </option>                
+                <option value="pending">
+                    Pending
+                </option>
+            </select>
+           </div>
+          <button class="btn btn-primary top-space-10 mx-2" type="submit" [disabled]="!addBillForm.valid">
             <i class="fa fa-plus"></i> Add
+          </button>
+          <button class="btn btn-success top-space-10 px-2" type="button" (click)="makePdf()" [disabled]="!addBillForm.valid">
+            <i class="fa fa-plus"></i> Print
           </button>
         </div>
         <div class=" col-lg-6 padding-empty" >

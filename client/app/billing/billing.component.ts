@@ -35,7 +35,9 @@ export class BillingComponent implements OnInit {
       customerName: new FormControl(''),    
       vehicleNumber: new FormControl(''),    
       phoneNumber: new FormControl(''),    
-      gstn: new FormControl('')    
+      gstNumber: new FormControl(''),   
+      status: new FormControl(''), 
+      _id: new FormControl('')    
   });
   addWorkForm = new FormGroup({
       name: new FormControl('', Validators.required),
@@ -95,6 +97,7 @@ export class BillingComponent implements OnInit {
   getBills() {
     this.billService.getBills().subscribe(
       data => { 
+
           this.bills = data;
           console.log(this.bills);
       },
@@ -104,23 +107,46 @@ export class BillingComponent implements OnInit {
   }
 
   addBill() {
-    this.makePdf();  
-    console.log(this.addBillForm.value);
+    //this.makePdf();
+    if(this.addBillForm.value._id == "") {
+    let newBill = this.addBillForm.value;
+    delete newBill._id;
+      console.log(this.addBillForm.value);
     this.addBillForm.controls['works'].setValue(this.selectedWorks);
     // this.addBillForm.controls['dept'].setValue(selected.id);
 
-    this.billService.addBill(this.addBillForm.value).subscribe(
+    this.billService.addBill(newBill).subscribe(
       res => {
-        this.bills.push(res);
+      console.log(res);
+        this.getBills();
         //this.addBillForm.reset();
         this.toast.setMessage('item added successfully.', 'success');
       },
       error => console.log(error)
     );
+    }  else {
+        this.editBill(this.addBillForm.value);
+    } 
+    
   }
 
   enableEditing(bill: Bill) {
-    this.isEditing = true;
+    this.addBillForm.setValue({
+      amount: bill['amount'],
+      works: bill['works'],    
+      spares: bill['spares'],    
+      customerName: bill['customerName'],    
+      vehicleNumber: bill['vehicleNumber'],    
+      phoneNumber: bill['phoneNumber'],    
+      gstNumber: bill['gstNumber'],   
+      status: bill['status'],
+      _id: bill['_id']    
+    }) 
+    this.selectedSpares = bill['spares'];
+    this.selectedWorks = bill['works'];
+    this.isEditing = false;  
+    this.isBilling = true;  
+    //this.isEditing = true;
     this.bill = bill;
   }
 
@@ -130,9 +156,11 @@ export class BillingComponent implements OnInit {
     this.toast.setMessage('item editing cancelled.', 'warning');
     // reload the works to reset the editing
     this.getBills();
+
   }
 
   editBill(bill: Bill) {
+
     this.billService.editBill(bill).subscribe(
       () => {
         this.isEditing = false;
