@@ -14,6 +14,10 @@ import { SpareService } from './services/spare.service';
 import { AuthService } from './services/auth.service';
 import { VehicleService } from './services/vehicle.service';
 
+import { ChartModule, HIGHCHARTS_MODULES } from 'angular-highcharts';
+import stock from 'highcharts/modules/stock.src';
+import more from 'highcharts/highcharts-more.src';
+
 import { AuthGuardLogin } from './services/auth-guard-login.service';
 import { AuthGuardAdmin } from './services/auth-guard-admin.service';
 // Components
@@ -31,6 +35,11 @@ import { BillingComponent } from './billing/billing.component';
 import { VehicleComponent } from './vehicle/vehicle.component';
 import { SparesComponent } from './spares/spares.component';
 import { ChannnelsComponent } from './channnels/channnels.component';
+
+export function highchartsModules() {
+  // apply Highcharts Modules to this array
+  return [stock, more];
+}
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -56,6 +65,7 @@ export function tokenGetter() {
   imports: [
     AppRoutingModule,
     SharedModule,
+    ChartModule,
     JwtModule.forRoot({
       config: {
         tokenGetter,
@@ -63,6 +73,7 @@ export function tokenGetter() {
       }
     })
   ],
+
   providers: [
     AuthService,
     AuthGuardLogin,
@@ -73,7 +84,8 @@ export function tokenGetter() {
     ChannelService,
     BillService,
     SpareService,
-    VehicleService
+    VehicleService,
+      { provide: HIGHCHARTS_MODULES, useFactory: highchartsModules } 
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]

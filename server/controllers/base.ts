@@ -24,7 +24,9 @@ abstract class BaseCtrl {
   // Insert
   insert = async (req, res) => {
     try {
-      console.log(req.body);
+
+      req.body.createdAt = new Date();
+      console.log(req.body);  
       console.log('empty');
       const obj = await new this.model(req.body).save();
       res.status(201).json(obj);

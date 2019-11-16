@@ -9,6 +9,9 @@ const billSchema = new mongoose.Schema({
   phoneNumber: String,
   gstNumber: String,
   status: String,
+},
+{
+  timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }
 });
 
 const Bill = mongoose.model('Bill', billSchema);

@@ -1,15 +1,18 @@
 <app-loading [condition]="isLoading"></app-loading>
 
 <app-toast [message]="toast.message"></app-toast>
-<div class="row p-2">
+<div class="row p-2 w-75 mx-2">
     <div class="col-md-3 p-2" (click)="isBilling= true;isEditing=false">
-        <h4 class="pl-3">Add New Bill ( {{this.addBillForm.value.amount}})</h4>
+        <h4 class="">Add New Bill ( {{this.addBillForm.value.amount}})</h4>
     </div>
     <div class="col-md-3 p-2" (click)="isBilling= false">
         <h4 class="pl-3"> Bills </h4>
     </div>
 </div>
-<div class="row margin-empty w-100 mx-auto" *ngIf="!isBilling">
+<div class="row margin-empty w-100 mx-auto" *ngIf="!isBilling" style="overflow-x: hidden">
+     <div>
+
+     </div>
      <div class="card-body">
     <table class="table table-bordered srink-table">
       <thead class="thead-light">
@@ -85,8 +88,8 @@
     </table>
   </div>
 </div> 
-<div class="row margin-empty w-100 mx-auto" *ngIf="isBilling">
-<div class="card col-lg-6 padding-empty" *ngIf="!isEditing">
+<div class="row margin-empty w-100 mx-auto" *ngIf="isBilling" style="overflow-x: hidden">
+<div class="card col-lg-6 padding-empty" *ngIf="!isEditing" style="border:none; overflow-x: hidden">
   <div class="card-body">
     <form class="form-inline bill-form" [formGroup]="addBillForm" (ngSubmit)="addBill()">
       <div class="row" style="width: 100%">
@@ -135,14 +138,14 @@
           <button class="btn btn-primary top-space-10 mx-2" type="submit" [disabled]="!addBillForm.valid">
             <i class="fa fa-plus"></i> Add
           </button>
-          <button class="btn btn-success top-space-10 px-2" type="button" (click)="makePdf()" [disabled]="!addBillForm.valid">
+          <button class="btn btn-success top-space-10 px-2" type="button" (click)="makePdf()" >
             <i class="fa fa-plus"></i> Print
           </button>
         </div>
         <div class=" col-lg-6 padding-empty" >
-          <h5 class="">Added Works <span class="total-amount" >Total ({{getTotal(addBillForm.value.works)}})</span></h5>
+          <h5 class="hidden">Added Works <span class="total-amount" >Total ({{getTotal(addBillForm.value.works)}})</span></h5>
           <div class="">
-            <div>
+            <div class="hidden">
 
                   <form [formGroup]="addWorkForm" (ngSubmit)="addNewWork()">
                     <div>
@@ -174,7 +177,7 @@
                 </form>
                 <div class="error-text" *ngIf="!addWorkForm.valid && addWorkForm.controls.name.touched && addWorkForm.controls.price.touched "> Please enter work, and price </div>
             </div>
-            <table class="work-table">
+            <table class="work-table hidden">
               <thead class="thead-light">
                 <tr>
                   <th >Name</th>
@@ -206,26 +209,38 @@
 
                <table class="work-table">
 
-                <div class="p-1">
-                  
+            </table>
 
+                <div class="p-3 topper-card" *ngIf="addBillForm.value.spares.length > 0">
+                  
+                    <div class="card_head">
+                      <h5> Added Spares</h5>
+                    </div>    
                     <div class="added-spare" *ngFor="let spare of addBillForm.value.spares; let i = index">
                       {{spare.name}}({{spare.price}} -/ Rs)    
                       <i class="fa fa-trash del-icon" (click)="removeSpare(i)"></i> 
                     </div>
                   
                 </div>  
-            </table>
+                  <div class="topper-card mt-2 p-3" *ngIf="addBillForm.value.works.length > 0">
+                    <div class="card_head">
+                      <h5> Added Works</h5>
+                    </div>     
+                    <div class="added-work" *ngFor="let work of addBillForm.value.works; let i = index">
+                      {{work.name}}({{work.price}} -/ Rs)    
+                      <i class="fa fa-trash del-icon" (click)="removeBill(i)"></i> 
+                    </div>
+                    </div>
           </div>
         </div>
       </div>
     </form>
   </div>
 </div>
-<div class="card mb-3 col-lg-6 padding-empty" *ngIf="!isLoading">
+<div class="card mb-3 col-lg-6 padding-empty" *ngIf="!isLoading" style="border:none">
   <div class="row">
   
-  <div class="card-body col-lg-6">
+  <div class="card-body col-lg-5 card_tb_parent">
     <h4 class="">Current Spares ({{spares.length}})</h4>
     <table class="work-table">
       <thead class="thead-light">
@@ -258,7 +273,7 @@
 
     </table>
   </div>
-  <div class="card-body col-lg-6">
+  <div class="card-body col-lg-5  card_tb_parent">
     <h4 class="">Current Works ({{works.length}})</h4>
     <table class="work-table">
       <thead class="thead-light">

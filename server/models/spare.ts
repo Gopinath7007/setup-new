@@ -6,6 +6,8 @@ const spareSchema = new mongoose.Schema({
   name: String,  
   type: String,
   brand: String
+},{
+  timestamps: true
 });
 
 const Spare = mongoose.model('Spare', spareSchema);

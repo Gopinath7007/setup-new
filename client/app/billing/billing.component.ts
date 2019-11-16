@@ -10,9 +10,6 @@ import { Bill } from '../shared/models/bill.model';
 import { Work } from '../shared/models/work.model';
 import { Spare } from '../shared/models/spare.model';
 
-
-
-
 import * as jsPDF from 'jspdf';  
 // import * as html2canvas from 'html2canvas';
 
@@ -169,6 +166,7 @@ export class BillingComponent implements OnInit {
       () => {
         this.isEditing = false;
         this.bill = bill;
+        this.getBills();
         this.toast.setMessage('item edited successfully.', 'success');
       },
       error => console.log(error)
