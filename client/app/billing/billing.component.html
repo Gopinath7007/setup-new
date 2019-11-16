@@ -228,7 +228,7 @@
                     </div>     
                     <div class="added-work" *ngFor="let work of addBillForm.value.works; let i = index">
                       {{work.name}}({{work.price}} -/ Rs)    
-                      <i class="fa fa-trash del-icon" (click)="removeBill(i)"></i> 
+                      <i class="fa fa-trash del-icon" (click)="removeWork(i)"></i> 
                     </div>
                     </div>
           </div>

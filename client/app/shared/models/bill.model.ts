@@ -4,4 +4,9 @@ export class Bill {
   total?: string;
   works?: Object[];
   gstNumber: string;
+  customerName: string;
+  phoneNumber: string;
+  status: string;
+  vehicleNumber: string;
+  
 }
