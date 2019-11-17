@@ -61,6 +61,9 @@
         margin: 3px;
 }
 .card_tb_parent {
+        box-shadow: 0px 6px 10px 1px #aaaaaa;
+        background: #2c1e28;
+        color: #fff;
         border: 1px solid #808080;
         margin-top: 27px;
         margin-left: 14px;
@@ -183,6 +186,7 @@ div.row div.to{
 }
 
 .topper-card {
+  box-shadow: 0px 6px 10px 1px #aaaaaa;
   border: 1px solid #581845;
   border-radius: 5px;
   min-height: 100px;
