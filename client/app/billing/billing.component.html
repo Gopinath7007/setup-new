@@ -9,7 +9,39 @@
         <h4 class="pl-3"> Bills </h4>
     </div>
 </div>
+<div *ngIf="!isBilling">
+<div *ngFor="let bill of bills"  class="hidden">
+    <div class="row m-2 card shadow-sm">
+        <div class="col-6">
+          <h4>{{bill.vehicleNumber}}</h4>
+          <h6>{{bill.customerName}}</h6>
+        </div>
+        <div class="col-6">
+          
+        </div>
+        <div class="row">
+          <div class="col-3">
+            <div>Started<input type="checkbox" value="true"></div>
+          </div>
+          <div class="col-3">
+              <div>Inprogress<input type="checkbox" value="true"></div>
+            </div>
+            <div class="col-3">
+                <div>Cheking<input type="checkbox" value="true"></div>
+              </div>
+              <div class="col-3">
+                  <div>Done<input type="checkbox" value="true"></div>
+                </div>
+                      
+        </div>
+      </div>
+  </div>
+  </div>  
 <div class="row margin-empty w-100 mx-auto" *ngIf="!isBilling" style="overflow-x: hidden">
+   
+  <div class="bills">
+        
+    </div> 
      <div>
 
      </div>
@@ -19,9 +51,12 @@
         <tr>
           <th scope="col">Customer Name</th>
           <th scope="col">Total Amount</th>
+          <th scope="col">Paid</th>  
+          <th scope="col">Outstanding</th>
           <th scope="col">Phone</th>
           <th scope="col">GST Number</th>
           <th scope="col">Status</th>
+          <th scope="col">GST</th>
           <th scope="col">Actions</th>
         </tr>
       </thead>
@@ -33,8 +68,9 @@
       <tbody *ngIf="!isEditing">
         <tr *ngFor="let bill of bills; let i = index">
           <td>{{bill.customerName}}</td>
-          <td>{{bill.amount}}</td>
-          
+          <td>{{bill.amount }}</td>
+          <td>{{bill.amountPaid }}</td>
+          <td>{{bill.amount - bill.amountPaid}}</td>          
           <td>{{bill.phoneNumber}}</td>
           <td>{{bill.gstNumber}}</td>
           <td>
@@ -50,7 +86,9 @@
                   {{bill.status}}
           </span>
           </td>
-  
+          <td>
+            {{bill.gstStatus}}
+          </td>
           <td>
             <button class="btn btn-sm btn-primary" (click)="enableEditing(bill)">
               <i class="fa fa-pencil"></i> Edit
@@ -122,6 +160,11 @@
                  formControlName="amount" placeholder="Amount">
            </div>
            <div class="form-field-container">
+              <label class="form-label">Paid Amount</label>  
+              <input class="form-control mr-2" type="text" name="amountPaid"
+                     formControlName="amountPaid" placeholder="Paid Amount">
+               </div>
+           <div class="form-field-container">
           <label class="form-label">Status</label>  
             <select  class="form-control w-75 m-0" formControlName="status"  name="status" required>
                 <option value="">
@@ -135,6 +178,20 @@
                 </option>
             </select>
            </div>
+           <div class="form-field-container">
+            <label class="form-label">GST</label>  
+              <select  class="form-control w-75 m-0" formControlName="gstStatus"  name="gstStatus" required>
+                  <option value="">
+                      Select Payment
+                  </option>     
+                  <option value="yes">
+                      Yes
+                  </option>                
+                  <option value="pending">
+                      No
+                  </option>
+              </select>
+             </div>
           <button class="btn btn-primary top-space-10 mx-2" type="submit" [disabled]="!addBillForm.valid">
             <i class="fa fa-plus"></i> Add
           </button>
@@ -217,8 +274,14 @@
                       <h5> Added Spares</h5>
                     </div>    
                     <div class="added-spare" *ngFor="let spare of addBillForm.value.spares; let i = index">
-                      {{spare.name}}({{spare.price}} -/ Rs)    
+                      {{spare.name}}({{spare.price }} -/ Rs)    
                       <i class="fa fa-trash del-icon" (click)="removeSpare(i)"></i> 
+                      <div style="float:right;display:inline-block">
+                        <i class="fa fa-plus del-icon"  (click)="toggleCount(i, 'add')"></i> 
+                        {{spare?.count}} 
+                        
+                        <i class="fa fa-minus del-icon" [ngClass]="{ 'disabled': spare?.count <  2}" (click)="toggleCount(i, '')"></i> 
+                      </div>  
                     </div>
                   
                 </div>  
@@ -229,6 +292,7 @@
                     <div class="added-work" *ngFor="let work of addBillForm.value.works; let i = index">
                       {{work.name}}({{work.price}} -/ Rs)    
                       <i class="fa fa-trash del-icon" (click)="removeWork(i)"></i> 
+                     
                     </div>
                     </div>
           </div>

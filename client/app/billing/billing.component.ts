@@ -32,10 +32,12 @@ export class BillingComponent implements OnInit {
       amount: new FormControl('', Validators.required),
       works: new FormControl([]),    
       spares: new FormControl([]),    
-      customerName: new FormControl(''),    
+      customerName: new FormControl(''),  
       vehicleNumber: new FormControl(''),    
       phoneNumber: new FormControl(''),    
       gstNumber: new FormControl(''),   
+      gstStatus: new FormControl(''),   
+      amountPaid: new FormControl(''),   
       status: new FormControl(''), 
       _id: new FormControl('')    
   });
@@ -207,7 +209,7 @@ export class BillingComponent implements OnInit {
   setBillAmount() {
       var total = 0;
       this.addBillForm.value.works.map( workItem => total = total + workItem.price);      
-      this.addBillForm.value.spares.map( spareItem => total = total + spareItem.price);
+      this.addBillForm.value.spares.map( spareItem => total = total + (spareItem.price * spareItem.count) );
       this.total = total;  
       this.addBillForm.value.amount = total;
       this.addBillForm.controls['amount'].setValue(total);
@@ -220,7 +222,7 @@ export class BillingComponent implements OnInit {
 
       const isPresent = this.addBillForm.value.spares.filter(item => item._id === spare._id).length;    
       if(isPresent < 1) {  
-
+        spare.count = 1;  
         this.selectedSpares.push(spare);
         this.addBillForm.patchValue({ spares: this.selectedSpares });
         this.addBillForm.patchValue({ amount: this.getTotal(this.addBillForm.value.spares) });
@@ -228,6 +230,19 @@ export class BillingComponent implements OnInit {
         } else {
           this.toast.setMessage(spare.name + ' already added in bill.', 'warning');
         }
+  }
+
+  toggleCount(index, type) {
+    let _spares = this.addBillForm.value.spares; 
+    if(type === 'add') {
+      _spares[index].count += 1;    
+    } else {
+      _spares[index].count -= 1;    
+    }
+    _spares[index].price * _spares[index].count;
+    console.log(_spares); 
+    this.addBillForm.patchValue({ spares: _spares });
+    this.setBillAmount();
   }
   addNewWork() {
       // delete work._id;

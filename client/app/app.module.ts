@@ -13,6 +13,7 @@ import { BillService } from './services/bill.service';
 import { SpareService } from './services/spare.service';
 import { AuthService } from './services/auth.service';
 import { VehicleService } from './services/vehicle.service';
+import { MatSliderModule } from '@angular/material/slider';
 
 import { ChartModule, HIGHCHARTS_MODULES } from 'angular-highcharts';
 import stock from 'highcharts/modules/stock.src';
@@ -36,6 +37,8 @@ import { VehicleComponent } from './vehicle/vehicle.component';
 import { SparesComponent } from './spares/spares.component';
 import { ChannnelsComponent } from './channnels/channnels.component';
 
+// import { MatDatepickerModule, NativeDateAdapter  } from "@angular/material";
+import { FormsModule } from '@angular/forms';
 export function highchartsModules() {
   // apply Highcharts Modules to this array
   return [stock, more];
@@ -66,6 +69,8 @@ export function tokenGetter() {
     AppRoutingModule,
     SharedModule,
     ChartModule,
+    MatSliderModule,
+    FormsModule,
     JwtModule.forRoot({
       config: {
         tokenGetter,
