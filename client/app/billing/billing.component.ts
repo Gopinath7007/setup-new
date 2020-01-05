@@ -145,6 +145,8 @@ export class BillingComponent implements OnInit {
       vehicleNumber: bill['vehicleNumber'],    
       phoneNumber: bill['phoneNumber'],    
       gstNumber: bill['gstNumber'],   
+      gstStatus: bill['gstStatus'],   
+      amountPaid: bill['amountPaid'],   
       status: bill['status'],
       _id: bill['_id']    
     }) 
