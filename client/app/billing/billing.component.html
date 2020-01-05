@@ -2,10 +2,10 @@
 
 <app-toast [message]="toast.message"></app-toast>
 <div class="row p-2 w-75 mx-2">
-    <div class="col-md-3 p-2" (click)="isBilling= true;isEditing=false">
+    <div class="col-md-6 p-2" (click)="isBilling= true;isEditing=false">
         <h4 class="">Add New Bill ( {{this.addBillForm.value.amount}})</h4>
     </div>
-    <div class="col-md-3 p-2" (click)="isBilling= false">
+    <div class="col-md-6 p-2" (click)="isBilling= false">
         <h4 class="pl-3"> Bills </h4>
     </div>
 </div>
@@ -277,10 +277,10 @@
                       {{spare.name}}({{spare.price }} -/ Rs)    
                       <i class="fa fa-trash del-icon" (click)="removeSpare(i)"></i> 
                       <div style="float:right;display:inline-block">
-                        <i class="fa fa-plus del-icon"  (click)="toggleCount(i, 'add')"></i> 
+                        <i class="fa fa-plus del-icon"  (click)="toggleCount(i, 'add', 'spares')"></i> 
                         {{spare?.count}} 
                         
-                        <i class="fa fa-minus del-icon" [ngClass]="{ 'disabled': spare?.count <  2}" (click)="toggleCount(i, '')"></i> 
+                        <i class="fa fa-minus del-icon" [ngClass]="{ 'disabled': spare?.count <  2}" (click)="toggleCount(i, 'minus', 'spares')"></i> 
                       </div>  
                     </div>
                   
@@ -292,7 +292,12 @@
                     <div class="added-work" *ngFor="let work of addBillForm.value.works; let i = index">
                       {{work.name}}({{work.price}} -/ Rs)    
                       <i class="fa fa-trash del-icon" (click)="removeWork(i)"></i> 
-                     
+                      <div style="float:right;display:inline-block">
+                        <i class="fa fa-plus del-icon"  (click)="toggleCount(i, 'add', 'works')"></i> 
+                        {{work?.count}} 
+                        
+                        <i class="fa fa-minus del-icon" [ngClass]="{ 'disabled': work?.count <  2}" (click)="toggleCount(i, 'minus', 'works')"></i> 
+                      </div>  
                     </div>
                     </div>
           </div>

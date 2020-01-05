@@ -113,8 +113,11 @@ export class BillingComponent implements OnInit {
     if(this.addBillForm.value._id == "") {
     let newBill = this.addBillForm.value;
     delete newBill._id;
-      console.log(this.addBillForm.value);
+      
+    this.addBillForm.patchValue({ vehicleNumber: this.addBillForm.value.vehicleNumber.toUpperCase() });
+    this.addBillForm.patchValue({ gstNumber: this.addBillForm.value.gstNumber.toUpperCase() });
     this.addBillForm.controls['works'].setValue(this.selectedWorks);
+    console.log(this.addBillForm.value);
     // this.addBillForm.controls['dept'].setValue(selected.id);
 
 
@@ -194,6 +197,7 @@ export class BillingComponent implements OnInit {
       //delete work._id; 
       const isPresent = this.addBillForm.value.works.filter(item => item._id === work._id).length;    
       if(isPresent < 1) {
+         work.count = 1;
          this.selectedWorks.push(work);
          this.addBillForm.patchValue({ works: this.selectedWorks });
          this.addBillForm.patchValue({ amount: this.getTotal(this.addBillForm.value.works) });
@@ -208,7 +212,7 @@ export class BillingComponent implements OnInit {
 
   setBillAmount() {
       var total = 0;
-      this.addBillForm.value.works.map( workItem => total = total + workItem.price);      
+      this.addBillForm.value.works.map( workItem => total = total + (workItem.price * workItem.count));      
       this.addBillForm.value.spares.map( spareItem => total = total + (spareItem.price * spareItem.count) );
       this.total = total;  
       this.addBillForm.value.amount = total;
@@ -232,16 +236,16 @@ export class BillingComponent implements OnInit {
         }
   }
 
-  toggleCount(index, type) {
-    let _spares = this.addBillForm.value.spares; 
+  toggleCount(index, type, key) {
+    let data = this.addBillForm.value[key]; 
     if(type === 'add') {
-      _spares[index].count += 1;    
-    } else {
-      _spares[index].count -= 1;    
+      data[index].count += 1;    
+    } else if(type === 'minus'){
+      data[index].count -= 1;    
     }
-    _spares[index].price * _spares[index].count;
-    console.log(_spares); 
-    this.addBillForm.patchValue({ spares: _spares });
+    data[index].price * data[index].count;
+    console.log(data); 
+    this.addBillForm.patchValue({ key: data });
     this.setBillAmount();
   }
   addNewWork() {

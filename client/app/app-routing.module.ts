@@ -17,6 +17,7 @@ import { AccountComponent } from './account/account.component';
 import { AdminComponent } from './admin/admin.component';
 import { VehicleComponent } from './vehicle/vehicle.component';
 import { SparesComponent } from './spares/spares.component';
+import { TaxComponent } from './tax/tax.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 
 const routes: Routes = [
@@ -24,6 +25,7 @@ const routes: Routes = [
   { path: 'cats', component: CatsComponent },
   { path: 'works', component: WorkComponent },
   { path: 'channels', component: ChannnelsComponent },
+  { path: 'tax', component: TaxComponent },
   { path: 'vehicles', component: VehicleComponent },
   { path: 'billing', component: BillingComponent },
   { path: 'spares', component: SparesComponent },

@@ -11,6 +11,7 @@ import { ChannelService } from './services/channel.service';
 import { UserService } from './services/user.service';
 import { BillService } from './services/bill.service';
 import { SpareService } from './services/spare.service';
+import { TaxService } from './services/tax.service';
 import { AuthService } from './services/auth.service';
 import { VehicleService } from './services/vehicle.service';
 import { MatSliderModule } from '@angular/material/slider';
@@ -39,6 +40,7 @@ import { ChannnelsComponent } from './channnels/channnels.component';
 
 // import { MatDatepickerModule, NativeDateAdapter  } from "@angular/material";
 import { FormsModule } from '@angular/forms';
+import { TaxComponent } from './tax/tax.component';
 export function highchartsModules() {
   // apply Highcharts Modules to this array
   return [stock, more];
@@ -63,7 +65,8 @@ export function tokenGetter() {
     BillingComponent,
     VehicleComponent,
     SparesComponent,
-    ChannnelsComponent
+    ChannnelsComponent,
+    TaxComponent
   ],
   imports: [
     AppRoutingModule,
@@ -89,6 +92,7 @@ export function tokenGetter() {
     ChannelService,
     BillService,
     SpareService,
+    TaxService,
     VehicleService,
       { provide: HIGHCHARTS_MODULES, useFactory: highchartsModules } 
   ],

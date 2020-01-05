@@ -8,6 +8,7 @@ import BillCtrl from './controllers/bill';
 import SpareCtrl from './controllers/spare';
 import CustomerCtrl from './controllers/customer';
 import VehicleCtrl from './controllers/vehicle';
+import TaxCtrl from './controllers/tax';
 
 export default function setRoutes(app) {
 
@@ -16,6 +17,7 @@ export default function setRoutes(app) {
   const catCtrl = new CatCtrl();
   const userCtrl = new UserCtrl();
   const workCtrl = new WorkCtrl();
+  const taxCtrl = new TaxCtrl();
   const channelCtrl = new ChannelCtrl();
   const billCtrl = new BillCtrl();
   const spareCtrl = new SpareCtrl();
@@ -38,6 +40,16 @@ export default function setRoutes(app) {
   router.route('/work/:id').put(workCtrl.update);
   router.route('/work/:id').delete(workCtrl.delete);
 
+
+    // Taxes
+    router.route('/taxes').get(taxCtrl.getAll);
+    router.route('/taxes/count').get(taxCtrl.count);
+    router.route('/tax').post(taxCtrl.insert);
+    router.route('/tax/:id').get(taxCtrl.get);
+    router.route('/tax/:id').put(taxCtrl.update);
+    router.route('/tax/:id').delete(taxCtrl.delete);
+
+    
   // Channels
   router.route('/channels').get(channelCtrl.getAll);
   router.route('/channels/count').get(channelCtrl.count);

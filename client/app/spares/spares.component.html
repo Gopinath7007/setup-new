@@ -14,9 +14,13 @@
       <input class="form-control mr-2" type="number" name="availableItems"
              formControlName="availableItems" placeholder="Availability" min="0">
       <input class="form-control mr-2" type="text" name="brand"
-             formControlName="brand" placeholder="Brand" min="0">              
+             formControlName="brand" placeholder="Brand" min="0">       
+      <select formControlName="hsnId" name="hsnId" selected>
+              <option value="">Select HSN </option> 
+              <option *ngFor="let tax of taxes" [value]="tax.hsnId">{{tax.hsnId}}</option> 
+        </select>               
       <select formControlName="type">
-            <option value="">Select Type </option> 
+            <option value="" selected>Select Type </option> 
             <option value="engine">Engine Spare </option> 
             <option value="body">Body Spare </option> 
             <option value="others">Other Spare </option> 
@@ -38,6 +42,7 @@
         <tr>
           <th scope="col">Name</th>
           <th scope="col">Price</th>
+          <th scope="col">HSN Id</th>
           <th scope="col">Availability</th>
           <th scope="col">Brand</th>
           <th scope="col">Availability</th>
@@ -55,6 +60,7 @@
         <tr *ngFor="let spare of spares; let i = index">
           <td>{{spare.name}}</td>
           <td>{{spare.price}}</td>
+          <td>{{spare?.hsnId}}</td>
           <td>
               <div 
                 class="shortage" *ngIf="spare.availableItems < 10"

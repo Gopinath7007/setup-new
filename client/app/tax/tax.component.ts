@@ -1,56 +1,46 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { WorkService } from '../services/work.service';
 import { TaxService } from '../services/tax.service';
 import { ToastComponent } from '../shared/toast/toast.component';
-import { Work } from '../shared/models/work.model';
 import { Tax } from '../shared/models/tax.model';
 
 @Component({
-  selector: 'app-works',
-  templateUrl: './work.component.html',
-  styleUrls: ['./work.component.scss']
+  selector: 'app-tax',
+  templateUrl: './tax.component.html',
+  styleUrls: ['./tax.component.scss']
 })
-export class WorkComponent implements OnInit {
-
-  work = new Work();
-  works: Work[] = [];
+export class TaxComponent implements OnInit {
 
   tax = new Tax();
   taxes: Tax[] = [];
-
   isLoading = true;
   isEditing = false;
 
-  addWorkForm: FormGroup;
+  addTaxForm: FormGroup;
   name = new FormControl('', Validators.required);
   price = new FormControl('', Validators.required);
   hsnId = new FormControl('', Validators.required);
+  cGst = new FormControl('', Validators.required);
+  sGst = new FormControl('', Validators.required);
+  mrp = new FormControl('', Validators.required);
 
   constructor(
-    private workService: WorkService,
     private taxService: TaxService,
     private formBuilder: FormBuilder,
     public toast: ToastComponent
   ) { }
 
   ngOnInit() {
-    this.getWorks();
     this.getTaxes();
-    this.addWorkForm = this.formBuilder.group({
+    this.addTaxForm = this.formBuilder.group({
       name: this.name,
       price: this.price,
-      hsnId: this.hsnId
+      hsnId: this.hsnId,
+      cGst: this.cGst,
+      sGst: this.sGst,
+      mrp: this.mrp
     });
-  }
-
-  getWorks() {
-    this.workService.getWorks().subscribe(
-      data => this.works = data,
-      error => console.log(error),
-      () => this.isLoading = false
-    );
   }
 
   getTaxes() {
@@ -60,48 +50,51 @@ export class WorkComponent implements OnInit {
       () => this.isLoading = false
     );
   }
-
-  addWork() {
-    this.workService.addWork(this.addWorkForm.value).subscribe(
+  calculateGst() {
+    let totalTax = this.addTaxForm.value.cGst + this.addTaxForm.value.sGst;
+    this.addTaxForm.patchValue({ mrp: (this.addTaxForm.value.price * totalTax /100) + this.addTaxForm.value.price });
+  }    
+  addTax() {
+    this.taxService.addTax(this.addTaxForm.value).subscribe(
       res => {
-        this.works.push(res);
-        this.addWorkForm.reset();
+        this.taxes.push(res);
+        this.addTaxForm.reset();
         this.toast.setMessage('item added successfully.', 'success');
       },
       error => console.log(error)
     );
   }
 
-  enableEditing(work: Work) {
+  enableEditing(tax: Tax) {
     this.isEditing = true;
-    this.work = work;
+    this.tax = tax;
   }
 
   cancelEditing() {
     this.isEditing = false;
-    this.work = new Work();
+    this.tax = new Tax();
     this.toast.setMessage('item editing cancelled.', 'warning');
     // reload the works to reset the editing
-    this.getWorks();
+    this.getTaxes();
   }
 
-  editWork(work: Work) {
-    this.workService.editWork(work).subscribe(
+  editTax(tax: Tax) {
+    this.taxService.editTax(tax).subscribe(
       () => {
         this.isEditing = false;
-        this.work = work;
+        this.tax = tax;
         this.toast.setMessage('item edited successfully.', 'success');
       },
       error => console.log(error)
     );
   }
 
-  deleteWork(work: Work) {
+  deleteWork(tax: Tax) {
     if (window.confirm('Are you sure you want to permanently delete this item?')) {
-      this.workService.deleteWork(work).subscribe(
+      this.taxService.deleteTax(tax).subscribe(
         () => {
-          const pos = this.works.map(elem => elem._id).indexOf(work._id);
-          this.works.splice(pos, 1);
+          const pos = this.taxes.map(elem => elem._id).indexOf(tax._id);
+          this.taxes.splice(pos, 1);
           this.toast.setMessage('item deleted successfully.', 'success');
         },
         error => console.log(error)

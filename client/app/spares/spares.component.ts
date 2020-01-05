@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { SpareService } from '../services/spare.service';
+import { TaxService } from '../services/tax.service';
 import { ToastComponent } from '../shared/toast/toast.component';
 import { Spare } from '../shared/models/spare.model';
+import { Tax } from '../shared/models/tax.model';
 
 @Component({
   selector: 'app-spares',
@@ -15,31 +17,45 @@ export class SparesComponent implements OnInit {
 
   spare = new Spare();
   spares: Spare[] = [];
+  tax = new Tax();
+  taxes: Tax[] = [];
   isLoading = true;
   isEditing = false;
   isAdd = false;  
   addSpareForm: FormGroup;
-  name = new FormControl('');
-  price = new FormControl('');
-  availableItems = new FormControl('');
-  type = new FormControl('');
-  brand = new FormControl('');
+  name = new FormControl('',Validators.required);
+  price = new FormControl('', Validators.required);
+  hsnId = new FormControl('', Validators.required); 
+  availableItems = new FormControl('', Validators.required);
+  type = new FormControl('', Validators.required);
+  brand = new FormControl('', Validators.required);
 
   constructor(
     private spareService: SpareService,
+    private taxService: TaxService,
     private formBuilder: FormBuilder,
     public toast: ToastComponent
   ) { }
 
   ngOnInit() {
     this.getSpares();
+    this.getTaxes();
     this.addSpareForm = this.formBuilder.group({
       name: this.name,
       price: this.price,
       availableItems: this.availableItems,
+      hsnId: this.hsnId,
       type: this.type,
       brand: this.brand
     });
+  }
+  
+  getTaxes() {
+    this.taxService.getTaxes().subscribe(
+      data => this.taxes = data,
+      error => console.log(error),
+      () => this.isLoading = false
+    );
   }
 
   getSpares() {

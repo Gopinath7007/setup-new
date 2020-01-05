@@ -1,0 +1,94 @@
+<app-loading [condition]="isLoading"></app-loading>
+
+<app-toast [message]="toast.message"></app-toast>
+
+
+<div class="card" *ngIf="!isEditing">
+  <h4 class="card-header">Add new HSN</h4>
+  <div class="card-body">
+    <form class="form-inline" [formGroup]="addTaxForm" (ngSubmit)="addTax()">
+      <input class="form-control mr-2" type="text" name="name"
+             formControlName="name" placeholder="Name">
+      <input class="form-control mr-2" type="number" name="price"
+             formControlName="price" placeholder="Price" min="0">
+    <input class="form-control mr-2" type="text" name="hsnNId"
+             formControlName="hsnId" placeholder="HSN Id" min="0">                     
+      <input class="form-control mr-2" type="number" name="cGst"
+             formControlName="cGst" placeholder="Central GST" min="0" (keyup)="calculateGst()">
+      <input class="form-control mr-2" type="number" name="sGst"
+             formControlName="sGst" placeholder="State GST" min="0" (keyup)="calculateGst()">
+    <input class="form-control mr-2" type="number" name="mrp"
+             formControlName="mrp" placeholder="Mrp" min="0" disabled>        
+             <button class="btn btn-primary" type="submit" [disabled]="!addTaxForm.valid">
+        <i class="fa fa-plus"></i> Add
+      </button>
+    </form>
+  </div>
+</div>
+<div class="card mb-3" *ngIf="!isLoading">
+  <h4 class="card-header">Current HSN's ({{taxes.length}})</h4>
+  <div class="card-body">
+    <table class="table table-bordered">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Price</th>
+          <th scope="col">HSN Id</th>
+          <th scope="col">CGST</th>
+          <th scope="col">SGST</th>
+          <th scope="col">MRP</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="taxes.length === 0">
+        <tr>
+          <td colspan="4">There are no taxes in the DB. Add a new tax below.</td>
+        </tr>  
+      </tbody>
+      <tbody *ngIf="!isEditing">
+        <tr *ngFor="let tax of taxes">
+          <td>{{tax.name}}</td>
+          <td>{{tax.price}}</td>
+          <td>{{tax.hsnId}}</td>
+          <td>{{tax.cGst}}</td>
+          <td>{{tax.sGst}}</td>
+          <td>{{tax.mrp}}</td>
+
+          <td>
+            <button class="btn btn-sm btn-primary" (click)="enableEditing(tax)">
+              <i class="fa fa-pencil"></i> Edit
+            </button> 
+            <button class="btn btn-sm btn-danger ml-1" (click)="deleteWork(tax)">
+              <i class="fa fa-trash"></i> Delete
+            </button>
+          </td>
+        </tr>  
+      </tbody>
+      <tbody *ngIf="isEditing">
+        <tr>
+          <td colspan="4">
+            <form class="form-inline" #form="ngForm" (ngSubmit)="editTax(tax)">
+              <input class="form-control mr-2" type="text" name="name"
+                     [(ngModel)]="tax.name" placeholder="Name" required>
+              <input class="form-control mr-2" type="number" name="price"
+                     [(ngModel)]="tax.price" placeholder="Price" min="0" required>
+              <input class="form-control mr-2" type="cGst" name="cGst"
+                     [(ngModel)]="tax.cGst" placeholder="Central GST" min="0" required>
+              <input class="form-control mr-2" type="sGst" name="sGst"
+                     [(ngModel)]="tax.sGst" placeholder="State GST" min="0" required>
+              <input class="form-control mr-2" type="sGst" name="sGst"
+                     [(ngModel)]="tax.sGst" placeholder="State GST" min="0" required>
+                                                                                                 
+              <button class="btn btn-sm btn-primary mr-2" type="submit" [disabled]="!form.form.valid">
+                <i class="fa fa-floppy-o"></i> Save
+              </button>
+              <button class="btn btn-sm btn-warning" (click)="cancelEditing()">
+                <i class="fa fa-times"></i> Cancel
+              </button>
+            </form>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
