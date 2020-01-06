@@ -7,6 +7,7 @@ export class Bill {
   gstNumber: string;
   gstStatus: string;
   customerName: string;
+  customerAddress: string;
   phoneNumber: string;
   status: string;
   vehicleNumber: string;

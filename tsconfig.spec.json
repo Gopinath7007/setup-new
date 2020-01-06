@@ -5,7 +5,12 @@
     "types": [
       "jasmine",
       "node"
+    ],
+    "paths": {
+      "exceljs": [
+        "node_modules/exceljs/dist/exceljs.min"
     ]
+
   },
   "files": [
     "client/test.ts",

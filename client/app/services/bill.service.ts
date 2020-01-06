@@ -31,6 +31,13 @@ export class BillService {
     return this.http.post<Bill>('/api/bill', bill);
   }
 
+  
+  downloadBill(bill: Bill): Observable<Bill> {
+    console.log("==================");  
+    console.log(bill);  
+    return this.http.post<Bill>('/api/downloadBill', bill);
+  }
+
   getBill(bill: Bill): Observable<Bill> {
     return this.http.get<Bill>(`/api/bill/${bill._id}`);
   }

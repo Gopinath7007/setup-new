@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { SpareService } from '../services/spare.service';
-import { TaxService } from '../services/tax.service';
 import { ToastComponent } from '../shared/toast/toast.component';
 import { Spare } from '../shared/models/spare.model';
+import { TaxService } from '../services/tax.service';
 import { Tax } from '../shared/models/tax.model';
 
 @Component({

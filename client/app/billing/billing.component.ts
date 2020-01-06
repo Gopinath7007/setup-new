@@ -10,6 +10,7 @@ import { Bill } from '../shared/models/bill.model';
 import { Work } from '../shared/models/work.model';
 import { Spare } from '../shared/models/spare.model';
 
+
 import * as jsPDF from 'jspdf';  
 // import * as html2canvas from 'html2canvas';
 
@@ -32,13 +33,14 @@ export class BillingComponent implements OnInit {
       amount: new FormControl('', Validators.required),
       works: new FormControl([]),    
       spares: new FormControl([]),    
-      customerName: new FormControl(''),  
-      vehicleNumber: new FormControl(''),    
-      phoneNumber: new FormControl(''),    
+      customerName: new FormControl('', Validators.required),  
+      customerAddress: new FormControl('', Validators.required),  
+      vehicleNumber: new FormControl('', Validators.required),    
+      phoneNumber: new FormControl('', Validators.required),    
       gstNumber: new FormControl(''),   
-      gstStatus: new FormControl(''),   
-      amountPaid: new FormControl(''),   
-      status: new FormControl(''), 
+      gstStatus: new FormControl('', Validators.required),   
+      amountPaid: new FormControl('', Validators.required),   
+      status: new FormControl('', Validators.required), 
       _id: new FormControl('')    
   });
   addWorkForm = new FormGroup({
@@ -96,12 +98,25 @@ export class BillingComponent implements OnInit {
     )
   }
 
+  downloadBill(bill) {
+    this.billService.downloadBill(bill).subscribe(
+      data => { 
+
+          // this.bills = data;
+          console.log(data);
+          // this.billService.downloadBill(this.bills[0]);
+      },
+      error => console.log(error),
+      () => this.isLoading = false
+    );
+  }  
   getBills() {
     this.billService.getBills().subscribe(
       data => { 
 
           this.bills = data;
           console.log(this.bills);
+         
       },
       error => console.log(error),
       () => this.isLoading = false
@@ -110,6 +125,7 @@ export class BillingComponent implements OnInit {
 
   addBill() {
     //this.makePdf();
+    this.downloadBill(this.bills[0]);
     if(this.addBillForm.value._id == "") {
     let newBill = this.addBillForm.value;
     delete newBill._id;
@@ -142,6 +158,7 @@ export class BillingComponent implements OnInit {
       works: bill['works'],    
       spares: bill['spares'],    
       customerName: bill['customerName'],    
+      customerAddress: bill['customerAddress'],    
       vehicleNumber: bill['vehicleNumber'],    
       phoneNumber: bill['phoneNumber'],    
       gstNumber: bill['gstNumber'],   

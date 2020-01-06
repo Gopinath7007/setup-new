@@ -50,6 +50,7 @@
       <thead class="thead-light">
         <tr>
           <th scope="col">Customer Name</th>
+          <th scope="col">Customer Address</th>
           <th scope="col">Total Amount</th>
           <th scope="col">Paid</th>  
           <th scope="col">Outstanding</th>
@@ -68,6 +69,7 @@
       <tbody *ngIf="!isEditing">
         <tr *ngFor="let bill of bills; let i = index">
           <td>{{bill.customerName}}</td>
+          <td>{{bill.customerAddress}}</td>
           <td>{{bill.amount }}</td>
           <td>{{bill.amountPaid }}</td>
           <td>{{bill.amount - bill.amountPaid}}</td>          
@@ -143,6 +145,11 @@
             <label class="form-label">Customer Name</label>
           <input class="form-control mr-2" type="text" name="customerName"
                  formControlName="customerName" placeholder="Customer Name" min="0">                                    
+          </div>
+          <div class="form-field-container">
+            <label class="form-label">Customer Address</label>
+          <input class="form-control mr-2" type="text" name="customerAddress"
+                 formControlName="customerAddress" placeholder="Customer Address" min="0">                                    
           </div>
           <div class="form-field-container">
             <label class="form-label">Phone Number</label>

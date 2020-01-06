@@ -6,6 +6,7 @@ const billSchema = new mongoose.Schema({
   works: [],
   spares: [],
   customerName: String,
+  customerAddress: String,
   vehicleNumber: String,
   phoneNumber: String,
   gstNumber: String,
