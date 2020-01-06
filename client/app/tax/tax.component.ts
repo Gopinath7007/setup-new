@@ -19,11 +19,10 @@ export class TaxComponent implements OnInit {
 
   addTaxForm: FormGroup;
   name = new FormControl('', Validators.required);
-  price = new FormControl('', Validators.required);
   hsnId = new FormControl('', Validators.required);
   cGst = new FormControl('', Validators.required);
   sGst = new FormControl('', Validators.required);
-  mrp = new FormControl('', Validators.required);
+  
 
   constructor(
     private taxService: TaxService,
@@ -35,11 +34,9 @@ export class TaxComponent implements OnInit {
     this.getTaxes();
     this.addTaxForm = this.formBuilder.group({
       name: this.name,
-      price: this.price,
       hsnId: this.hsnId,
       cGst: this.cGst,
-      sGst: this.sGst,
-      mrp: this.mrp
+      sGst: this.sGst
     });
   }
 

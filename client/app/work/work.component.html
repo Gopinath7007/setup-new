@@ -13,7 +13,7 @@
              formControlName="price" placeholder="Price" min="0">
       <select formControlName="hsnId" name="hsnId" selected>
               <option value="">Select HSN </option> 
-              <option *ngFor="let tax of taxes" [value]="tax.hsnId">{{tax.hsnId}}</option> 
+              <option *ngFor="let tax of taxes" [ngValue]="tax">{{tax.hsnId}}</option> 
         </select>   
       <button class="btn btn-primary" type="submit" [disabled]="!addWorkForm.valid">
         <i class="fa fa-plus"></i> Add

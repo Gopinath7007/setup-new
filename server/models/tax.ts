@@ -3,11 +3,9 @@ import * as mongoose from 'mongoose';
 
 const TaxSchema = new mongoose.Schema({
   name: String,
-  price: Number,
   hsnId: String,
   cGst: Number,
-  sGst: Number,
-  mrp: Number
+  sGst: Number
 });
 
 // TaxSchema.plugin(AutoIncrement, {id: 'inhabitant_seq', inc_field: 'hsnId', reference_fields: ['name'] });

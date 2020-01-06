@@ -285,12 +285,10 @@
                       <i class="fa fa-trash del-icon" (click)="removeSpare(i)"></i> 
                       <div style="float:right;display:inline-block">
                         <i class="fa fa-plus del-icon"  (click)="toggleCount(i, 'add', 'spares')"></i> 
-                        {{spare?.count}} 
-                        
+                        {{spare?.count}}                                                  
                         <i class="fa fa-minus del-icon" [ngClass]="{ 'disabled': spare?.count <  2}" (click)="toggleCount(i, 'minus', 'spares')"></i> 
                       </div>  
-                    </div>
-                  
+                    </div>                  
                 </div>  
                   <div class="topper-card mt-3 p-3" *ngIf="addBillForm.value.works.length > 0">
                     <div class="card_head">

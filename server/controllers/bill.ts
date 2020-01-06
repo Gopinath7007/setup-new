@@ -149,52 +149,91 @@ export default class BillCtrl extends BaseCtrl {
 
 			
 			ws.cell(5, 1)
-			.string('Product/Service')
+			.string('S.NO')
 			.style(styleHeading);
 		
 			ws.cell(5, 2)
-			.string('HsnId/ Tax Id')
+			.string('Product/Service')
 			.style(styleHeading);
 
 			ws.cell(5, 3)
-			.string('Price')
+			.string('HsnId/ Tax Id')
+			.style(styleHeading);
+
+			ws.cell(5, 4)
+			.string('Price Mrp')
 			.style(styleHeading);
 		
-			ws.cell(5, 4)
-			.string('Count')
+			ws.cell(5, 5)
+			.string('Quantity')
 			.style(styleHeading);
+
+			ws.cell(5, 6)
+			.string('Total')
+			.style(styleHeading);
+			
+			ws.cell(5, 7)
+			.string('Taxable Value')
+			.style(styleHeading);
+			
+			ws.cell(5, 8)
+			.string('CGST %')
+			.style(styleHeading);
+
+			ws.cell(5, 9)
+			.string('SGST %')
+			.style(styleHeading);
+			
 			
 
 			// if(data.body.spares.length > 0) {
 				data.body.spares.map((item, index)=> {
-
+					function calculateGst() {
+						let totalTax = item.hsnId.cGst + item.hsnId.sGst;
+						var mrp =  (item.price * totalTax /100) + item.price;
+						return mrp * item.count;
+					} 
 					ws.cell(index+6, 1)
-					.string(item.name)
+					.number(index + 1)
 					.style(style);
 
 					ws.cell(index+6, 2)
-					.string(item.hsnId)
+					.string(item.name)
 					.style(style);
 
 					ws.cell(index+6, 3)
-					.number(item.price)
+					.string(item.hsnId.hsnId)
 					.style(style);
 
+					ws.cell(index+6, 4)
+					.number(item.price)
+					.style(style);
 				
 
-					ws.cell(index+6, 4)
+					ws.cell(index+6, 5)
 					.number(item.count)
 					.style(style);
 					
+					ws.cell(index+6, 6)
+					.number(calculateGst())
+					.style(style);
+						
+					ws.cell(index+6, 7)
+					.number(calculateGst())
+					.style(style);
+						
+					ws.cell(index+6, 8)
+					.number(item.hsnId.cGst)
+					.style(style);
+
+						
+					ws.cell(index+6, 9)
+					.number(item.hsnId.sGst)
+					.style(style);
 					
 				})		
 			// }	
 
-
-			ws.cell(3, 1)
-			.bool(true)
-			.style(style)
-			.style({font: {size: 14}});
 			res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 			res.setHeader("Content-Disposition", "attachment; filename=" + wb);
 			

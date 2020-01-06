@@ -5,6 +5,5 @@ export class Tax {
     hsnId: string;
     cGst: number;
     sGst: number;
-    price?: number;
   }
   

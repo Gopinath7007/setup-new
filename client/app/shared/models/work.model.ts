@@ -3,5 +3,5 @@ export class Work {
   _id?: string;
   name?: string;
   price?: number;
-  hsnId?; string;
+  hsnId?; Object;
 }

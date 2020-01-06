@@ -3,7 +3,7 @@ import * as mongoose from 'mongoose';
 const spareSchema = new mongoose.Schema({
   price: Number,
   availableItems: Number,
-  hsnId: String,
+  hsnId: Object,
   name: String,  
   type: String,
   brand: String

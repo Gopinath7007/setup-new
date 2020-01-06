@@ -3,7 +3,7 @@ import * as mongoose from 'mongoose';
 const workSchema = new mongoose.Schema({
   name: String,
   price: Number,
-  hsnId: String
+  hsnId: Object
 });
 
 const Work = mongoose.model('Work', workSchema);

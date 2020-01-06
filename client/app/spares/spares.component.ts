@@ -25,7 +25,7 @@ export class SparesComponent implements OnInit {
   addSpareForm: FormGroup;
   name = new FormControl('',Validators.required);
   price = new FormControl('', Validators.required);
-  hsnId = new FormControl('', Validators.required); 
+  hsnId = new FormControl({}, Validators.required); 
   availableItems = new FormControl('', Validators.required);
   type = new FormControl('', Validators.required);
   brand = new FormControl('', Validators.required);

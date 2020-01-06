@@ -26,7 +26,7 @@ export class WorkComponent implements OnInit {
   addWorkForm: FormGroup;
   name = new FormControl('', Validators.required);
   price = new FormControl('', Validators.required);
-  hsnId = new FormControl('', Validators.required);
+  hsnId = new FormControl({}, Validators.required);
 
   constructor(
     private workService: WorkService,

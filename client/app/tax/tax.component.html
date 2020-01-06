@@ -9,16 +9,13 @@
     <form class="form-inline" [formGroup]="addTaxForm" (ngSubmit)="addTax()">
       <input class="form-control mr-2" type="text" name="name"
              formControlName="name" placeholder="Name">
-      <input class="form-control mr-2" type="number" name="price"
-             formControlName="price" placeholder="Price" min="0">
     <input class="form-control mr-2" type="text" name="hsnNId"
              formControlName="hsnId" placeholder="HSN Id" min="0">                     
       <input class="form-control mr-2" type="number" name="cGst"
              formControlName="cGst" placeholder="Central GST" min="0" (keyup)="calculateGst()">
       <input class="form-control mr-2" type="number" name="sGst"
              formControlName="sGst" placeholder="State GST" min="0" (keyup)="calculateGst()">
-    <input class="form-control mr-2" type="number" name="mrp"
-             formControlName="mrp" placeholder="Mrp" min="0" disabled>        
+        
              <button class="btn btn-primary" type="submit" [disabled]="!addTaxForm.valid">
         <i class="fa fa-plus"></i> Add
       </button>
@@ -32,11 +29,9 @@
       <thead class="thead-light">
         <tr>
           <th scope="col">Name</th>
-          <th scope="col">Price</th>
           <th scope="col">HSN Id</th>
           <th scope="col">CGST</th>
           <th scope="col">SGST</th>
-          <th scope="col">MRP</th>
           <th scope="col">Actions</th>
         </tr>
       </thead>
@@ -48,11 +43,9 @@
       <tbody *ngIf="!isEditing">
         <tr *ngFor="let tax of taxes">
           <td>{{tax.name}}</td>
-          <td>{{tax.price}}</td>
           <td>{{tax.hsnId}}</td>
           <td>{{tax.cGst}}</td>
           <td>{{tax.sGst}}</td>
-          <td>{{tax.mrp}}</td>
 
           <td>
             <button class="btn btn-sm btn-primary" (click)="enableEditing(tax)">
