@@ -26,15 +26,13 @@ export class BillService {
   }
 
   addBill(bill: Bill): Observable<Bill> {
-    console.log("==================");  
-    console.log(bill);  
+    
     return this.http.post<Bill>('/api/bill', bill);
   }
 
   
   downloadBill(bill: Bill): Observable<Bill> {
-    console.log("==================");  
-    console.log(bill);  
+    
     return this.http.post<Bill>('/api/downloadBill', bill);
   }
 

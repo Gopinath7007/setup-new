@@ -11,27 +11,27 @@ export default class BillCtrl extends BaseCtrl {
 
   insertBill = async (req, res) => {
     try {
-      console.log(req.body);
+    //   console.log(req.body);
       let customerData = {
       	name: req.body.customerName,
 				phone: req.body.phoneNumber,
 				customerAddress:req.body.customerAddress
       }
-      console.log(customerData);
+    //   console.log(customerData);
       
     let result = {};
     this.vehicleModel.findOne({ vehicleNumber: req.body.vehicleNumber }, async (err, vehicle) => {
     	if (!vehicle) {
     		let vehicles = { vehicleNumber: req.body.vehicleNumber, brand: '', customerId: customerData.phone } 
 		    const vehicleData = await new this.vehicleModel(vehicles).save();	  
-		    console.log("Vehicle Inserted")		
+		    // console.log("Vehicle Inserted")		
     	} else {
           var query = { vehicleNumber: req.body.vehicleNumber, customerId: customerData.phone },
 		  update = { expire: new Date() },
 		  options = { upsert: true, new: true, setDefaultsOnInsert: true };
     	    this.vehicleModel.findOneAndUpdate(query, update, options,async function(error, result) {
 		    if (error) return;
-		    console.log('Vehicle Updated');	
+		    // console.log('Vehicle Updated');	
 		    // do something with the document
 		});
     	}
@@ -62,7 +62,7 @@ export default class BillCtrl extends BaseCtrl {
 		// Find the document
 		this.customerModel.findOneAndUpdate(query, update, options,async function(error, result) {
 		    if (error) return;
-		    console.log('Updated');	
+		    // console.log('Updated');	
 		    // do something with the document
 		});
       }
@@ -111,9 +111,8 @@ export default class BillCtrl extends BaseCtrl {
 
 	downloadBill = async (data,res) => {
 					// Require library
-					console.log("==============================data");
-					console.log(data);
-					console.log("==============================data");
+
+				
 			var xl = require('excel4node');
 			
 			// Create a new instance of a Workbook class
@@ -122,6 +121,8 @@ export default class BillCtrl extends BaseCtrl {
 			// Add Worksheets to the workbook
 			var ws = wb.addWorksheet('Sheet 1');
 			var ws2 = wb.addWorksheet('Sheet 2');
+			var ws3 = wb.addWorksheet('Sheet 2');
+			
 			
 			// Create a reusable style
 			var style = wb.createStyle({
@@ -132,33 +133,29 @@ export default class BillCtrl extends BaseCtrl {
 				numberFormat: '$#,##0.00; ($#,##0.00); -',
 			});
 			
-			// Set value of cell A1 to 100 as a number type styled with paramaters of style
-			ws.cell(1, 1)
-				.number(100)
-				.style(style);
-			
-			// Set value of cell B1 to 200 as a number type styled with paramaters of style
-			ws.cell(1, 2)
-				.number(200)
-				.style(style);
-			
-			// Set value of cell C1 to a formula styled with paramaters of style
-			ws.cell(1, 3)
-				.formula('A1 + B1')
-				.style(style);
-			
-			// Set value of cell A2 to 'string' styled with paramaters of style
-			ws.cell(2, 1)
-				.string('string')
-				.style(style);
-			
+		
 			// Set value of cell A3 to true as a boolean type styled with paramaters of style but with an adjustment to the font size.
+	
+			console.log(data.body);
+			console.log('data.body.spares');
+				
+			data.body.spares.map((item, index)=> {
+
+				ws.cell(index+1, 1)
+				.number(item.price)
+				.style(style);
+				
+			})
+
 			ws.cell(3, 1)
-				.bool(true)
-				.style(style)
-				.style({font: {size: 14}});
+			.bool(true)
+			.style(style)
+			.style({font: {size: 14}});
+			res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+			res.setHeader("Content-Disposition", "attachment; filename=" + wb);
 			
-			wb.write('Excel.xlsx',  res);
+			wb.write('Excel.xlsx');
+			// wb.write('ExcelOne.xlsx',  res);
 			// wb.write('ExcelFile.xlsx', res);
 	}
 }
