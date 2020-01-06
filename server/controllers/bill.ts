@@ -127,10 +127,18 @@ export default class BillCtrl extends BaseCtrl {
 			// Create a reusable style
 			var style = wb.createStyle({
 				font: {
-					color: '#FF0800',
+					color: 'green',
 					size: 12,
+				}
+			});
+			
+			var styleHeading = wb.createStyle({
+				font: {
+					color: 'green',
+					size: 13,
+					bold: true					
 				},
-				numberFormat: '$#,##0.00; ($#,##0.00); -',
+				color: 'orange'
 			});
 			
 		
@@ -138,14 +146,50 @@ export default class BillCtrl extends BaseCtrl {
 	
 			console.log(data.body);
 			console.log('data.body.spares');
-				
-			data.body.spares.map((item, index)=> {
 
-				ws.cell(index+1, 1)
-				.number(item.price)
-				.style(style);
+			
+			ws.cell(5, 1)
+			.string('Product/Service')
+			.style(styleHeading);
+		
+			ws.cell(5, 2)
+			.string('HsnId/ Tax Id')
+			.style(styleHeading);
+
+			ws.cell(5, 3)
+			.string('Price')
+			.style(styleHeading);
+		
+			ws.cell(5, 4)
+			.string('Count')
+			.style(styleHeading);
+			
+
+			// if(data.body.spares.length > 0) {
+				data.body.spares.map((item, index)=> {
+
+					ws.cell(index+6, 1)
+					.string(item.name)
+					.style(style);
+
+					ws.cell(index+6, 2)
+					.string(item.hsnId)
+					.style(style);
+
+					ws.cell(index+6, 3)
+					.number(item.price)
+					.style(style);
+
 				
-			})
+
+					ws.cell(index+6, 4)
+					.number(item.count)
+					.style(style);
+					
+					
+				})		
+			// }	
+
 
 			ws.cell(3, 1)
 			.bool(true)

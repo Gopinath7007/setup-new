@@ -99,7 +99,7 @@ export class BillingComponent implements OnInit {
   }
 
   downloadBill(bill) {
-    this.billService.downloadBill(bill).subscribe(
+    this.billService.downloadBill(this.addBillForm.value).subscribe(
       data => { 
 
           // this.bills = data;
