@@ -129,7 +129,7 @@ export default class BillCtrl extends BaseCtrl {
 				font: {
 					color: 'green',
 					size: 12,
-				}
+				},
 			});
 			
 			var styleHeading = wb.createStyle({
@@ -137,8 +137,7 @@ export default class BillCtrl extends BaseCtrl {
 					color: 'green',
 					size: 13,
 					bold: true					
-				},
-				color: 'orange'
+				}
 			});
 			
 		

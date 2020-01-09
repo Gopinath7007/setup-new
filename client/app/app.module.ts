@@ -14,6 +14,7 @@ import { SpareService } from './services/spare.service';
 import { TaxService } from './services/tax.service';
 import { AuthService } from './services/auth.service';
 import { VehicleService } from './services/vehicle.service';
+import { PdfService } from './services/pdf.service';
 import { MatSliderModule } from '@angular/material/slider';
 
 import { ChartModule, HIGHCHARTS_MODULES } from 'angular-highcharts';
@@ -93,6 +94,7 @@ export function tokenGetter() {
     BillService,
     SpareService,
     TaxService,
+    PdfService,
     VehicleService,
       { provide: HIGHCHARTS_MODULES, useFactory: highchartsModules } 
   ],

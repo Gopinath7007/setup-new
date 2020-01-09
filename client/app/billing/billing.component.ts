@@ -4,6 +4,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { BillService } from '../services/bill.service';
 import { WorkService } from '../services/work.service';
 import { SpareService } from '../services/spare.service';
+import { PdfService } from '../services/pdf.service';
 
 import { ToastComponent } from '../shared/toast/toast.component';
 import { Bill } from '../shared/models/bill.model';
@@ -59,7 +60,8 @@ export class BillingComponent implements OnInit {
     private workService: WorkService,
     private spareService: SpareService,
     private formBuilder: FormBuilder,
-    public toast: ToastComponent
+    public toast: ToastComponent,
+    public pdfService: PdfService
   ) { }
 
   ngOnInit() {
@@ -195,6 +197,11 @@ export class BillingComponent implements OnInit {
       },
       error => console.log(error)
     );
+  }
+
+  generateBill(bill: Bill) {
+    this.pdfService.generatePdf(bill);
+    
   }
 
   deleteBill(bill: Bill) {

@@ -92,12 +92,28 @@
             {{bill?.gstStatus}}
           </td>
           <td>
+            <!-- <select>
+              <option value="edit">
+                  Edit
+                </option>
+                <option value="delete">
+                    Delete
+                  </option>
+                  <option value="generateBill">
+                      Generate Bill
+                    </option>  
+            </select> -->
+              
             <button class="btn btn-sm btn-primary" (click)="enableEditing(bill)">
               <i class="fa fa-pencil"></i> Edit
             </button> 
             <button class="btn btn-sm btn-danger ml-1" (click)="deleteBill(bill)">
               <i class="fa fa-trash"></i> Delete
             </button>
+            <button class="btn btn-sm btn-danger ml-1" (click)="generateBill(bill)">
+                <i class="fa fa-trash"></i> Bill
+              </button>
+  
           </td>
         </tr>  
       </tbody>
