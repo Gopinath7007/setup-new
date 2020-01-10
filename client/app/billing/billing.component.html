@@ -1,11 +1,19 @@
 <app-loading [condition]="isLoading"></app-loading>
-
+<div class="card">
+  <h4 class="card-header">
+    Bills
+    <i *ngIf="!isAdd" class="fa fa-plus-circle text-success px-5" (click)="isAdd=true"></i>
+  <i *ngIf="isAdd" class="fa fa-minus-circle text-danger px-5" (click)="isAdd=false"></i>
+  </h4>
+  
+  
+</div>
 <app-toast [message]="toast.message"></app-toast>
-<div class="row p-2 w-75 mx-2">
+<div class="row p-2 w-100 mt-0 mx-2">
     <!-- <div class="col-md-6 p-2" (click)="isBilling= true;isEditing=false">
         <h4 class="">Add New Bill ( {{this.addBillForm.value.amount}})</h4>
     </div> -->
-    <h4 class="card-header">Total bills <span class="text-success">({{bills.length}}) </span>
+    <h4 class="card-header hidden">Total bills <span class="text-success">({{bills.length}}) </span>
       <i *ngIf="!isAdd" class="fa fa-plus-circle text-success px-5" (click)="isAdd=true"></i>
       <i *ngIf="isAdd" class="fa fa-minus-circle text-danger px-5" (click)="isAdd=false"></i>
     </h4>
