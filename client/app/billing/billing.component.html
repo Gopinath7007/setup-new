@@ -2,14 +2,18 @@
 
 <app-toast [message]="toast.message"></app-toast>
 <div class="row p-2 w-75 mx-2">
-    <div class="col-md-6 p-2" (click)="isBilling= true;isEditing=false">
+    <!-- <div class="col-md-6 p-2" (click)="isBilling= true;isEditing=false">
         <h4 class="">Add New Bill ( {{this.addBillForm.value.amount}})</h4>
-    </div>
-    <div class="col-md-6 p-2" (click)="isBilling= false">
+    </div> -->
+    <h4 class="card-header">Total bills <span class="text-success">({{bills.length}}) </span>
+      <i *ngIf="!isAdd" class="fa fa-plus-circle text-success px-5" (click)="isAdd=true"></i>
+      <i *ngIf="isAdd" class="fa fa-minus-circle text-danger px-5" (click)="isAdd=false"></i>
+    </h4>
+    <!-- <div class="col-md-6 p-2" (click)="isBilling= false">
         <h4 class="pl-3"> Bills </h4>
-    </div>
+    </div> -->
 </div>
-<div *ngIf="!isBilling">
+<div *ngIf="!isAdd">
 <div *ngFor="let bill of bills"  class="hidden">
     <div class="row m-2 card shadow-sm">
         <div class="col-6">
@@ -37,7 +41,7 @@
       </div>
   </div>
   </div>  
-<div class="row margin-empty w-100 mx-auto" *ngIf="!isBilling" style="overflow-x: hidden">
+<div class="row margin-empty w-100 mx-auto pt-0 px-2" *ngIf="!isAdd" style="overflow-x: hidden">
    
   <div class="bills">
         
@@ -45,7 +49,7 @@
      <div>
 
      </div>
-     <div class="card-body">
+     <div class="card-body pt-0 px-2">
     <table class="table table-bordered srink-table">
       <thead class="thead-light">
         <tr>
@@ -105,15 +109,15 @@
             </select> -->
               
             <button class="btn btn-sm btn-primary" (click)="enableEditing(bill)">
-              <i class="fa fa-pencil"></i> Edit
+              <i class="fa fa-pencil"></i> 
             </button> 
-            <button class="btn btn-sm btn-danger ml-1" (click)="deleteBill(bill)">
-              <i class="fa fa-trash"></i> Delete
-            </button>
+          
             <button class="btn btn-sm btn-danger ml-1" (click)="generateBill(bill)">
-                <i class="fa fa-trash"></i> Bill
+                <i class="fa fa-print"></i> 
               </button>
-  
+              <button class="btn btn-sm btn-danger ml-1" (click)="deleteBill(bill)">
+                <i class="fa fa-trash"></i> 
+              </button>
           </td>
         </tr>  
       </tbody>
@@ -144,12 +148,12 @@
     </table>
   </div>
 </div> 
-<div class="row margin-empty w-100 mx-auto" *ngIf="isBilling" style="overflow-x: hidden">
-<div class="card col-lg-6 padding-empty" *ngIf="!isEditing" style="border:none; overflow-x: hidden">
-  <div class="card-body">
+<div class="row margin-empty w-100 mx-auto" *ngIf="isAdd" style="overflow-x: hidden">
+<div class="card col-lg-6 padding-empty pt-0 px-4" *ngIf="!isEditing" style="border:none; overflow-x: hidden">
+  <div class="card-body p-0 m-0">
     <form class="form-inline bill-form" [formGroup]="addBillForm" (ngSubmit)="addBill()">
       <div class="row" style="width: 100%">
-        <div class="col-lg-6 padding-empty">
+        <div class="col-lg-6 padding-empty pt-0 px-3">
           <div class="form-field-container">       
             <label class="form-label">Vehicle Number</label>
   <!--         <input class="form-control mr-2" type="number" name="works"
@@ -327,11 +331,12 @@
     </form>
   </div>
 </div>
-<div class="card mb-3 col-lg-6 padding-empty" *ngIf="!isLoading" style="border:none">
+<div class="card mb-3 col-lg-6 padding-empty p-0 m-0" *ngIf="!isLoading" style="border:none">
   <div class="row">
   
   <div class="card-body col-lg-5 card_tb_parent">
     <h4 class="">Current Spares ({{spares.length}})</h4>
+    <input type="text" [(ngModel)]="spareFilter" placeholder="Search Spare" class="search-input"/>
     <table class="work-table">
       <thead class="thead-light">
         <tr>
@@ -365,6 +370,7 @@
   </div>
   <div class="card-body col-lg-5  card_tb_parent">
     <h4 class="">Current Works ({{works.length}})</h4>
+    <input type="text" [(ngModel)]="workFilter" placeholder="Search Work" class="search-input"/>
     <table class="work-table">
       <thead class="thead-light">
         <tr>
@@ -398,8 +404,8 @@
 </div>
 </div>
 <!-- PDF AREA -->
-<div class="w-100 hidden-invoice" >
-    <div class="container my-5 px-5 py-5" id="foo">
+<div class="w-100 hidden-invoice" style="display: none">
+    <div class="container my-5 px-5 py-5" id="foo" >
    <div class="row">
       <div class="col-4 contact-details">
          <h5>Sri Ram Auto Carriage</h5>

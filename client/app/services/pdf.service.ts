@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
+import Bill from 'server/models/bill';
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
@@ -15,49 +16,239 @@ export class PdfService {
   }
 
   generatePdf(bill){
-
+    
+    console.log(bill);
     let newData = [];
     let rows = [[
-      {text: 'SNO', style: 'tableHeader', key: 'index'},
-      {text: 'DESCRIPTION', style: 'tableHeader', key:'name'},
-      {text: 'HSN CODE', style: 'tableHeader', key: 'hsnId'},
-      {text: 'MRP', style: 'tableHeader', key: 'mrp'},
-      {text: 'QUANTITY', style: 'tableHeader', key: 'count'},
-      {text: 'RATE', style: 'tableHeader', key: 'price'},
-      {text: 'TOTAL', style: 'tableHeader', key: 'total'},
-      {text: 'TAXABLE VALUE', style: 'tableHeader', key: 'total'},
-      {text: 'CGST', style: 'tableHeader', key: 'cGst'},
-      {text: 'SGST', style: 'tableHeader', key: 'sGst'},
+      {text: 'SNO', style: 'header', key: 'index'},
+      {text: 'DESCRIPTION', style: 'header', key:'name'},
+      {text: 'HSN CODE', style: 'header', key: 'hsnId'},
+      {text: 'MRP', style: 'header', key: 'mrp'},
+      {text: 'QUANTITY', style: 'header', key: 'count'},
+      {text: 'RATE', style: 'header', key: 'price'},
+      {text: 'TOTAL', style: 'header', key: 'total'},
+      {text: 'TAXABLE VALUE', style: 'header', key: 'total'},
+      {text: 'CGST', style: 'header', key: 'cGst'},
+      {text: 'SGST', style: 'header', key: 'sGst'},
 
-    ],
-    [1,2,3,4,5,6,7,8,9,1]];
+    ]];
 
     let i = 0;
-    do {
-        rows.push([
-          100, 200, 400, 1,1,2,3,4,4,5
-        ])
-        i +=1;
-    }
-    while(i < 100);
-    console.log(rows);
+    let total = 0;
+    bill.spares.map((data,index)=> {
+      function calculateGst() {
+        let totalTax = data.hsnId.cGst + data.hsnId.sGst;
+        var mrp =  (data.price * totalTax /100) + data.price;
+        total = total + mrp * data.count;
+        return mrp * data.count;
+      } 
+      let newSpares = [];
+      newSpares[0] = index;
+      newSpares[1] = data.name;
+      newSpares[2] = data.hsnId.hsnId;
+      newSpares[3] = calculateGst();
+      newSpares[4] = data.count;
+      newSpares[5] = data.price;
+      newSpares[6] = calculateGst();
+      newSpares[7] = calculateGst();
+      newSpares[8] = data.hsnId.cGst;
+      newSpares[9] = data.hsnId.sGst;
+      rows.push(newSpares);
+    })
+    bill.works.map((data,index)=> {
+      function calculateGst() {
+        let totalTax = data.hsnId.cGst + data.hsnId.sGst;
+        var mrp =  (data.price * totalTax /100) + data.price;
+        total = total + mrp * data.count;
+        return mrp * data.count;
+      } 
+      let newSpares = [];
+      newSpares[0] = index + bill.spares.length;
+      newSpares[1] = data.name;
+      newSpares[2] = data.hsnId.hsnId;
+      newSpares[3] = calculateGst();
+      newSpares[4] = data.count;
+      newSpares[5] = data.price;
+      newSpares[6] = calculateGst();
+      newSpares[7] = calculateGst();
+      newSpares[8] = data.hsnId.cGst;
+      newSpares[9] = data.hsnId.sGst;
+      rows.push(newSpares);
+    })
+    // row.push(['',2,3,4,5,7,8,8])
+    let totalAmount = []
+    totalAmount = [
+        bill._id,        
+        Math.round(total),
+    ];
+    let rowsNew = [];
+    rowsNew.push([
+      {text: '  INVOICE NUMBER', style: 'header', key: 'index'},
+      {text: 'TOTAL', style: 'header', key:'name'}      
+    ])
+    rowsNew.push(totalAmount);
+    
+    console.log(bill);
    const documentDefinition = {
      content: [
-       'This is an sample PDF printed with pdfMake',
+       'Sri Ram Auto Carriage',
        {
-           alignment: 'justify',
-           columns: [
-             {
-               text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Malit profecta versatur nomine ocurreret multavit, officiis viveremus aeternum superstitio suspicor alia nostram, quando nostros congressus susceperant concederetur leguntur iam, vigiliae democritea tantopere causae, atilii plerumque ipsas potitur pertineant multis rem quaeri pro, legendum didicisse credere ex maluisset per videtis. Cur discordans praetereat aliae ruinae dirigentur orestem eodem, praetermittenda divinum. Collegisti, deteriora malint loquuntur officii cotidie finitas referri doleamus ambigua acute. Adhaesiones ratione beate arbitraretur detractis perdiscere, constituant hostis polyaeno. Diu concederetur.'
-             },
-             {
-               text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Malit profecta versatur nomine ocurreret multavit, officiis viveremus aeternum superstitio suspicor alia nostram, quando nostros congressus susceperant concederetur leguntur iam, vigiliae democritea tantopere causae, atilii plerumque ipsas potitur pertineant multis rem quaeri pro, legendum didicisse credere ex maluisset per videtis. Cur discordans praetereat aliae ruinae dirigentur orestem eodem, praetermittenda divinum. Collegisti, deteriora malint loquuntur officii cotidie finitas referri doleamus ambigua acute. Adhaesiones ratione beate arbitraretur detractis perdiscere, constituant hostis polyaeno. Diu concederetur.'
-             }
-           ]
-        },
+        // alignment: 'justify',
+        
+        columns: [
+          {
+            text: 'Customer Name',
+            style: 'labels'
+          },
+          {
+            text: bill.customerName,
+            style: 'labels'
+          },
+          {
+            text: ' ',
+            style: ''
+          },
+          {
+            text: ' ',
+            style: ''
+          }
+        ]
+       },
+       {
+        // alignment: 'justify',
+        columns: [
+          {
+            text: 'Customer Address',
+            style: 'labels'
+          },
+          {
+            text: bill.customerAddress,
+            style: 'labels'
+          },
+          {
+            text: ' ',
+            style: ''
+          },
+          {
+            text: ' ',
+            style: ''
+          }
+        ]
+       },
+       {
+        // alignment: 'justify',
+        columns: [
+          {
+            text: 'Vehicle Number',
+            style: 'labels'
+          },
+          {
+            text: bill.vehicleNumber,
+            style: 'labels'
+          },
+          {
+            text: ' ',
+            style: ''
+          },
+          {
+            text: ' ',
+            style: ''
+          }
+        ]
+       },
+       {
+        // alignment: 'justify',
+        columns: [
+          {
+            text: 'Total',
+            style: 'labels'
+          },
+          {
+            text: Math.round(total),
+            style: 'labels'
+          },
+          {
+            text: ' ',
+            style: ''
+          },
+          {
+            text: ' ',
+            style: ''
+          }
+        ]
+       },
+       {
+        // alignment: 'justify',
+        columns: [
+          {
+            text: '  '
+          },
+          {
+            text: '  '
+          },
+          {
+            text: ' ',
+            style: ''
+          },
+          {
+            text: ' ',
+            style: ''
+          }
+        ]
+       },
+       {
+        // alignment: 'justify',
+        columns: [
+          {
+            text: '  '
+          },
+          {
+            text: '  '
+          },
+          {
+            text: ' ',
+            style: ''
+          },
+          {
+            text: ' ',
+            style: ''
+          }
+        ]
+       },
+       {
+        // alignment: 'justify',
+        columns: [
+          {
+            text: '  '
+          },
+          {
+            text: '  '
+          },
+          {
+            text: ' ',
+            style: ''
+          },
+          {
+            text: ' ',
+            style: ''
+          }
+        ]
+       },
+      //  {
+      //      alignment: 'justify',
+      //      columns: [
+      //        {
+      //          text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Malit profecta versatur nomine ocurreret multavit, officiis viveremus aeternum superstitio suspicor alia nostram, quando nostros congressus susceperant concederetur leguntur iam, vigiliae democritea tantopere causae, atilii plerumque ipsas potitur pertineant multis rem quaeri pro, legendum didicisse credere ex maluisset per videtis. Cur discordans praetereat aliae ruinae dirigentur orestem eodem, praetermittenda divinum. Collegisti, deteriora malint loquuntur officii cotidie finitas referri doleamus ambigua acute. Adhaesiones ratione beate arbitraretur detractis perdiscere, constituant hostis polyaeno. Diu concederetur.'
+      //        },
+      //        {
+      //          text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Malit profecta versatur nomine ocurreret multavit, officiis viveremus aeternum superstitio suspicor alia nostram, quando nostros congressus susceperant concederetur leguntur iam, vigiliae democritea tantopere causae, atilii plerumque ipsas potitur pertineant multis rem quaeri pro, legendum didicisse credere ex maluisset per videtis. Cur discordans praetereat aliae ruinae dirigentur orestem eodem, praetermittenda divinum. Collegisti, deteriora malint loquuntur officii cotidie finitas referri doleamus ambigua acute. Adhaesiones ratione beate arbitraretur detractis perdiscere, constituant hostis polyaeno. Diu concederetur.'
+      //        }
+      //      ]
+      //   },
         {
             layout: 'lightHorizontalLines', // optional
             style: 'tableExample',
+             
             table: {
               headerRows: 1,
               // dontBreakRows: true,
@@ -68,7 +259,42 @@ export class PdfService {
 
             }
           },
-      ]
+          {
+            layout: 'lightHorizontalLines', // optional
+            style: 'tableExample',            
+            margin: 30,
+            table: {
+              headerRows: 1,
+              // dontBreakRows: true,
+              // keepWithHeaderRows: 1,
+              alignment: 'justify',
+              body:  rowsNew
+
+
+            }
+          },
+          
+      ],
+      styles: {
+        header: {
+          fontSize: 8,
+          color:'green',
+          bold: true,
+
+        },
+        labels: {
+          fontSize: 10,
+          color: 'brown'
+        },
+        labelText:{
+          fontSize: 15,
+          color: 'green'
+        },
+        anotherStyle: {
+          italics: true,
+          alignment: 'right'
+        }
+      }
     }
    pdfMake.createPdf(documentDefinition).open();
   }
