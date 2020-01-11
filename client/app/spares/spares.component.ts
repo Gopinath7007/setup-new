@@ -24,6 +24,7 @@ export class SparesComponent implements OnInit {
   isAdd = false;  
   addSpareForm: FormGroup;
   name = new FormControl('',Validators.required);
+  total = new FormControl('',Validators.required);
   price = new FormControl('', Validators.required);
   hsnId = new FormControl({}, Validators.required); 
   availableItems = new FormControl('', Validators.required);
@@ -46,7 +47,8 @@ export class SparesComponent implements OnInit {
       availableItems: this.availableItems,
       hsnId: this.hsnId,
       type: this.type,
-      brand: this.brand
+      brand: this.brand,
+      total: this.total
     });
   }
   
@@ -65,6 +67,17 @@ export class SparesComponent implements OnInit {
       () => this.isLoading = false
     );
   }
+
+  
+  calculateGst() {
+
+    let totalTax = this.addSpareForm.value.hsnId.cGst + this.addSpareForm.value.hsnId.sGst;
+    var mrp =  (this.addSpareForm.value.price * totalTax /100) + this.addSpareForm.value.price;
+    this.addSpareForm.patchValue({ total: mrp });
+   
+   console.log(this.addSpareForm.value);
+    // return mrp * data.count;
+  } 
 
   addSpare() {
     this.spareService.addSpare(this.addSpareForm.value).subscribe(

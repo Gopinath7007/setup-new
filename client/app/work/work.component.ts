@@ -26,6 +26,7 @@ export class WorkComponent implements OnInit {
   addWorkForm: FormGroup;
   name = new FormControl('', Validators.required);
   price = new FormControl('', Validators.required);
+  total = new FormControl('', Validators.required);
   hsnId = new FormControl({}, Validators.required);
 
   constructor(
@@ -41,7 +42,8 @@ export class WorkComponent implements OnInit {
     this.addWorkForm = this.formBuilder.group({
       name: this.name,
       price: this.price,
-      hsnId: this.hsnId
+      hsnId: this.hsnId,
+      total: this.total
     });
   }
 
@@ -71,6 +73,16 @@ export class WorkComponent implements OnInit {
       error => console.log(error)
     );
   }
+
+  calculateGst() {
+
+    let totalTax = this.addWorkForm.value.hsnId.cGst + this.addWorkForm.value.hsnId.sGst;
+    var mrp =  (this.addWorkForm.value.price * totalTax /100) + this.addWorkForm.value.price;
+    this.addWorkForm.patchValue({ total: mrp });
+   
+   console.log(this.addWorkForm.value);
+    // return mrp * data.count;
+  } 
 
   enableEditing(work: Work) {
     this.isEditing = true;

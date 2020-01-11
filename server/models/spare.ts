@@ -6,7 +6,8 @@ const spareSchema = new mongoose.Schema({
   hsnId: Object,
   name: String,  
   type: String,
-  brand: String
+  brand: String,
+  total: Number
 },{
   timestamps: true
 });

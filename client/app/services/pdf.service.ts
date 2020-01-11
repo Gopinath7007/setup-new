@@ -36,41 +36,33 @@ export class PdfService {
     let i = 0;
     let total = 0;
     bill.spares.map((data,index)=> {
-      function calculateGst() {
-        let totalTax = data.hsnId.cGst + data.hsnId.sGst;
-        var mrp =  (data.price * totalTax /100) + data.price;
-        total = total + mrp * data.count;
-        return mrp * data.count;
-      } 
+      
+      total += data.total * data.count;
       let newSpares = [];
       newSpares[0] = index;
       newSpares[1] = data.name;
       newSpares[2] = data.hsnId.hsnId;
-      newSpares[3] = calculateGst();
+      newSpares[3] = data.total * data.count;
       newSpares[4] = data.count;
       newSpares[5] = data.price;
-      newSpares[6] = calculateGst();
-      newSpares[7] = calculateGst();
+      newSpares[6] = data.total * data.count;
+      newSpares[7] = data.total * data.count;
       newSpares[8] = data.hsnId.cGst;
       newSpares[9] = data.hsnId.sGst;
       rows.push(newSpares);
     })
     bill.works.map((data,index)=> {
-      function calculateGst() {
-        let totalTax = data.hsnId.cGst + data.hsnId.sGst;
-        var mrp =  (data.price * totalTax /100) + data.price;
-        total = total + mrp * data.count;
-        return mrp * data.count;
-      } 
+    
+      total += data.total * data.count;  
       let newSpares = [];
       newSpares[0] = index + bill.spares.length;
       newSpares[1] = data.name;
       newSpares[2] = data.hsnId.hsnId;
-      newSpares[3] = calculateGst();
+      newSpares[3] = data.total * data.count;
       newSpares[4] = data.count;
       newSpares[5] = data.price;
-      newSpares[6] = calculateGst();
-      newSpares[7] = calculateGst();
+      newSpares[6] = data.total * data.count;
+      newSpares[7] = data.total * data.count;;
       newSpares[8] = data.hsnId.cGst;
       newSpares[9] = data.hsnId.sGst;
       rows.push(newSpares);
@@ -92,9 +84,28 @@ export class PdfService {
    const documentDefinition = {
      content: [
        'Sri Ram Auto Carriage',
-       {
         // alignment: 'justify',
-        
+        {
+          columns: [
+          {
+            text: '',
+            style: 'labels'
+          },
+          {
+            text: ' ',
+            style: 'labels'
+          },
+          {
+            text: ' ',
+            style: ''
+          },
+          {
+            text: ' ',
+            style: ''
+          }
+        ]
+       },
+        {
         columns: [
           {
             text: 'Customer Name',

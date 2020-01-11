@@ -10,11 +10,13 @@
       <input class="form-control mr-2" type="text" name="name"
              formControlName="name" placeholder="Name">
       <input class="form-control mr-2" type="number" name="age"
-             formControlName="price" placeholder="Price" min="0">
-      <select formControlName="hsnId" name="hsnId" selected>
+             formControlName="price" placeholder="Price" min="0"  (input)="calculateGst()">
+      <select formControlName="hsnId" name="hsnId" selected (change)="calculateGst()">
               <option value="">Select HSN </option> 
               <option *ngFor="let tax of taxes" [ngValue]="tax">{{tax.hsnId}}</option> 
         </select>   
+        <input class="form-control mr-2" type="number" name="age"
+        formControlName="total" placeholder="Mrp" min="0"  >
       <button class="btn btn-primary" type="submit" [disabled]="!addWorkForm.valid">
         <i class="fa fa-plus"></i> Add
       </button>
@@ -29,6 +31,7 @@
         <tr>
           <th scope="col">Name</th>
           <th scope="col">Price</th>
+          <th scope="col">Mrp</th>
           <th scope="col">HSN Id</th>
           <th scope="col">Actions</th>
         </tr>
@@ -42,14 +45,15 @@
         <tr *ngFor="let work of works">
           <td>{{work.name}}</td>
           <td>{{work.price}}</td>
-          <td>{{work.hsnId}}</td>
+          <td>{{work.total}}</td>
+          <td>{{work.hsnId.hsnId}}</td>
 
           <td>
             <button class="btn btn-sm btn-primary" (click)="enableEditing(work)">
-              <i class="fa fa-pencil"></i> Edit
+              <i class="fa fa-pencil"></i> 
             </button> 
             <button class="btn btn-sm btn-danger ml-1" (click)="deleteWork(work)">
-              <i class="fa fa-trash"></i> Delete
+              <i class="fa fa-trash"></i> 
             </button>
           </td>
         </tr>  

@@ -29,6 +29,8 @@ export class BillingComponent implements OnInit {
   isLoading = true;
   isEditing = false;
   isBilling = true;  
+  filteredSpares = [];
+  filteredWorks = [];
   total = 0;    
   addBillForm = new FormGroup({
       amount: new FormControl('', Validators.required),
@@ -112,6 +114,12 @@ export class BillingComponent implements OnInit {
       () => this.isLoading = false
     );
   }  
+  filterSpares(searchText) {
+    this.filteredSpares = this.spares.filter(item=> item['name'].toLowerCase().includes(searchText.toLowerCase()));
+  }
+  filterWorks(searchText) {
+    this.filteredWorks = this.works.filter(item=> item['name'].toLowerCase().includes(searchText.toLowerCase()));
+  }
   getBills() {
     this.billService.getBills().subscribe(
       data => { 

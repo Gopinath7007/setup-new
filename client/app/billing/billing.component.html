@@ -344,7 +344,7 @@
   
   <div class="card-body col-lg-5 card_tb_parent">
     <h4 class="">Current Spares ({{spares.length}})</h4>
-    <input type="text" [(ngModel)]="spareFilter" placeholder="Search Spare" class="search-input"/>
+    <input type="text" [(ngModel)]="spareFilter" (input)="filterSpares(spareFilter)" placeholder="Search Spare" class="search-input"/>
     <table class="work-table">
       <thead class="thead-light">
         <tr>
@@ -358,7 +358,7 @@
         </tr>  
       </tbody>
       <tbody *ngIf="!isEditing">
-        <tr *ngFor="let spare of spares">
+        <tr *ngFor="let spare of filteredSpares">
           <td>{{spare.name}}({{spare.availableItems}})</td>
           <!-- <td>{{work.price}}</td> -->
 
@@ -378,7 +378,7 @@
   </div>
   <div class="card-body col-lg-5  card_tb_parent">
     <h4 class="">Current Works ({{works.length}})</h4>
-    <input type="text" [(ngModel)]="workFilter" placeholder="Search Work" class="search-input"/>
+    <input type="text" [(ngModel)]="workFilter" (input)="filterWorks(workFilter)" placeholder="Search Work" class="search-input"/>
     <table class="work-table">
       <thead class="thead-light">
         <tr>
@@ -393,7 +393,7 @@
         </tr>  
       </tbody>
       <tbody *ngIf="!isEditing">
-        <tr *ngFor="let work of works">
+        <tr *ngFor="let work of filteredWorks">
           <td>{{work.name}}</td>
           <td>{{work.price}}</td>
 

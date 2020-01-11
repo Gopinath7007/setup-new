@@ -10,15 +10,17 @@
       <input class="form-control mr-2" type="text" name="name"
              formControlName="name" placeholder="Name">
       <input class="form-control mr-2" type="number" name="price"
-             formControlName="price" placeholder="Price" min="0">
+             formControlName="price" placeholder="Price" min="0" (input)="calculateGst()">
       <input class="form-control mr-2" type="number" name="availableItems"
              formControlName="availableItems" placeholder="Availability" min="0">
       <input class="form-control mr-2" type="text" name="brand"
              formControlName="brand" placeholder="Brand" min="0">       
-      <select formControlName="hsnId" name="hsnId" selected>
+      <select formControlName="hsnId" name="hsnId" selected (change)="calculateGst()">
               <option value="">Select HSN </option> 
               <option *ngFor="let tax of taxes" [ngValue]="tax">{{tax.hsnId}}</option> 
         </select>               
+      <input class="form-control mr-2" type="number" name="total"
+        formControlName="total" placeholder="Mrp " min="0" >  
       <select formControlName="type">
             <option value="" selected>Select Type </option> 
             <option value="engine">Engine Spare </option> 
@@ -42,6 +44,7 @@
         <tr>
           <th scope="col">Name</th>
           <th scope="col">Price</th>
+          <th scope="col">Mrp</th>
           <th scope="col">HSN Id</th>
           <th scope="col">Availability</th>
           <th scope="col">Brand</th>
@@ -60,6 +63,7 @@
         <tr *ngFor="let spare of spares; let i = index">
           <td>{{spare.name}}</td>
           <td>{{spare.price}}</td>
+          <td>{{spare.total}}</td>
           <td>{{spare?.hsnId.hsnId}}</td>
           <td>
               <div 
@@ -72,14 +76,15 @@
           </td>
           <td>{{spare.brand}}</td>
           <td class="text-center"><span class="plus text-success" (click)="updateItem(spare, 1)">+</span><span class="count-text">{{spare.availableItems}}</span><span class="minus" (click)="updateItem(spare, -1)">-</span></td>
+          
           <td>{{spare.type}}</td>
 
           <td>
             <button class="btn btn-sm btn-primary" (click)="enableEditing(spare)">
-              <i class="fa fa-pencil"></i> Edit
+              <i class="fa fa-pencil"></i> 
             </button> 
             <button class="btn btn-sm btn-danger ml-1" (click)="deleteSpare(spare)">
-              <i class="fa fa-trash"></i> Delete
+              <i class="fa fa-trash"></i> 
             </button>
           </td>
         </tr>  

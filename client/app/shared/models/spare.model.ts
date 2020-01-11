@@ -6,5 +6,6 @@ export class Spare {
   availableItems?: Number;
   brand?: string;
   type?: string;
+  total?: number;
   hsnId?; Object;
 }

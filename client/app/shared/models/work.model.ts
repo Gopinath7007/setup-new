@@ -3,5 +3,6 @@ export class Work {
   _id?: string;
   name?: string;
   price?: number;
+  total?: number;
   hsnId?; Object;
 }
