@@ -29,6 +29,9 @@ export class BillingComponent implements OnInit {
   isLoading = true;
   isEditing = false;
   isBilling = true;  
+  spareFilter: any;
+  workFilter: any;
+  isAdd = false;
   filteredSpares = [];
   filteredWorks = [];
   total = 0;    

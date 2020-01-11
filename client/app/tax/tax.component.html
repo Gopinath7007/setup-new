@@ -12,9 +12,9 @@
     <input class="form-control mr-2" type="text" name="hsnNId"
              formControlName="hsnId" placeholder="HSN Id" min="0">                     
       <input class="form-control mr-2" type="number" name="cGst"
-             formControlName="cGst" placeholder="Central GST" min="0" (keyup)="calculateGst()">
+             formControlName="cGst" placeholder="Central GST" min="0" >
       <input class="form-control mr-2" type="number" name="sGst"
-             formControlName="sGst" placeholder="State GST" min="0" (keyup)="calculateGst()">
+             formControlName="sGst" placeholder="State GST" min="0">
         
              <button class="btn btn-primary" type="submit" [disabled]="!addTaxForm.valid">
         <i class="fa fa-plus"></i> Add
@@ -63,8 +63,6 @@
             <form class="form-inline" #form="ngForm" (ngSubmit)="editTax(tax)">
               <input class="form-control mr-2" type="text" name="name"
                      [(ngModel)]="tax.name" placeholder="Name" required>
-              <input class="form-control mr-2" type="number" name="price"
-                     [(ngModel)]="tax.price" placeholder="Price" min="0" required>
               <input class="form-control mr-2" type="cGst" name="cGst"
                      [(ngModel)]="tax.cGst" placeholder="Central GST" min="0" required>
               <input class="form-control mr-2" type="sGst" name="sGst"

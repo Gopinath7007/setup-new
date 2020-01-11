@@ -47,10 +47,7 @@ export class TaxComponent implements OnInit {
       () => this.isLoading = false
     );
   }
-  calculateGst() {
-    let totalTax = this.addTaxForm.value.cGst + this.addTaxForm.value.sGst;
-    this.addTaxForm.patchValue({ mrp: (this.addTaxForm.value.price * totalTax /100) + this.addTaxForm.value.price });
-  }    
+
   addTax() {
     this.taxService.addTax(this.addTaxForm.value).subscribe(
       res => {
