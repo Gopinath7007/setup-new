@@ -164,6 +164,25 @@ export class BillingComponent implements OnInit {
     } 
     
   }
+  resetForm(state) {
+
+    this.isAdd= !state;
+    // this.addBillForm.reset();
+    this.addBillForm.patchValue({
+      amount: 0,
+      works: [],    
+      spares: [],    
+      customerName: '',  
+      customerAddress: '',  
+      vehicleNumber: '',    
+      phoneNumber: '',    
+      gstNumber: '',   
+      gstStatus: '',   
+      amountPaid: 0,   
+      status: '', 
+      _id: ''
+    });
+  }
 
   enableEditing(bill: Bill) {
     this.addBillForm.setValue({
@@ -184,6 +203,7 @@ export class BillingComponent implements OnInit {
     this.selectedWorks = bill['works'];
     this.isEditing = false;  
     this.isBilling = true;  
+    this.isAdd = true;
     //this.isEditing = true;
     this.bill = bill;
   }
@@ -246,14 +266,19 @@ export class BillingComponent implements OnInit {
        
 
   }  
-
+  getRounded(value) {
+    Math.round(value)
+  }
+  sendPdf(bill) {
+    this.pdfService.sendPdf(bill)
+  }
   setBillAmount() {
       var total = 0;
-      this.addBillForm.value.works.map( workItem => total = total + (workItem.price * workItem.count));      
-      this.addBillForm.value.spares.map( spareItem => total = total + (spareItem.price * spareItem.count) );
+      this.addBillForm.value.works.map( workItem => total = total + (workItem.total * workItem.count));      
+      this.addBillForm.value.spares.map( spareItem => total = total + (spareItem.total * spareItem.count) );
       this.total = total;  
       this.addBillForm.value.amount = total;
-      this.addBillForm.controls['amount'].setValue(total);
+      this.addBillForm.controls['amount'].setValue(Math.round(total));
   }
 
   addSpare(spare) {

@@ -2,8 +2,8 @@
 <div class="card">
   <h4 class="card-header">
     Bills
-    <i *ngIf="!isAdd" class="fa fa-plus-circle text-success px-5" (click)="isAdd=true"></i>
-  <i *ngIf="isAdd" class="fa fa-minus-circle text-danger px-5" (click)="isAdd=false"></i>
+    <i *ngIf="!isAdd" class="fa fa-plus-circle text-success px-5" (click)="resetForm(false)"></i>
+  <i *ngIf="isAdd" class="fa fa-minus-circle text-danger px-5" (click)="resetForm(true)"></i>
   </h4>
   
   
@@ -49,15 +49,26 @@
       </div>
   </div>
   </div>  
-<div class="row margin-empty w-100 mx-auto pt-0 px-2" *ngIf="!isAdd" style="overflow-x: hidden">
-   
-  <div class="bills">
-        
-    </div> 
-     <div>
-
-     </div>
-     <div class="card-body pt-0 px-2">
+<div class="row margin-empty w-100 mx-auto pt-0 px-2 " *ngIf="!isAdd" style="overflow-x: hidden">
+    <div class="w-100 py-1 hidden-md-up desktop-hide"> 
+      <div class="my-2" *ngFor="let bill of bills; let i = index">
+        <div class="card w-100 m-1 shadow m-auto py-2" >
+          <div class="card-body">
+            <h6 class="card-title">{{bill.customerName}}</h6>
+            <h6 class="card-subtitle mb-2 text-muted"> <i class="fa fa-truck"></i> {{bill.vehicleNumber}}</h6>
+            <!-- <p class="card-text">Outstanding Amount: {{bill.amount - bill.amountPaid}}</p> -->
+            <div><a href="#" class="card-link green">Total: {{bill.amount}} &#8377;</a></div>
+            <div>
+              <a href="#" class="card-link red">Outstanding: {{bill.amount - bill.amountPaid}} &#8377;</a>  
+              <i class="fa fa-comments mx-2 right-icon"  (click)="sendPdf(bill)"></i> 
+              <i class="fa fa-print mx-2 right-icon"  (click)="generateBill(bill)"></i> 
+              <i class="fa fa-pencil mx-2 right-icon"  (click)="enableEditing(bill)"></i> 
+            </div>                                     
+          </div>
+        </div>
+      </div>      
+    </div>
+     <div class="card-body pt-0 px-2 mobile-hide" >
     <table class="table table-bordered srink-table">
       <thead class="thead-light">
         <tr>
@@ -157,7 +168,7 @@
   </div>
 </div> 
 <div class="row margin-empty w-100 mx-auto" *ngIf="isAdd" style="overflow-x: hidden">
-<div class="card col-lg-6 padding-empty pt-0 px-4" *ngIf="!isEditing" style="border:none; overflow-x: hidden">
+<div class="card col-lg-6 padding-empty pt-0 px-4" *ngIf="isAdd" style="border:none; overflow-x: hidden">
   <div class="card-body p-0 m-0">
     <form class="form-inline bill-form" [formGroup]="addBillForm" (ngSubmit)="addBill()">
       <div class="row" style="width: 100%">
@@ -228,7 +239,7 @@
               </select>
              </div>
           <button class="btn btn-primary top-space-10 mx-2" type="submit" [disabled]="!addBillForm.valid">
-            <i class="fa fa-plus"></i> Add
+            <i class="fa fa-plus"></i> {{addBillForm.value._id == "" ? 'Add' : 'Update' }}
           </button>
           <button class="btn btn-success top-space-10 px-2" type="button" (click)="makePdf()" >
             <i class="fa fa-plus"></i> Print
@@ -269,7 +280,7 @@
                 </form>
                 <div class="error-text" *ngIf="!addWorkForm.valid && addWorkForm.controls.name.touched && addWorkForm.controls.price.touched "> Please enter work, and price </div>
             </div>
-            <table class="work-table hidden">
+            <table class="work-table hidden" *ngIf="!isAdd">
               <thead class="thead-light">
                 <tr>
                   <th >Name</th>
