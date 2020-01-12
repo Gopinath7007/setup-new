@@ -316,15 +316,12 @@ export class PdfService {
   const pdfDocGenerator = pdfMake.createPdf(documentDefinition);
   pdfDocGenerator.getBase64((data) => {
     // alert(data);
-    if (navigator['share']) {
-      navigator['share']({
-        title: 'Sri Ram Autos',
-        text: 'Your Bill is Ready.',
-        url: data,
-      })
-        .then(() => console.log('Successful share'))
-        .catch((error) => console.log('Error sharing', error));
-    }
+    const shareData = {
+      title: 'MDN',
+      text: data,
+      url: data,
+    }    
+    navigator['share'](shareData);
   });
   }
   
