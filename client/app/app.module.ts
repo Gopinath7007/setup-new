@@ -4,6 +4,7 @@ import { JwtModule } from '@auth0/angular-jwt';
 // Modules
 import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './shared/shared.module';
+
 // Services
 import { CatService } from './services/cat.service';
 import { WorkService } from './services/work.service';
@@ -16,6 +17,7 @@ import { AuthService } from './services/auth.service';
 import { VehicleService } from './services/vehicle.service';
 import { PdfService } from './services/pdf.service';
 import { MatSliderModule } from '@angular/material/slider';
+
 
 import { ChartModule, HIGHCHARTS_MODULES } from 'angular-highcharts';
 import stock from 'highcharts/modules/stock.src';

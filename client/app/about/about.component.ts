@@ -22,6 +22,7 @@ export class AboutComponent {
   spares = [];
   works = [];
   bills = [];		
+  searchFilter = {};
   vehicles = [];
   isLoading = false;
 
@@ -45,7 +46,7 @@ export class AboutComponent {
       error => console.log(error),
       () => this.isLoading = false
     );    
-    this.billService.getBills().subscribe(
+    this.billService.getBills(this.searchFilter).subscribe(
       data => this.bills = data,
       error => console.log(error),
       () => this.isLoading = false

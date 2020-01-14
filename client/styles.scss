@@ -1,3 +1,5 @@
+// CSS Reset, comment out if not required or using a different module
+@import '~minireset.css/minireset';
 // You can add global styles to this file, and also import other style files
 
 body {
@@ -64,7 +66,12 @@ select {
 .icon-text {
 	font-size: 13px;
 }
-
+.text-search-icon {
+    position: absolute;
+    right: 20px;
+    top: 12px;
+    cursor: pointer;
+}
 .common-border {
 	border: 1px solid grey;
 	border-radius: px;

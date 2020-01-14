@@ -50,6 +50,29 @@
   </div>
   </div>  
 <div class="row margin-empty w-100 mx-auto pt-0 px-2 " *ngIf="!isAdd" style="overflow-x: hidden">
+    <div class="w-100">
+     
+      <div class="row">
+        <div class="md-form m-2 col-3 ">
+          <input 
+            class="form-control w-100" 
+            type="text" 
+            [(ngModel)]="searchFilter.search"  
+            placeholder="Search" 
+            aria-label="Search"
+          >
+          <i class="fa fa-search text-search-icon" (click)="getBills()"></i>
+          
+        </div>
+        <div class="md-form m-2 col-3">
+            <select class="w-100 mdb-select md-form colorful-select dropdown-primary" searchable="Search here.." [(ngModel)]="searchFilter.status" (change)="getBills()">
+                <option value="">Payment Status</option>
+                <option value="paid">Paid</option>
+                <option value="pending">Pending</option>                
+              </select>
+        </div>
+      </div>
+    </div>
     <div class="w-100 py-1 hidden-md-up desktop-hide"> 
       <div class="my-2" *ngFor="let bill of bills; let i = index">
         <div class="card w-100 m-1 shadow m-auto py-2" >
@@ -140,6 +163,15 @@
           </td>
         </tr>  
       </tbody>
+      <nav aria-label="Page navigation example f-r">
+        <ul class="pagination">
+          <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+          <li class="page-item"><a class="page-link" href="#">1</a></li>
+          <li class="page-item"><a class="page-link" href="#">2</a></li>
+          <li class="page-item"><a class="page-link" href="#">3</a></li>
+          <li class="page-item"><a class="page-link" href="#">Next</a></li>
+        </ul>
+      </nav>
       <tbody *ngIf="isEditing">
         <tr>
           <td colspan="4">

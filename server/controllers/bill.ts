@@ -11,6 +11,15 @@ export default class BillCtrl extends BaseCtrl {
 
   insertBill = async (req, res) => {
     try {
+
+
+		const Nexmo = require('nexmo');
+
+		const nexmo = new Nexmo({
+		  apiKey: '9e4f9e2a',
+		  apiSecret: '7ghOOW4XRfWMEFpP',
+		});
+		
     //   console.log(req.body);
       let customerData = {
       	name: req.body.customerName,
@@ -44,12 +53,25 @@ export default class BillCtrl extends BaseCtrl {
       	  result['userStatus'] = 'inserted';
       	  result['userData'] = customerDetail;
       	  result['billStatus'] = true;
-      	  result['billData'] = billData;
+			result['billData'] = billData;
+			
+			const from = 'AcmeInc';
+			const to = billData.phoneNumber;
+			const text = 'Hi, Your approximate bill amount ' +  billData.amount;
+			nexmo.message.sendSms(from, `91${to}`, text);
       	  // console.log(customerDetail);	
       	  // const customerDetail = await new this.customerModel(customerData).save();
       } else {
           const customerDetail = await new this.customerModel(customerData).save();
-      	  const billData = await new this.model(req.body).save();
+		  const billData = await new this.model(req.body).save();
+		
+		  
+		  const from = 'AcmeInc';
+		  const to = billData.phoneNumber;
+		  const text = 'Hi, Your approximate bill amount ' +  billData.amount;
+		  console.log(`91${to}`);
+		  nexmo.message.sendSms(from, `91${to}`, text);
+
       	  result['userStatus'] = 'updated';
       	  result['userData'] = {};
       	  result['billStatus'] = true;

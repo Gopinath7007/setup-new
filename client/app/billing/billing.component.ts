@@ -26,6 +26,7 @@ export class BillingComponent implements OnInit {
 
   bill = new Bill();
   bills: Bill[] = [];
+  searchFilter: any = {};
   isLoading = true;
   isEditing = false;
   isBilling = true;  
@@ -70,13 +71,20 @@ export class BillingComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.searchFilter = {
+      page: 0,
+      count: 10,
+      total: 10,
+      search: 'Gopi',
+      status: 'pending',
+      date: new Date()
+    }  
+
+    this.searchFilter
     this.getBills();
     this.getWorks();  
     this.getSpares();  
-    // this.addBillForm = this.formBuilder.group({
-    //   amount: this.amount,
-    //   works: this.works
-    // });
+    
   }
 
   getWorks() {
@@ -124,9 +132,10 @@ export class BillingComponent implements OnInit {
     this.filteredWorks = this.works.filter(item=> item['name'].toLowerCase().includes(searchText.toLowerCase()));
   }
   getBills() {
-    this.billService.getBills().subscribe(
+    this.isLoading = true;
+    this.billService.getBills(this.searchFilter).subscribe(
       data => { 
-
+          this.isLoading = false;
           this.bills = data;
           console.log(this.bills);
          
@@ -149,15 +158,19 @@ export class BillingComponent implements OnInit {
     console.log(this.addBillForm.value);
     // this.addBillForm.controls['dept'].setValue(selected.id);
 
-
+    this.isLoading = true;  
     this.billService.addBill(newBill).subscribe(
       res => {
+        this.isLoading = false;
       console.log(res);
         this.getBills();
         //this.addBillForm.reset();
         this.toast.setMessage('item added successfully.', 'success');
       },
-      error => console.log(error)
+      error =>{ 
+        this.isLoading = false;
+        console.log(error)
+      } 
     );
     }  else {
         this.editBill(this.addBillForm.value);

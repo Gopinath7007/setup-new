@@ -4,8 +4,34 @@ abstract class BaseCtrl {
 
   // Get all
   getAll = async (req, res) => {
+    console.log(req.query);
+   
     try {
-      const docs = await this.model.find({});
+      let docs = {};
+      if(req.query.date) {
+        let search = "\"" + req.query.search+  "\"" ;
+        let status = req.query.status;
+        
+        // string.replace(""", '');
+        // string.replace(""", '');
+        
+        search = ".*" + search +".*";
+        search = search.replace('"', '');
+        search = search.replace('"', '');
+        console.log( search)
+        docs = await this.model.find({
+          customerName: { 
+            $regex: search, 
+            '$options': 'i'
+          },
+          status: status
+        });        
+        console.log('bills')
+      } else {
+        docs = await this.model.find({});
+        console.log('Non Bills')
+      }
+      
       res.status(200).json(docs);
     } catch (err) {
       return res.status(400).json({ error: err.message });

@@ -9,8 +9,16 @@ export class BillService {
 
   constructor(private http: HttpClient) { }
 
-  getBills(): Observable<Bill[]> {
-    return this.http.get<Bill[]>('/api/bills');
+  getBills(data): Observable<Bill[]> {
+    // let date = new Date;
+    const { 
+      date, 
+      page, 
+      count, 
+      search,
+      status 
+    } = data;
+    return this.http.get<Bill[]>('/api/bills?date='+date+'&page='+ page +'&count='+count+'&search='+ search + '&status='+status);
   }
 
   // getDistinct(key): Observable<Bill[]> {
