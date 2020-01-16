@@ -16,8 +16,17 @@ import { TaxService } from './services/tax.service';
 import { AuthService } from './services/auth.service';
 import { VehicleService } from './services/vehicle.service';
 import { PdfService } from './services/pdf.service';
-import { MatSliderModule } from '@angular/material/slider';
 
+import { MatSliderModule } from '@angular/material/slider';
+// import { MatDatepickerModule, MatNativeDateModule } from '@angular/material';
+import {
+  MatNativeDateModule, 
+  MatDatepickerModule,
+  MatFormFieldModule,
+  MatInputModule,
+  MatPaginatorModule 
+} from "@angular/material";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
 
 import { ChartModule, HIGHCHARTS_MODULES } from 'angular-highcharts';
 import stock from 'highcharts/modules/stock.src';
@@ -77,6 +86,12 @@ export function tokenGetter() {
     ChartModule,
     MatSliderModule,
     FormsModule,
+    MatNativeDateModule, 
+    MatDatepickerModule,
+    MatFormFieldModule,
+    MatInputModule,
+    BrowserAnimationsModule,
+    MatPaginatorModule,     
     JwtModule.forRoot({
       config: {
         tokenGetter,
@@ -98,6 +113,7 @@ export function tokenGetter() {
     TaxService,
     PdfService,
     VehicleService,
+    MatDatepickerModule,
       { provide: HIGHCHARTS_MODULES, useFactory: highchartsModules } 
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

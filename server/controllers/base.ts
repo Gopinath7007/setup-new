@@ -1,14 +1,24 @@
+import Bill from '../models/bill';
+import Spare from '../models/spare';
+import Work from '../models/work';
 abstract class BaseCtrl {
 
   abstract model: any;
+  bill = Bill;
+  work = Work;
+
+  spare = Spare;
 
   // Get all
+
+  // getCounts= async (req,res) => {
+ 
   getAll = async (req, res) => {
     console.log(req.query);
    
     try {
       let docs = {};
-      if(req.query.date) {
+      if(req.query.from) {
         let search = "\"" + req.query.search+  "\"" ;
         let status = req.query.status;
         
@@ -18,14 +28,61 @@ abstract class BaseCtrl {
         search = ".*" + search +".*";
         search = search.replace('"', '');
         search = search.replace('"', '');
-        console.log( search)
+        // console.log( search)
+        let from = new Date();
+        let to = new Date();
+        if(req.query.from === '' || req.query.to === '') {
+          from = new Date();
+          to = new Date();
+          from.setDate(to.getDate() - 1);
+          to.setDate(to.getDate() + 1);
+          console.log("Currrent Date Set")
+        } else {
+          from = new Date(req.query.from) ;
+          to = new Date(req.query.to);
+          // from.setHours(0,0,0);
+          // to.setHours(59,59,59);
+          // from.setDate(from.getDate() +1);
+          // to.setDate(to.getDate() +1);
+          console.log("Actual Date")
+        }
+
+        var moment = require('moment');
+
+        
+        // let startNew = `${from.getFullYear()}-${from.getMonth()+1}-${from.getDay()}`;
+        // let endNew = `${to.getFullYear()}-${to.getMonth()+1}-${to.getDay()}`;
+        // var start = moment( startNew, "YYYY-MM-DD").toArray();
+        // var end = moment(endNew, "YYYY-MM-DD").toArray();
+
+        // console.log(start);
+        // console.log( end);
+        console.log(to.getFullYear(),to.getMonth() + 1,to.getDate());
+        console.log( from.getFullYear(),from.getMonth()+ 1,from.getDate());
+        
         docs = await this.model.find({
           customerName: { 
             $regex: search, 
             '$options': 'i'
           },
-          status: status
-        });        
+          // vehicleNumber: req.query.search,
+          status: status,
+          'createdAt': {
+            '$lt': new Date(to),
+            '$gt': new Date(from)
+          },
+
+          // 'createdAt': {
+          //   $lte: new Date(`${to.getFullYear()}-${to.getMonth() + 1}-${to.getDate()}`) ,
+          //   $gte: new Date(`${from.getFullYear()}-${from.getMonth() + 1}-${from.getDate()}`)
+            
+          // },
+          // 'createdAt': {
+          //   $date: new Date(`${from.getFullYear()}-${from.getMonth() + 1}-${from.getDate()}`), 
+          //   // $lte: new Date(`${to.getFullYear()}-${to.getMonth() + 1}-${to.getDate()}`) 
+          // }
+          
+        }).skip(req.query.count * req.query.page).limit(10);        
         console.log('bills')
       } else {
         docs = await this.model.find({});

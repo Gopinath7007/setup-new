@@ -51,9 +51,9 @@
   </div>  
 <div class="row margin-empty w-100 mx-auto pt-0 px-2 " *ngIf="!isAdd" style="overflow-x: hidden">
     <div class="w-100">
-     
+      
       <div class="row">
-        <div class="md-form m-2 col-3 ">
+        <div class="md-form m-2 col-2 ">
           <input 
             class="form-control w-100" 
             type="text" 
@@ -64,13 +64,27 @@
           <i class="fa fa-search text-search-icon" (click)="getBills()"></i>
           
         </div>
-        <div class="md-form m-2 col-3">
+        <div class="md-form m-2 col-2">
             <select class="w-100 mdb-select md-form colorful-select dropdown-primary" searchable="Search here.." [(ngModel)]="searchFilter.status" (change)="getBills()">
                 <option value="">Payment Status</option>
                 <option value="paid">Paid</option>
                 <option value="pending">Pending</option>                
               </select>
         </div>
+        <div class="md-form m-2 col-2">
+          <mat-form-field>
+            <input matInput [matDatepicker]="picker" [(ngModel)]="searchFilter.from" placeholder="From Date">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker ></mat-datepicker>
+          </mat-form-field>
+      </div>
+      <div class="md-form m-2 col-2">
+        <mat-form-field>
+          <input matInput [matDatepicker]="picker1" [(ngModel)]="searchFilter.to" placeholder="To Date">
+          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+          <mat-datepicker #picker1 ></mat-datepicker>
+        </mat-form-field>
+       </div>
       </div>
     </div>
     <div class="w-100 py-1 hidden-md-up desktop-hide"> 
@@ -95,7 +109,7 @@
     <table class="table table-bordered srink-table">
       <thead class="thead-light">
         <tr>
-          <th scope="col">Customer Name</th>
+          <th scope="col" width="10%">Customer Name</th>
           <th scope="col">Customer Address</th>
           <th scope="col">Total Amount</th>
           <th scope="col">Paid</th>  
@@ -163,15 +177,14 @@
           </td>
         </tr>  
       </tbody>
-      <nav aria-label="Page navigation example f-r">
-        <ul class="pagination">
-          <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-          <li class="page-item"><a class="page-link" href="#">1</a></li>
-          <li class="page-item"><a class="page-link" href="#">2</a></li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li>
-          <li class="page-item"><a class="page-link" href="#">Next</a></li>
-        </ul>
-      </nav>
+      <div class="pagination-container">
+         <mat-paginator 
+         [length]="100"
+         [pageSize]="searchFilter.count">
+         (page)="pageEvent =handlePage($event)"
+         class="w-100"
+         </mat-paginator>      
+     </div>
       <tbody *ngIf="isEditing">
         <tr>
           <td colspan="4">
@@ -196,6 +209,8 @@
           </td>
         </tr>
       </tbody>
+      
+      
     </table>
   </div>
 </div> 

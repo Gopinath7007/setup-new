@@ -9,6 +9,33 @@ export default class BillCtrl extends BaseCtrl {
   customerModel = Customer;
   vehicleModel = Vehicle;
 
+  getCounts = async (req, res) => {
+    console.log("====================================")
+    // let docs = {
+    //   bills: {},
+    //   spares: {},
+    //   works: {},      
+    // }
+    try {
+      
+      let docs = await this.model.find({});
+      // docs['works'] = await this.work.find({});
+      // docs['spares'] = await this.spare.find({});
+      
+
+      res.status(200).json(docs);
+    } catch (err) {
+      return res.status(500).json({ error: err.message });
+    }
+
+    
+
+    // let bills = await this.model.find({
+
+    // });
+    // res.status(200).json(docs);
+  } 
+
   insertBill = async (req, res) => {
     try {
 

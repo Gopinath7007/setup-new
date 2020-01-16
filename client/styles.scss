@@ -1,5 +1,6 @@
 // CSS Reset, comment out if not required or using a different module
 @import '~minireset.css/minireset';
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
 // You can add global styles to this file, and also import other style files
 
 body {
@@ -139,7 +140,12 @@ select {
     pointer-events: none;
     opacity: 0.5;
 }
-
+.pagination-container {
+    width: 600px;
+    // border: 1px solid #E91E63;
+    position: absolute;
+    right: 0;
+}
 @media only screen and (max-width: 768px) {
     /* For mobile phones: */
     

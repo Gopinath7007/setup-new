@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-
+import { MatPaginator } from '@angular/material';
 import { BillService } from '../services/bill.service';
 import { WorkService } from '../services/work.service';
 import { SpareService } from '../services/spare.service';
@@ -11,6 +11,7 @@ import { Bill } from '../shared/models/bill.model';
 import { Work } from '../shared/models/work.model';
 import { Spare } from '../shared/models/spare.model';
 
+import {MatDatepickerInputEvent} from '@angular/material/datepicker';
 
 import * as jsPDF from 'jspdf';  
 // import * as html2canvas from 'html2canvas';
@@ -21,9 +22,12 @@ import * as jsPDF from 'jspdf';
   styleUrls: ['./billing.component.scss']
 })
 export class BillingComponent implements OnInit {
-  
+  // @ViewChild(MatPaginator) paginator: MatPaginator;
   // @ViewChild('content') content: ElementRef;
+  @ViewChild(MatPaginator,  {static: false}) paginator: MatPaginator;
+  events: string[] = [];
 
+   
   bill = new Bill();
   bills: Bill[] = [];
   searchFilter: any = {};
@@ -73,24 +77,54 @@ export class BillingComponent implements OnInit {
   ngOnInit() {
     this.searchFilter = {
       page: 0,
-      count: 10,
+      count: 5,
       total: 10,
-      search: 'Gopi',
+      search: '',
       status: 'pending',
-      date: new Date()
+      from: new Date(),
+      to: new Date()
     }  
 
     this.searchFilter
     this.getBills();
     this.getWorks();  
     this.getSpares();  
-    
+    this.getCounts();
+  }
+  ngAfterViewInit() {
+    this.paginator.page.subscribe(
+       (event) => this.handlePage(event)
+  );}
+  handlePage(e: any) {
+    // this.currentPage = e.pageIndex;
+    // this.pageSize = e.pageSize;
+    // this.iterator();
+    console.log(e.pageIndex);
+    // console.log(e.pageIndex.pageIndex);
+    this.searchFilter.page = e.pageIndex;
+    this.getBills();
+    this.getCounts();
+  }
+  addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
+    this.events.push(`${type}: ${event.value}`);
+    console.log(this.events);
   }
 
   getWorks() {
     this.workService.getWorks().subscribe( 
       data => this.works = data,
       error => this.isLoading = false
+    )
+  }
+  getCounts() {
+    this.billService.getCounts().subscribe( 
+      data => {
+        console.log("Pagination Helps");
+        alert(data);
+      },
+      error => {
+        console.log("Pagination Helps");
+      }
     )
   }
   makePdf() {

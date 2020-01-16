@@ -32,7 +32,7 @@ export class AboutComponent {
     private billService: BillService,
     private vehicleService: VehicleService,
   ) { 
-  	this.getData();
+  	// this.getData();
   }
 
    getData() {
