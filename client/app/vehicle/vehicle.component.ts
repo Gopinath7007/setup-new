@@ -42,7 +42,7 @@ export class VehicleComponent implements OnInit {
 
   getVehicles() {
     this.vehicleService.getVehicles().subscribe(
-      data => this.vehicles = data,
+      data => this.vehicles = data['data'],
       error => console.log(error),
       () => this.isLoading = false
     );

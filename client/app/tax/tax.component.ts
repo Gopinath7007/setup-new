@@ -42,7 +42,7 @@ export class TaxComponent implements OnInit {
 
   getTaxes() {
     this.taxService.getTaxes().subscribe(
-      data => this.taxes = data,
+      data => this.taxes = data['data'],
       error => console.log(error),
       () => this.isLoading = false
     );

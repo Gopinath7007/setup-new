@@ -53,38 +53,48 @@
     <div class="w-100">
       
       <div class="row">
-        <div class="md-form m-2 col-2 ">
+        <div class="md-form m-2 col-xs-12 col=sm-12 col-md-12 col-lg-2">
           <input 
-            class="form-control w-100" 
+            class="form-control w-100 mt-2" 
             type="text" 
             [(ngModel)]="searchFilter.search"  
-            placeholder="Search" 
+            placeholder="Search Customer" 
             aria-label="Search"
           >
-          <i class="fa fa-search text-search-icon" (click)="getBills()"></i>
+       
           
         </div>
-        <div class="md-form m-2 col-2">
-            <select class="w-100 mdb-select md-form colorful-select dropdown-primary" searchable="Search here.." [(ngModel)]="searchFilter.status" (change)="getBills()">
+        <div class="md-form m-2 col-xs-12 col=sm-12 col-md-12 col-lg-2">
+            <select class="w-100 mdb-select md-form colorful-select dropdown-primary mt-2" searchable="Search here.." [(ngModel)]="searchFilter.status" (change)="getBills()">
                 <option value="">Payment Status</option>
                 <option value="paid">Paid</option>
                 <option value="pending">Pending</option>                
               </select>
         </div>
-        <div class="md-form m-2 col-2">
+        <div class="md-form m-2 col-xs-12 col=sm-12 col-md-12 col-lg-2">
           <mat-form-field>
             <input matInput [matDatepicker]="picker" [(ngModel)]="searchFilter.from" placeholder="From Date">
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker ></mat-datepicker>
           </mat-form-field>
       </div>
-      <div class="md-form m-2 col-2">
+      <div class="md-form m-2 col-xs-12 col=sm-12 col-md-12 col-lg-2">
         <mat-form-field>
           <input matInput [matDatepicker]="picker1" [(ngModel)]="searchFilter.to" placeholder="To Date">
           <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
           <mat-datepicker #picker1 ></mat-datepicker>
         </mat-form-field>
        </div>
+       <div class="col-xs-12 col=sm-12 col-md-12 col-lg-2">
+          <button 
+            (click)="searchFilter.total=0;searchFilter.count=5 ;getBills()" 
+            class="btn btn-success mt-3">
+              Search
+            <i class="fa fa-search text-search-icon">
+              
+            </i>
+          </button>
+         </div>
       </div>
     </div>
     <div class="w-100 py-1 hidden-md-up desktop-hide"> 
@@ -179,7 +189,7 @@
       </tbody>
       <div class="pagination-container">
          <mat-paginator 
-         [length]="100"
+         [length]="searchFilter.total"
          [pageSize]="searchFilter.count">
          (page)="pageEvent =handlePage($event)"
          class="w-100"
@@ -259,7 +269,7 @@
                </div>
            <div class="form-field-container">
           <label class="form-label">Status</label>  
-            <select  class="form-control w-75 m-0" formControlName="status"  name="status" required>
+            <select  class="form-control w-75 m-1" formControlName="status"  name="status" required>
                 <option value="">
                     Select Payment
                 </option>     
@@ -401,8 +411,8 @@
   <div class="row">
   
   <div class="card-body col-lg-5 card_tb_parent">
-    <h4 class="">Current Spares ({{spares.length}})</h4>
-    <input type="text" [(ngModel)]="spareFilter" (input)="filterSpares(spareFilter)" placeholder="Search Spare" class="search-input"/>
+    <h4 class="my-2">Current Spares ({{filteredSpares.length}})</h4>
+    <input type="text" [(ngModel)]="spareFilter.search" (input)="getSpares()" placeholder="Search Spare" class="search-input"/>
     <table class="work-table">
       <thead class="thead-light">
         <tr>
@@ -435,8 +445,8 @@
     </table>
   </div>
   <div class="card-body col-lg-5  card_tb_parent">
-    <h4 class="">Current Works ({{works.length}})</h4>
-    <input type="text" [(ngModel)]="workFilter" (input)="filterWorks(workFilter)" placeholder="Search Work" class="search-input"/>
+    <h4 class="my-2">Current Works ({{works.length}})</h4>
+    <input type="text" [(ngModel)]="workFilter.search" (input)="getWorks()" placeholder="Search Work" class="search-input"/>
     <table class="work-table">
       <thead class="thead-light">
         <tr>

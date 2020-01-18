@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatPaginator } from '@angular/material';
 
 import { WorkService } from '../services/work.service';
 import { TaxService } from '../services/tax.service';
+import { BillService } from '../services/bill.service';
 import { ToastComponent } from '../shared/toast/toast.component';
 import { Work } from '../shared/models/work.model';
 import { Tax } from '../shared/models/tax.model';
@@ -13,6 +15,8 @@ import { Tax } from '../shared/models/tax.model';
   styleUrls: ['./work.component.scss']
 })
 export class WorkComponent implements OnInit {
+  @ViewChild(MatPaginator,  {static: false}) paginator: MatPaginator;
+  events: string[] = [];
 
   work = new Work();
   works: Work[] = [];
@@ -23,6 +27,8 @@ export class WorkComponent implements OnInit {
   isLoading = true;
   isEditing = false;
 
+  searchFilter = { };
+
   addWorkForm: FormGroup;
   name = new FormControl('', Validators.required);
   price = new FormControl('', Validators.required);
@@ -32,11 +38,19 @@ export class WorkComponent implements OnInit {
   constructor(
     private workService: WorkService,
     private taxService: TaxService,
+    private billService: BillService,
     private formBuilder: FormBuilder,
     public toast: ToastComponent
   ) { }
 
   ngOnInit() {
+    this.searchFilter = {
+      page: 0,
+      count: 5,
+      total: 10,
+      search: '',
+    }; 
+
     this.getWorks();
     this.getTaxes();
     this.addWorkForm = this.formBuilder.group({
@@ -45,19 +59,56 @@ export class WorkComponent implements OnInit {
       hsnId: this.hsnId,
       total: this.total
     });
-  }
 
+    
+  }
+  ngAfterViewInit() {
+    this.paginator['page'].subscribe(
+       (event) => this.handlePage(event)
+  );}
+  handlePage(e: any) {
+
+    // alert()
+    // this.currentPage = e.pageIndex;
+    // this.pageSize = e.pageSize;
+    // this.iterator();
+    console.log(e.pageIndex);
+    // console.log(e.pageIndex.pageIndex);
+    this.searchFilter['page'] = e.pageIndex;
+    this.getWorks();
+    // this.getCounts();
+  }
+  getCounts() {
+    this.billService.getCounts().subscribe( 
+      data => {        
+        // this.searchFilter['total'] = data.works;
+        console.log(data)
+      },
+      error => {
+        console.log("Pagination Helps");
+      }
+    )
+  }
   getWorks() {
-    this.workService.getWorks().subscribe(
-      data => this.works = data,
+    this.workService.getWorks(this.searchFilter).subscribe(
+      data => { 
+        console.log(data)
+        this.works = data['data'];
+        this.searchFilter['total'] = data['count'];
+      },
       error => console.log(error),
       () => this.isLoading = false
     );
   }
+ 
 
   getTaxes() {
-    this.taxService.getTaxes().subscribe(
-      data => this.taxes = data,
+    this.taxService.getTaxes().subscribe(      
+      data => { 
+        this.taxes = data['data'];
+        this.searchFilter['total'] = data['count'];
+        
+      },
       error => console.log(error),
       () => this.isLoading = false
     );
@@ -120,5 +171,4 @@ export class WorkComponent implements OnInit {
       );
     }
   }
-
 }

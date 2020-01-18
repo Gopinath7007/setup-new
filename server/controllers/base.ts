@@ -13,11 +13,26 @@ abstract class BaseCtrl {
 
   // getCounts= async (req,res) => {
  
+    
+  getCounts = async (req,res) => { 
+
+    let docs = { bills: 0 };
+
+
+    try {
+      docs.bills = await await this.model.count({});
+      res.status(200).json(docs);
+    } catch (err) {
+      return res.status(400).json({ error: err.message });
+    }
+
+  }
   getAll = async (req, res) => {
     console.log(req.query);
    
     try {
-      let docs = {};
+      let docs = { data: [], count: 0 };
+      let result = { data: [], count: 0 };;
       if(req.query.from) {
         let search = "\"" + req.query.search+  "\"" ;
         let status = req.query.status;
@@ -60,7 +75,7 @@ abstract class BaseCtrl {
         console.log(to.getFullYear(),to.getMonth() + 1,to.getDate());
         console.log( from.getFullYear(),from.getMonth()+ 1,from.getDate());
         
-        docs = await this.model.find({
+        result.data = await this.model.find({
           customerName: { 
             $regex: search, 
             '$options': 'i'
@@ -82,14 +97,29 @@ abstract class BaseCtrl {
           //   // $lte: new Date(`${to.getFullYear()}-${to.getMonth() + 1}-${to.getDate()}`) 
           // }
           
-        }).skip(req.query.count * req.query.page).limit(10);        
+        }).skip(req.query.count * req.query.page).limit(Number(req.query.count));      
+
+        result.count = await this.model.count({
+          customerName: { 
+            $regex: search, 
+            '$options': 'i'
+          },
+          // vehicleNumber: req.query.search,
+          status: status,
+          'createdAt': {
+            '$lt': new Date(to),
+            '$gt': new Date(from)
+          },
+        });
+
         console.log('bills')
       } else {
-        docs = await this.model.find({});
+        result.data = await this.model.find({});
+        result.count = await this.model.count({});
         console.log('Non Bills')
       }
       
-      res.status(200).json(docs);
+      res.status(200).json(result);
     } catch (err) {
       return res.status(400).json({ error: err.message });
     }
@@ -127,6 +157,7 @@ abstract class BaseCtrl {
       return res.status(500).json({ error: err.message });
     }
   }
+ 
 
   // Update by id
   update = async (req, res) => {

@@ -9,8 +9,15 @@ export class WorkService {
 
   constructor(private http: HttpClient) { }
 
-  getWorks(): Observable<Work[]> {
-    return this.http.get<Work[]>('/api/works');
+  getWorks(data): Observable<any> {
+    const { 
+      page, 
+      count, 
+      search
+    } = data;
+    
+    
+    return this.http.get<any>('/api/getWorks?page='+page+'&count='+count+'&search='+search);
   }
 
   countWorks(): Observable<number> {
@@ -22,7 +29,7 @@ export class WorkService {
   }
 
   getWork(work: Work): Observable<Work> {
-    return this.http.get<Work>(`/api/spare/${work._id}`);
+    return this.http.get<Work>(`/api/work/${work._id}`);
   }
 
   editWork(work: Work): Observable<any> {

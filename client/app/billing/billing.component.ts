@@ -11,6 +11,9 @@ import { Bill } from '../shared/models/bill.model';
 import { Work } from '../shared/models/work.model';
 import { Spare } from '../shared/models/spare.model';
 
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+
 import {MatDatepickerInputEvent} from '@angular/material/datepicker';
 
 import * as jsPDF from 'jspdf';  
@@ -24,6 +27,8 @@ import * as jsPDF from 'jspdf';
 export class BillingComponent implements OnInit {
   // @ViewChild(MatPaginator) paginator: MatPaginator;
   // @ViewChild('content') content: ElementRef;
+  $subject: Subject<void> = new Subject<void>();
+
   @ViewChild(MatPaginator,  {static: false}) paginator: MatPaginator;
   events: string[] = [];
 
@@ -72,7 +77,9 @@ export class BillingComponent implements OnInit {
     private formBuilder: FormBuilder,
     public toast: ToastComponent,
     public pdfService: PdfService
-  ) { }
+  ) { 
+    this.$subject.pipe(debounceTime(5000), distinctUntilChanged());
+  }
 
   ngOnInit() {
     this.searchFilter = {
@@ -80,16 +87,38 @@ export class BillingComponent implements OnInit {
       count: 5,
       total: 10,
       search: '',
-      status: 'pending',
+      status: 'paid',
       from: new Date(),
+      vehicleNumber: '',      
       to: new Date()
-    }  
-
+    };
+    
+    this.spareFilter = {
+      page: 0,
+      count: 100,      
+      search: ''
+    }; 
+    
+    this.workFilter = {
+      page: 0,
+      count: 100,      
+      search: ''
+    };
+    this.searchFilter.from.setDate(this.searchFilter.from.getDate() -30);
     this.searchFilter
     this.getBills();
     this.getWorks();  
     this.getSpares();  
     this.getCounts();
+  }
+
+  onSomeMethod(event: string) {
+    this.$subject.next(this.runMethod(event));
+  }
+
+  runMethod(event: any) {
+    // do stuff
+    console.log(event);
   }
   ngAfterViewInit() {
     this.paginator.page.subscribe(
@@ -111,16 +140,19 @@ export class BillingComponent implements OnInit {
   }
 
   getWorks() {
-    this.workService.getWorks().subscribe( 
-      data => this.works = data,
+    this.workService.getWorks(this.workFilter).subscribe( 
+      data => {
+        console.log(data)
+        this.filteredWorks = data['data']
+      },
       error => this.isLoading = false
     )
   }
   getCounts() {
     this.billService.getCounts().subscribe( 
-      data => {
-        console.log("Pagination Helps");
-        alert(data);
+      data => {        
+        // this.searchFilter.total = this.searchFilter.total;
+        this.searchFilter.total = data.bills;
       },
       error => {
         console.log("Pagination Helps");
@@ -140,8 +172,8 @@ export class BillingComponent implements OnInit {
 
   }  
   getSpares() {
-    this.spareService.getSpares().subscribe( 
-      data => this.spares = data,
+    this.spareService.getSpares(this.spareFilter).subscribe( 
+      data => this.filteredSpares = data['data'],
       // data => console.log(data),
       error => this.isLoading = false
     )
@@ -168,9 +200,10 @@ export class BillingComponent implements OnInit {
   getBills() {
     this.isLoading = true;
     this.billService.getBills(this.searchFilter).subscribe(
-      data => { 
+      result => { 
           this.isLoading = false;
-          this.bills = data;
+          this.bills = result['data'];
+          this.searchFilter.total = result['count'];
           console.log(this.bills);
          
       },

@@ -30,7 +30,7 @@ export class SparesComponent implements OnInit {
   availableItems = new FormControl('', Validators.required);
   type = new FormControl('', Validators.required);
   brand = new FormControl('', Validators.required);
-
+  searchFilter = {}
   constructor(
     private spareService: SpareService,
     private taxService: TaxService,
@@ -50,19 +50,26 @@ export class SparesComponent implements OnInit {
       brand: this.brand,
       total: this.total
     });
+    
+    this.searchFilter = {
+      page: 0,
+      count: 5,
+      total: 10,
+      search: '',
+    }  
   }
   
   getTaxes() {
     this.taxService.getTaxes().subscribe(
-      data => this.taxes = data,
+      data => this.taxes = data['data'],
       error => console.log(error),
       () => this.isLoading = false
     );
   }
 
   getSpares() {
-    this.spareService.getSpares().subscribe(
-      data => this.spares = data,
+    this.spareService.getSpares(this.searchFilter).subscribe(
+      data => this.spares = data['data'],
       error => console.log(error),
       () => this.isLoading = false
     );

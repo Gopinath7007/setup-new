@@ -36,16 +36,16 @@ export class AboutComponent {
   }
 
    getData() {
-    this.spareService.getSpares().subscribe(
-      data => this.spares = data,
-      error => console.log(error),
-      () => this.isLoading = false
-    );    
-    this.workService.getWorks().subscribe(
-      data => this.works = data,
-      error => console.log(error),
-      () => this.isLoading = false
-    );    
+    // this.spareService.getSpares().subscribe(
+    //   data => this.spares = data,
+    //   error => console.log(error),
+    //   () => this.isLoading = false
+    // );    
+    // this.workService.getWorks().subscribe(
+    //   data => this.works = data,
+    //   error => console.log(error),
+    //   () => this.isLoading = false
+    // );    
     this.billService.getBills(this.searchFilter).subscribe(
       data => this.bills = data,
       error => console.log(error),

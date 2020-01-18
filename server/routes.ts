@@ -33,7 +33,8 @@ export default function setRoutes(app) {
   router.route('/cat/:id').delete(catCtrl.delete);
 
   // Works
-  router.route('/works').get(workCtrl.getAll);
+  router.route('/works').get(workCtrl.getWorks);
+  router.route('/getWorks').get(workCtrl.getWorks);
   router.route('/works/count').get(workCtrl.count);
   router.route('/work').post(workCtrl.insert);
   router.route('/work/:id').get(workCtrl.get);
@@ -44,6 +45,7 @@ export default function setRoutes(app) {
     // Taxes
     router.route('/taxes').get(taxCtrl.getAll);
     router.route('/taxes/count').get(taxCtrl.count);
+    router.route('/taxes/getTaxes').get(taxCtrl.getTaxes);
     router.route('/tax').post(taxCtrl.insert);
     router.route('/tax/:id').get(taxCtrl.get);
     router.route('/tax/:id').put(taxCtrl.update);
@@ -61,6 +63,7 @@ export default function setRoutes(app) {
 
   // Billing
   router.route('/bills').get(billCtrl.getAll);
+  router.route('/getBills').get(billCtrl.getBills);
   router.route('/bills/count').get(billCtrl.count);
   router.route('/bill').post(billCtrl.insertBill);
   router.route('/bill/:id').get(billCtrl.get);
@@ -68,7 +71,7 @@ export default function setRoutes(app) {
   router.route('/bill/:id').delete(billCtrl.delete);
   router.route('/distinct').post(billCtrl.getDistinct);
   router.route('/downloadBill').post(billCtrl.downloadBill);
-  router.route('/getCounts').get(billCtrl.getCounts);
+  router.route('/bills/getCounts').get(billCtrl.getCounts);
 
   // Customer
   router.route('/customer').post(customerCtrl.insert);
@@ -76,6 +79,7 @@ export default function setRoutes(app) {
 
   // spares
   router.route('/spares').get(spareCtrl.getAll);
+  router.route('/getSpares').get(spareCtrl.getSpares);
   router.route('/spares/count').get(spareCtrl.count);
   router.route('/spare').post(spareCtrl.insert);
   router.route('/spare/:id').get(spareCtrl.get);

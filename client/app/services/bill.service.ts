@@ -18,12 +18,13 @@ export class BillService {
       search,
       status,
       from,
-      to 
+      to
     } = data;
 
     const fromDate = `${from.getFullYear()}/${from.getMonth()+1}/${from.getDay()+1}`;
     const toDate = `${to.getFullYear()}/${to.getMonth()+1}/${to.getDay()+1}`;
-    return this.http.get<Bill[]>('/api/bills?date='+date+'&page='+ page +'&count='+count+'&search='+ search + '&status='+status +'&from='+from+'&to='+to);
+    let newDate = new Date();
+    return this.http.get<any>('/api/bills?date='+newDate+'&page='+ page +'&count='+count+'&search='+ search + '&status='+status +'&from='+from+'&to='+to);
   }
 
   // getDistinct(key): Observable<Bill[]> {
