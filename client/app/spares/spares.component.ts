@@ -39,7 +39,7 @@ export class SparesComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getSpares();
+  
     this.getTaxes();
     this.addSpareForm = this.formBuilder.group({
       name: this.name,
@@ -53,10 +53,11 @@ export class SparesComponent implements OnInit {
     
     this.searchFilter = {
       page: 0,
-      count: 5,
-      total: 10,
+      count: 1000,
+      total: 1000,
       search: '',
-    }  
+    }
+    this.getSpares();  
   }
   
   getTaxes() {

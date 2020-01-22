@@ -9,14 +9,14 @@ export class SpareService {
 
   constructor(private http: HttpClient) { }
 
-  getSpares(data): Observable<Spare[]> {
+  getSpares(data): Observable<any> {
     const { 
       page, 
       count, 
       search
     } = data;
-
-    return this.http.get<Spare[]>('/api/getSpares?page='+ page + '&count='+ count + '&search=' + search);
+    console.log(data)
+    return this.http.get<any>('/api/getSpares?page='+ page + '&count='+ count + '&search=' + search);
   }
 
   countSpares(): Observable<number> {

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatPaginator } from '@angular/material';
+import { MatPaginator, MatTableDataSource  } from '@angular/material';
 
 import { WorkService } from '../services/work.service';
 import { TaxService } from '../services/tax.service';
@@ -16,6 +16,7 @@ import { Tax } from '../shared/models/tax.model';
 })
 export class WorkComponent implements OnInit {
   @ViewChild(MatPaginator,  {static: false}) paginator: MatPaginator;
+  
   events: string[] = [];
 
   work = new Work();
@@ -46,8 +47,8 @@ export class WorkComponent implements OnInit {
   ngOnInit() {
     this.searchFilter = {
       page: 0,
-      count: 5,
-      total: 10,
+      count: 1000,
+      total: 1000,
       search: '',
     }; 
 
@@ -72,6 +73,7 @@ export class WorkComponent implements OnInit {
     // this.currentPage = e.pageIndex;
     // this.pageSize = e.pageSize;
     // this.iterator();
+    
     console.log(e.pageIndex);
     // console.log(e.pageIndex.pageIndex);
     this.searchFilter['page'] = e.pageIndex;

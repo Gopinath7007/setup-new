@@ -2,7 +2,32 @@
 
 <app-toast [message]="toast.message"></app-toast>
 
+<div class="row">
+  <div class="md-form m-2 col-xs-12 col=sm-12 col-md-12 col-lg-2">
+    <input 
+      class="form-control w-100 mt-2" 
+      type="text" 
+      [(ngModel)]="searchFilter.search"  
+      placeholder="Search Work" 
+      aria-label="Search"
+    >
+ 
+    
+  </div>
 
+
+
+ <div class="col-xs-12 col=sm-12 col-md-12 col-lg-2">
+    <button 
+      (click)="searchFilter.total=0;searchFilter.count=5 ;getWorks()" 
+      class="btn btn-success mt-3">
+        Search
+      <i class="fa fa-search text-search-icon">
+        
+      </i>
+    </button>
+   </div>
+</div>
 <div class="card" *ngIf="!isEditing">
   <h4 class="card-header">Add new work</h4>
   <div class="card-body">
@@ -23,32 +48,7 @@
     </form>
   </div>
 </div>
-<div class="row">
-    <div class="md-form m-2 col-xs-12 col=sm-12 col-md-12 col-lg-2">
-      <input 
-        class="form-control w-100 mt-2" 
-        type="text" 
-        [(ngModel)]="searchFilter.search"  
-        placeholder="Search Work" 
-        aria-label="Search"
-      >
-   
-      
-    </div>
 
- 
- 
-   <div class="col-xs-12 col=sm-12 col-md-12 col-lg-2">
-      <button 
-        (click)="searchFilter.total=0;searchFilter.count=5 ;getWorks()" 
-        class="btn btn-success mt-3">
-          Search
-        <i class="fa fa-search text-search-icon">
-          
-        </i>
-      </button>
-     </div>
-  </div>
 <div class="card mb-3" *ngIf="!isLoading">
   <h4 class="card-header">Current Works ({{works.length}})</h4>
   <div class="card-body">
@@ -84,14 +84,7 @@
           </td>
         </tr>  
       </tbody>
-      <div class="pagination-container">
-          <mat-paginator 
-          [length]="searchFilter.total"
-          [pageSize]="searchFilter.count">
-          (page)="pageEvent =handlePage($event)"
-          class="w-100
-          </mat-paginator>      
-      </div>
+    
       <tbody *ngIf="isEditing">
         <tr>
           <td colspan="4">
