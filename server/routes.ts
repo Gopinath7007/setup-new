@@ -63,6 +63,7 @@ export default function setRoutes(app) {
 
   // Billing
   router.route('/bills').get(billCtrl.getAll);
+  router.route('/getCounts').get(billCtrl.getCounts);
   router.route('/getBills').get(billCtrl.getBills);
   router.route('/bills/count').get(billCtrl.count);
   router.route('/bill').post(billCtrl.insertBill);

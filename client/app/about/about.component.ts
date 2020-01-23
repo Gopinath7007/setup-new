@@ -18,12 +18,13 @@ import { Vehicle } from '../shared/models/vehicle.model';
   styleUrls: ['./about.component.scss']
 })
 export class AboutComponent {
+  totalItems = {
+    bills: 0,
+    spares: 0, 
+    vehicles: 0,
+    works: 0
+  };
   
-  spares = [];
-  works = [];
-  bills = [];		
-  searchFilter = {};
-  vehicles = [];
   isLoading = false;
 
   constructor(
@@ -32,7 +33,17 @@ export class AboutComponent {
     private billService: BillService,
     private vehicleService: VehicleService,
   ) { 
-  	// this.getData();
+    // this.getData();
+
+  }
+
+  ngOnInit() {
+  
+    this.billService.getCounts().subscribe(
+      data => {this.totalItems = data },
+      error => console.log(error),
+      () => this.isLoading = false
+    ); 
   }
 
    getData() {
@@ -46,16 +57,16 @@ export class AboutComponent {
     //   error => console.log(error),
     //   () => this.isLoading = false
     // );    
-    this.billService.getBills(this.searchFilter).subscribe(
-      data => this.bills = data,
-      error => console.log(error),
-      () => this.isLoading = false
-    );    
-    this.vehicleService.getVehicles().subscribe(
-      data => this.vehicles = data,
-      error => console.log(error),
-      () => this.isLoading = false
-    );
+    // this.billService.getBills(this.searchFilter).subscribe(
+    //   data => this.bills = data,
+    //   error => console.log(error),
+    //   () => this.isLoading = false
+    // );    
+    // this.vehicleService.getVehicles().subscribe(
+    //   data => this.vehicles = data,
+    //   error => console.log(error),
+    //   () => this.isLoading = false
+    // );
   }
 
 }

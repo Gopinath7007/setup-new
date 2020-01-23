@@ -28,7 +28,12 @@ export class WorkComponent implements OnInit {
   isLoading = true;
   isEditing = false;
 
-  searchFilter = { };
+  searchFilter = {
+    page: 0,
+    count: 1000,
+    total: 1000,
+    search: ''
+   };
 
   addWorkForm: FormGroup;
   name = new FormControl('', Validators.required);

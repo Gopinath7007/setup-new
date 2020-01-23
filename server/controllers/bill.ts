@@ -1,13 +1,16 @@
 import Bill from '../models/bill';
 import Customer from '../models/customer';
 import Vehicle from '../models/vehicle';
+import Spare from '../models/spare';
+import Work from '../models/work';
 import BaseCtrl from './base';
 
 export default class BillCtrl extends BaseCtrl {
 
   model = Bill;
   customerModel = Customer;
-  vehicleModel = Vehicle;
+	vehicleModel = Vehicle;
+	spareModel = Spare;
   getBills = async (req, res) => {
     console.log(req.query);
    
@@ -115,15 +118,19 @@ export default class BillCtrl extends BaseCtrl {
     try {
 
       let docs = {
-		  bills: 0
+			bills: 0,
+			spares: 0,
+			vehicles: 0,
+			works: 0
 	  } 
       docs.bills = await this.model.count({});
-      // docs['works'] = await this.work.find({});
-      // docs['spares'] = await this.spare.find({});
+      docs['works'] = await Work.count({});
+			docs['spares'] = await Spare.count({});
+			docs['vehicles'] = await Vehicle.count({});
 	  console.log(docs)
 	  console.log("==================")
 
-      res.status(200).json(docs);
+      res.send(docs);
     } catch (err) {
       return res.status(500).json({ error: err.message });
     }

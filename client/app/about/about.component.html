@@ -6,10 +6,10 @@
         <a routerLink="/billing">
           <div class="shadow py-1">
       			<div class="text-center pt-3">
-      				<h3>Bills <i class="fa fa-money text-dark"></i></h3>
+      				<h3 class="number-text">Bills <i class="fa fa-money text-dark"></i></h3>
       			</div>
       			<div  class="text-center result-count">
-      				<h2>{{bills.length}}</h2>
+      				<h2 class="number-text">{{totalItems.bills}}</h2>
       			</div>
           </div>
         </a>  			
@@ -18,10 +18,10 @@
        <a routerLink="/spares">
           <div class="shadow py-1">
             <div class="text-center pt-3">
-              <h3>Spares <i class="fa fa-wrench text-dark"></i></h3>
+              <h3 class="number-text">Spares <i class="fa fa-wrench text-dark"></i></h3>
             </div>
             <div  class="text-center result-count">
-              <h2>{{spares.length}}</h2>
+              <h2 class="number-text">{{totalItems.spares}}</h2>
             </div>        
           </div>
         </a>
@@ -30,10 +30,10 @@
        <a routerLink="/works">
         <div class="shadow py-1">
             <div class="text-center pt-3">
-              <h3>Works <i class="fa fa-cogs text-dark"></i></h3>
+              <h3 class="number-text">Works <i class="fa fa-cogs text-dark"></i></h3>
             </div>
             <div  class="text-center result-count">
-              <h2>{{works.length}}</h2>
+              <h2 class="number-text">{{totalItems.works}}</h2>
             </div>
           </div>
           </a>        
@@ -42,10 +42,10 @@
          <a routerLink="/vehicles">
           <div class="shadow py-1">
             <div class="text-center pt-3">
-              <h3>Vehicles <i class="fa fa-truck text-dark"></i></h3>
+              <h3 class="number-text">Vehicles <i class="fa fa-truck text-dark"></i></h3>
             </div>
             <div  class="text-center result-count">
-              <h2>{{vehicles.length}}</h2>
+              <h2 class="number-text">{{totalItems.vehicles}}</h2>
             </div>
           </div>
         </a>        

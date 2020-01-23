@@ -38,8 +38,10 @@ export class BillService {
   countBills(): Observable<number> {
     return this.http.get<number>('/api/bills/count');
   }
+  
   getCounts(): Observable<any> {
-    return this.http.get<any>('/api/bills/getCounts');
+    
+    return this.http.get<any>('/api/getCounts');
   }
 
   addBill(bill: Bill): Observable<Bill> {
