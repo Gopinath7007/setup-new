@@ -131,10 +131,11 @@
           <th scope="col">Actions</th>
         </tr>
       </thead>
-      <tbody *ngIf="spares.length === 0">
-        <tr>
-          <td colspan="4">There are no spares in the DB. Add a new spares below.</td>
-        </tr>  
+      <tbody *ngIf="bills.length === 0">
+        <tr class="text-center">
+         <app-no-data-found> </app-no-data-found>
+          
+        </tr>
       </tbody>
       <tbody *ngIf="!isEditing">
         <tr *ngFor="let bill of bills; let i = index">
@@ -347,7 +348,7 @@
               </thead>
               <tbody *ngIf="bills.length === 0">
                 <tr>
-                  <td colspan="4">There are no bills in the DB. Add a new bill below.</td>
+                  <td colspan="4"></td>
                 </tr>  
               </tbody>
               <tbody *ngIf="!isEditing">
@@ -422,7 +423,7 @@
       </thead>
       <tbody *ngIf="bills.length === 0">
         <tr>
-          <td colspan="4">There are no spares in the DB. Add a new spare below.</td>
+          <td colspan="4">.</td>
         </tr>  
       </tbody>
       <tbody *ngIf="!isEditing">

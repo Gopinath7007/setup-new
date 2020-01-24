@@ -53,6 +53,7 @@ import { ChannnelsComponent } from './channnels/channnels.component';
 // import { MatDatepickerModule, NativeDateAdapter  } from "@angular/material";
 import { FormsModule } from '@angular/forms';
 import { TaxComponent } from './tax/tax.component';
+import { NoDataFoundComponent } from './no-data-found/no-data-found.component';
 export function highchartsModules() {
   // apply Highcharts Modules to this array
   return [stock, more];
@@ -78,7 +79,8 @@ export function tokenGetter() {
     VehicleComponent,
     SparesComponent,
     ChannnelsComponent,
-    TaxComponent
+    TaxComponent,
+    NoDataFoundComponent
   ],
   imports: [
     AppRoutingModule,

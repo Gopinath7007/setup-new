@@ -81,7 +81,7 @@ export class SparesComponent implements OnInit {
 
     let totalTax = this.addSpareForm.value.hsnId.cGst + this.addSpareForm.value.hsnId.sGst;
     var mrp =  (this.addSpareForm.value.price * totalTax /100) + this.addSpareForm.value.price;
-    this.addSpareForm.patchValue({ total: mrp });
+    this.addSpareForm.patchValue({ total: mrp.toFixed(2) });
    
    console.log(this.addSpareForm.value);
     // return mrp * data.count;

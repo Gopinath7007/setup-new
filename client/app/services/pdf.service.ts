@@ -352,11 +352,11 @@ export class PdfService {
       newSpares[0] = index;
       newSpares[1] = data.name;
       newSpares[2] = data.hsnId.hsnId;
-      newSpares[3] = data.total * data.count;
+      newSpares[3] = (data.total * data.count).toFixed(2);
       newSpares[4] = data.count;
       newSpares[5] = data.price;
-      newSpares[6] = data.total * data.count;
-      newSpares[7] = data.total * data.count;
+      newSpares[6] = (data.total * data.count).toFixed(2);
+      newSpares[7] = (data.total * data.count).toFixed(2);
       newSpares[8] = data.hsnId.cGst;
       newSpares[9] = data.hsnId.sGst;
       rows.push(newSpares);
@@ -368,11 +368,11 @@ export class PdfService {
       newSpares[0] = index + bill.spares.length;
       newSpares[1] = data.name;
       newSpares[2] = data.hsnId.hsnId;
-      newSpares[3] = data.total * data.count;
+      newSpares[3] = (data.total * data.count.toFixed(2));
       newSpares[4] = data.count;
       newSpares[5] = data.price;
-      newSpares[6] = data.total * data.count;
-      newSpares[7] = data.total * data.count;;
+      newSpares[6] = (data.total * data.count).toFixed(2);
+      newSpares[7] = (data.total * data.count).toFixed(2);
       newSpares[8] = data.hsnId.cGst;
       newSpares[9] = data.hsnId.sGst;
       rows.push(newSpares);
@@ -381,7 +381,7 @@ export class PdfService {
     let totalAmount = []
     totalAmount = [
         bill._id,        
-        Math.round(bill.amount),
+        bill.amount.toFixed(2),
     ];
     let rowsNew = [];
     rowsNew.push([
