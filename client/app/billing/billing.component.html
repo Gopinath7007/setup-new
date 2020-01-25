@@ -1,15 +1,17 @@
 <app-loading [condition]="isLoading"></app-loading>
-<div class="card">
-  <h4 class="card-header">
+
+  <!-- <h4 class="card-header">
     Bills
     <i *ngIf="!isAdd" class="fa fa-plus-circle text-success px-5" (click)="resetForm(false)"></i>
   <i *ngIf="isAdd" class="fa fa-minus-circle text-danger px-5" (click)="resetForm(true)"></i>
-  </h4>
-  
-  
-</div>
+  </h4> -->
+ 
+
 <app-toast [message]="toast.message"></app-toast>
 <div class="row p-2 w-100 mt-0 mx-2">
+    <i *ngIf="!isAdd" class="fa fa-plus-circle text-success px-5 right-icon" (click)="resetForm(false)"></i>
+    <i *ngIf="isAdd" class="fa fa-minus-circle text-danger px-5 right-icon" (click)="resetForm(true)"></i>  
+    
     <!-- <div class="col-md-6 p-2" (click)="isBilling= true;isEditing=false">
         <h4 class="">Add New Bill ( {{this.addBillForm.value.amount}})</h4>
     </div> -->
@@ -131,12 +133,7 @@
           <th scope="col">Actions</th>
         </tr>
       </thead>
-      <tbody *ngIf="bills.length === 0">
-        <tr class="text-center">
-         <app-no-data-found> </app-no-data-found>
-          
-        </tr>
-      </tbody>
+     
       <tbody *ngIf="!isEditing">
         <tr *ngFor="let bill of bills; let i = index">
           <td>{{bill.customerName}}</td>
@@ -223,6 +220,12 @@
       
       
     </table>
+    <div *ngIf="bills.length === 0">
+     
+        <app-no-data-found > </app-no-data-found>
+         
+       
+     </div>
   </div>
 </div> 
 <div class="row margin-empty w-100 mx-auto" *ngIf="isAdd" style="overflow-x: hidden">
@@ -372,34 +375,54 @@
 
             </table>
 
-                <div class="p-3 topper-card" *ngIf="addBillForm.value.spares.length > 0">
+                <div class="p-3" *ngIf="addBillForm.value.spares.length > 0">
                   
                     <div class="card_head">
                       <h5> Added Spares</h5>
                     </div>    
-                    <div class="added-spare" *ngFor="let spare of addBillForm.value.spares; let i = index">
-                      {{spare.name}}({{spare.price }} -/ Rs)    
-                      <i class="fa fa-trash del-icon" (click)="removeSpare(i)"></i> 
-                      <div style="float:right;display:inline-block">
-                        <i class="fa fa-plus del-icon"  (click)="toggleCount(i, 'add', 'spares')"></i> 
-                        {{spare?.count}}                                                  
-                        <i class="fa fa-minus del-icon" [ngClass]="{ 'disabled': spare?.count <  2}" (click)="toggleCount(i, 'minus', 'spares')"></i> 
-                      </div>  
+                    <div class="added-work" *ngFor="let spare of addBillForm.value.spares; let i = index">
+                      {{spare.name}}   {{spare.price }} -/ Rs    
+                      <i class="fa fa-trash del-icon f-r red" (click)="removeSpare(i)"></i> 
+                      <div class="my-2">
+
+                          <div style="float:left;display:inline-block">
+                            
+                            
+                            <div style="display: inline-block;" class="f-r">Total {{spare.price * spare.count}}  <span class="count-num"> ({{spare?.count}}) </span></div>
+
+                          </div>
+                          <div class="f-r" style="float: right">
+                              <i class="fa fa-plus del-icon"  (click)="toggleCount(i, 'add', 'spares')"></i> 
+                                                                   
+                              <i class="fa fa-minus del-icon" [ngClass]="{ 'disabled': spare?.count <  2}" (click)="toggleCount(i, 'minus', 'spares')"></i> 
+                            </div>
+                        </div>
+                        
                     </div>                  
                 </div>  
-                  <div class="topper-card mt-3 p-3" *ngIf="addBillForm.value.works.length > 0">
+                  <div class=" mt-3 p-3" *ngIf="addBillForm.value.works.length > 0">
                     <div class="card_head">
                       <h5> Added Works</h5>
                     </div>     
                     <div class="added-work" *ngFor="let work of addBillForm.value.works; let i = index">
-                      {{work.name}}({{work.price}} -/ Rs)    
-                      <i class="fa fa-trash del-icon" (click)="removeWork(i)"></i> 
-                      <div style="float:right;display:inline-block">
-                        <i class="fa fa-plus del-icon"  (click)="toggleCount(i, 'add', 'works')"></i> 
-                        {{work?.count}} 
+                      {{work.name}}      {{work.price}} -/ Rs 
+                      <i class="fa fa-trash del-icon  f-r red" (click)="removeWork(i)"></i> 
+                      <div class="my-2">
+                   
+                      <div style="float:left;display:inline-block">
                         
-                        <i class="fa fa-minus del-icon" [ngClass]="{ 'disabled': work?.count <  2}" (click)="toggleCount(i, 'minus', 'works')"></i> 
+                        <div style="display: inline-block;" class="f-r">
+                          Total {{work.price * work.count}} <span class="count-num">({{work?.count}}) </span>
+                        </div>
+                       
                       </div>  
+                      <div class="f-r" style="float: right">
+                          <i class="fa fa-plus del-icon"  (click)="toggleCount(i, 'add', 'works')"></i> 
+                         
+                          
+                          <i class="fa fa-minus del-icon" [ngClass]="{ 'disabled': work?.count <  2}" (click)="toggleCount(i, 'minus', 'works')"></i> 
+                        </div>
+                    </div>
                     </div>
                     </div>
           </div>

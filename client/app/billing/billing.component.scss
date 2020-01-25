@@ -42,24 +42,31 @@
 .del-icon {
 	color: #000 !important;
     font-size: 17px;
+    float:right;
     padding: 0px 4px;
 }
-.added-spare {
-        font-size: 13px;
-        background: #ea5050;
-        padding: 4px 4px;
-        color: #fff;
-        display: inline-block;
-        margin: 3px;
-}
-.added-work {
-        font-size: 13px;
-        background: #285940;
-        padding: 4px 4px;
-        color: #fff;
-        display: inline-block;
-        margin: 3px;
-        width: 100%;
+// .added-spare {
+//         font-size: 13px;
+//         background: #ea5050;
+//         padding: 4px 4px;
+//         color: #fff;
+//         display: inline-block;
+//         margin: 3px;
+// }
+// .added-work {
+//         font-size: 13px;
+//         background: #285940;
+//         padding: 4px 4px;
+//         color: #fff;
+//         display: inline-block;
+//         margin: 3px;
+//         width: 100%;
+// }
+
+.count-num {
+    font-weight: bold;
+    
+    
 }
 .card_tb_parent {
         box-shadow: 0px 6px 10px 1px #aaaaaa;
@@ -72,9 +79,12 @@
         border-radius: 5px;
 }
 
+.del-icon:hover {
+    cursor:pointer;
+}
 
 .red {
-	color: red;
+	color: red !important;
 }
 .black {
 	color: black;

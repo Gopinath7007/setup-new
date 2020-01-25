@@ -80,11 +80,11 @@
           <th scope="col">Actions</th>
         </tr>
       </thead>
-      <tbody *ngIf="spares.length === 0">
+      <!-- <tbody *ngIf="spares.length === 0">
         <tr>
           <td colspan="4">There are no spares in the DB. Add a new spares below.</td>
         </tr>  
-      </tbody>
+      </tbody> -->
       <tbody *ngIf="!isEditing">
         <tr *ngFor="let spare of spares; let i = index">
           <td>{{spare.name}}</td>
@@ -140,5 +140,11 @@
         </tr>
       </tbody>
     </table>
+    <div *ngIf="spares.length === 0">
+     
+        <app-no-data-found > </app-no-data-found>
+         
+       
+     </div>
   </div>
 </div>

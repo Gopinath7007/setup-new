@@ -62,11 +62,11 @@
           <th scope="col" style="width: 20%">Actions</th>
         </tr>
       </thead>
-      <tbody *ngIf="works.length === 0">
+      <!-- <tbody *ngIf="works.length === 0">
         <tr>
           <td colspan="4">There are no works in the DB. Add a new work below.</td>
         </tr>  
-      </tbody>
+      </tbody> -->
       <tbody *ngIf="!isEditing">
         <tr *ngFor="let work of works">
           <td>{{work.name}}</td>
@@ -106,5 +106,11 @@
         </tr>
       </tbody>
     </table>
+    <div *ngIf="works.length === 0">
+     
+        <app-no-data-found > </app-no-data-found>
+         
+       
+     </div>
   </div>
 </div>
