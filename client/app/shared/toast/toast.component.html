@@ -1,3 +1,6 @@
-<div *ngIf="message.body" class="alert" [ngClass]="'alert-' + message.type" role="alert">
+<div  *ngIf="message.body" class="alert" [ngClass]="'message-' + message.type" role="alert">
+  <i class="fa fa-check " style="color:white; font-size: 20px" *ngIf="message.body"></i> 
+  
   <b>Message:</b> {{message.body}}
+  
 </div>

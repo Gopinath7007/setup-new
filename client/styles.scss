@@ -154,12 +154,26 @@ select {
 	color: green;
 }
 .red {
-	color: red;
+	color: red !important;
 }
 .right-icon {
     float: right;
     font-size: 26px;
 }
+
+.message-success {
+    color: black;
+    background-color: #008000;
+    border-color: #c3e6cb;
+    float: right;
+}
+.message-warning {
+    color: #fff;
+    background-color: #ffcdcd;
+    border-color: #c3e6cb;
+    float: right;
+}
+
 .right-icon {
     float: right;
     font-size: 35px;

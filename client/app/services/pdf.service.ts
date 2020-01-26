@@ -84,7 +84,30 @@ export class PdfService {
     console.log(bill);
    const documentDefinition = {
      content: [
-       'Sri Ram Auto Carriage',
+        {
+          table: 
+          {
+            headerRows: 1,
+            widths: [ '*', '*', '*', '*' ],
+            body: [
+              [
+                { text: 'Header 1', style: 'tableHeader' }, 
+                { text: 'Header 2', style: 'tableHeader' }, 
+                  { text: 'Header 3', style: 'tableHeader' }
+              ],
+              [
+                { text: 'Hello' }, 
+                { text: 'I' }, 
+                { text: 'am' }
+              ],
+              [
+                { text: 'a' }, 
+                { text: 'table' }, 
+                { text: '.' }
+              ]
+            ]
+          }
+        },
         // alignment: 'justify',
         {
           columns: [
@@ -357,8 +380,8 @@ export class PdfService {
       newSpares[5] = data.price;
       newSpares[6] = (data.total * data.count).toFixed(2);
       newSpares[7] = (data.total * data.count).toFixed(2);
-      newSpares[8] = data.hsnId.cGst;
-      newSpares[9] = data.hsnId.sGst;
+      newSpares[8] = data.hsnId.cGst+ '%';
+      newSpares[9] = data.hsnId.sGst+ '%';
       rows.push(newSpares);
     })
     bill.works.map((data,index)=> {
@@ -373,8 +396,8 @@ export class PdfService {
       newSpares[5] = data.price;
       newSpares[6] = (data.total * data.count).toFixed(2);
       newSpares[7] = (data.total * data.count).toFixed(2);
-      newSpares[8] = data.hsnId.cGst;
-      newSpares[9] = data.hsnId.sGst;
+      newSpares[8] = data.hsnId.cGst + '%';
+      newSpares[9] = data.hsnId.sGst + '%';
       rows.push(newSpares);
     })
     // row.push(['',2,3,4,5,7,8,8])
@@ -393,8 +416,52 @@ export class PdfService {
     console.log(bill);
    const documentDefinition = {
      content: [
-       'Sri Ram Auto Carriage',
+      {
+        text:  'Sri Ram Auto Carriage',
+        style: 'mainHeader'
+      },
+      
+       {
+        columns: [
+        {
+          text: '',
+          style: 'labels'
+        },
+        {
+          text: ' ',
+          style: 'labels'
+        },
+        {
+          text: ' ',
+          style: ''
+        },
+        {
+          text: ' ',
+          style: ''
+        }
+      ]
+     },
         // alignment: 'justify',
+        {
+          table: 
+          {
+            headerRows: 1,
+            widths: [ '*', '*', '*' ],
+            body: [
+              [
+                { text: 'Customer Name', style: 'tableHeader' }, 
+                { text: 'Address', style: 'tableHeader' }, 
+                  { text: 'Vehicle Number', style: 'tableHeader' }
+              ],
+              
+              [
+                { text: bill.customerName }, 
+                { text: bill.customerAddress }, 
+                { text: bill.vehicleNumber }
+              ]
+            ]
+          }
+        },
         {
           columns: [
           {
@@ -416,13 +483,29 @@ export class PdfService {
         ]
        },
         {
-        columns: [
+          table: 
           {
-            text: 'Customer Name',
+            headerRows: 1,
+            widths: [ '*' ],
+            body: [
+              [
+                { text: 'Total Amount', style: 'tableHeader2' }
+              ],
+              
+              [
+                { text: total.toFixed(2) }, 
+              ]
+            ]
+          }
+        },
+        {
+          columns: [
+          {
+            text: '',
             style: 'labels'
           },
           {
-            text: bill.customerName,
+            text: ' ',
             style: 'labels'
           },
           {
@@ -435,69 +518,8 @@ export class PdfService {
           }
         ]
        },
-       {
-        // alignment: 'justify',
-        columns: [
-          {
-            text: 'Customer Address',
-            style: 'labels'
-          },
-          {
-            text: bill.customerAddress,
-            style: 'labels'
-          },
-          {
-            text: ' ',
-            style: ''
-          },
-          {
-            text: ' ',
-            style: ''
-          }
-        ]
-       },
-       {
-        // alignment: 'justify',
-        columns: [
-          {
-            text: 'Vehicle Number',
-            style: 'labels'
-          },
-          {
-            text: bill.vehicleNumber,
-            style: 'labels'
-          },
-          {
-            text: ' ',
-            style: ''
-          },
-          {
-            text: ' ',
-            style: ''
-          }
-        ]
-       },
-       {
-        // alignment: 'justify',
-        columns: [
-          {
-            text: 'Total',
-            style: 'labels'
-          },
-          {
-            text: Math.round(total),
-            style: 'labels'
-          },
-          {
-            text: ' ',
-            style: ''
-          },
-          {
-            text: ' ',
-            style: ''
-          }
-        ]
-       },
+    
+    
        {
         // alignment: 'justify',
         columns: [
@@ -602,6 +624,22 @@ export class PdfService {
           color:'green',
           bold: true,
 
+        },
+        mainHeader:{
+          textAlign: 'center',
+          fontSize: 20,
+          color: 'brown',
+          fontWeight: 600
+        },
+        tableHeader: 
+        {
+          fillColor: '#4CAF50',
+          color: 'white'
+        },
+        tableHeader2: 
+        {
+          fillColor: 'orange',
+          color: 'white'
         },
         labels: {
           fontSize: 10,
