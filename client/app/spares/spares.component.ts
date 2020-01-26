@@ -30,7 +30,12 @@ export class SparesComponent implements OnInit {
   availableItems = new FormControl('', Validators.required);
   type = new FormControl('', Validators.required);
   brand = new FormControl('', Validators.required);
-  searchFilter = {}
+  searchFilter = {
+    page: 0,
+    count: 1000,
+    total: 1000,
+    search: '',
+  }
   constructor(
     private spareService: SpareService,
     private taxService: TaxService,
