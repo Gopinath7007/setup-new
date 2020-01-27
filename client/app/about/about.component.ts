@@ -12,12 +12,38 @@ import { Bill } from '../shared/models/bill.model';
 import { VehicleService } from '../services/vehicle.service';
 import { Vehicle } from '../shared/models/vehicle.model';
 
+import { EChartOption } from 'echarts';
+ 
+// ...
+ 
+
 @Component({
   selector: 'app-about',
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.scss']
 })
 export class AboutComponent {
+
+  xAxis = {
+    keys: [],
+    data: []
+  };
+  
+  chartOption: EChartOption = {
+    xAxis: {
+      type: 'category',
+      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    },
+    yAxis: {
+      type: 'value'
+    },
+    series: [{
+      data: [820, 932, 901, 934, 1290, 1330, 1320],
+      type: 'line'
+    }]
+  }
+  
+
   totalItems = {
     bills: 0,
     spares: 0, 
@@ -31,7 +57,7 @@ export class AboutComponent {
     private spareService: SpareService,
     private workService: WorkService,
     private billService: BillService,
-    private vehicleService: VehicleService,
+    private vehicleService: VehicleService
   ) { 
     // this.getData();
 
@@ -40,7 +66,27 @@ export class AboutComponent {
   ngOnInit() {
   
     this.billService.getCounts().subscribe(
-      data => {this.totalItems = data },
+      data => {
+        this.totalItems = data 
+        data.map((item=> {
+          this.xAxis.data = item.count;
+        }))
+
+        this.xAxis.keys = Object.keys(data);
+        // this.chartOption  = ({
+        //   xAxis: {
+        //     type: 'category',
+        //     data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+        //   },
+        //   yAxis: {
+        //     type: 'value'
+        //   },
+        //   series: [{
+        //     data: [820, 932, 901, 934, 1290, 1330, 1320],
+        //     type: 'pie'
+        //   }]
+        // })
+      },
       error => console.log(error),
       () => this.isLoading = false
     ); 

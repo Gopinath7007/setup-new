@@ -16,7 +16,7 @@ import { TaxService } from './services/tax.service';
 import { AuthService } from './services/auth.service';
 import { VehicleService } from './services/vehicle.service';
 import { PdfService } from './services/pdf.service';
-
+import { NgxEchartsModule } from 'ngx-echarts';
 import { MatSliderModule } from '@angular/material/slider';
 // import { MatDatepickerModule, MatNativeDateModule } from '@angular/material';
 import {
@@ -93,7 +93,8 @@ export function tokenGetter() {
     MatFormFieldModule,
     MatInputModule,
     BrowserAnimationsModule,
-    MatPaginatorModule,     
+    MatPaginatorModule,   
+    NgxEchartsModule,  
     JwtModule.forRoot({
       config: {
         tokenGetter,
