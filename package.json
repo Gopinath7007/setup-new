@@ -53,7 +53,7 @@
     "html2canvas": "^1.0.0-rc.5",
     "igniteui-angular": "^8.2.15",
     "jquery": "^3.4.1",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "jspdf": "^1.5.3",
     "jszip": "^3.1.5",
     "minireset.css": "~0.0.4",
